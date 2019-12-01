@@ -1,16 +1,11 @@
-export const getSessions = userId => {
+export const getSessions = (userId, sessionID) => {
   if (!userId) {
     throw new Error('Error cannot get sessions, must provide user id');
   }
 
   const data = [
-    // {
-    //   date: new Date('2019-11-01'),
-    //   exercises: [
-    //     { name: 'Leg press', sets: [{ leg: 'right', weight: '20kg', reps: 8 }] }
-    //   ]
-    // },
     {
+      id: 0,
       date: new Date('2019-11-01'),
       exercises: [
         {
@@ -20,10 +15,27 @@ export const getSessions = userId => {
             rightLeg: [{ weight: '20kg', reps: 8 }],
             bothLegs: []
           }
+        },
+        {
+          name: 'Deadlift',
+          sets: {
+            leftLeg: [{ weight: '20kg', reps: 8 }],
+            rightLeg: [{ weight: '20kg', reps: 8 }],
+            bothLegs: []
+          }
+        },
+        {
+          name: 'Squat',
+          sets: {
+            leftLeg: [{ weight: '20kg', reps: 8 }],
+            rightLeg: [{ weight: '20kg', reps: 8 }],
+            bothLegs: []
+          }
         }
       ]
     },
     {
+      id: 1,
       date: new Date('2019-11-12'),
       exercises: [
         {
@@ -37,6 +49,10 @@ export const getSessions = userId => {
       ]
     }
   ];
+
+  if (sessionID) {
+    return Promise.resolve(data[sessionID]);
+  }
 
   return Promise.resolve(data);
 };

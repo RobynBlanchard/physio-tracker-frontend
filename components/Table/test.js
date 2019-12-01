@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import Table from './index';
-import { Table, TableRow, TableHeader, TableData } from './style';
+import { TableStyle, TableRow, TableHeader, TableData } from './style';
 
 describe('Table', () => {
   const mockTableHeadings = [
@@ -19,7 +19,7 @@ describe('Table', () => {
   );
 
   it('renders a table', () => {
-    const table = component.find(Table);
+    const table = component.find(TableStyle);
     expect(table).toHaveLength(1);
   });
 

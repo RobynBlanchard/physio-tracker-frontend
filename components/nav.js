@@ -1,9 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
+import Router, { withRouter } from 'next/router';
 
-const Nav = () => (
+const Nav = ({ router }) => (
   <nav>
     <ul>
+      {router.pathname !== '/' && (
+        <li>
+          <a onClick={() => Router.back()}>Back</a>
+        </li>
+      )}
+
       <li>
         <Link href="/">
           <a>Home</a>
@@ -45,4 +52,4 @@ const Nav = () => (
   </nav>
 );
 
-export default Nav;
+export default withRouter(Nav);

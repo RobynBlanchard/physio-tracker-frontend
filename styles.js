@@ -11,6 +11,17 @@ export const theme = {
     primaryDark: '#0086c3'
   },
   spacing: {
-    XS: '8px', M: '14px'
+    XS: '8px',
+    M: '14px',
+    L: '16px'
+  },
+  font: {
+    size: {
+      L: '16px'
+    },
+
+    weight: {
+      M: 600
+    }
   }
-}
+};
