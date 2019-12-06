@@ -2,8 +2,44 @@ import React, { useState } from 'react';
 import Layout from '../../../components/Layout';
 import NavigationTab from '../../../components/NavigationTab';
 import SetsTable from '../../../components/Table';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
+
+const Button = styled.button`
+width: 80%;
+    border: none;
+    font-family: inherit;
+    font-size: 14px;
+    color: inherit;
+    background: none;
+    cursor: pointer;
+    padding: 20px 40px;
+    display: inline-block;
+    margin: 15px 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    border-radius: 50px;
+    border: 3px solid #fff;
+    color: #fff;
+    overflow: hidden;
+    /* width:  */
+    background: #1d75c7;
+
+    &:hover {
+      /* background: #1a7ac8; */
+      background: #2553bc;
+    }
+`;
 
 const Exercise = () => {
+  const router = useRouter();
+  const { id } = router.query
   const data = [
     {
       title: 'Both legs',
@@ -48,9 +84,9 @@ const Exercise = () => {
   };
 
   return (
-    <Layout>
+    <Layout title={id}>
       <NavigationTab tabHeadings={tabHeadings} contentPanes={content} />
-      <button style={{ width: '100%' }}>Add exercise +</button>
+      <div style={{width: '100%', textAlign: "center"}}><Button >Add exercise +</Button></div>
     </Layout>
   );
 };

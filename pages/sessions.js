@@ -5,7 +5,7 @@ import { formatDate } from '../utils/formatDate';
 
 function Sessions({ sessions }) {
   return (
-    <Layout>
+    <Layout title={'Sessions'}>
       <List items={sessions} applyFunc={items => formatDate(items.date)} />
     </Layout>
   );

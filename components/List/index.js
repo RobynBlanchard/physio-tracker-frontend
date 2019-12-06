@@ -1,20 +1,41 @@
 import Link from 'next/link';
+import styled from 'styled-components';
+
+const Anchor = styled.a`
+  display: flex;
+  justify-content: space-between;
+  // background-color: #29b6f6;
+  padding: 12px 8px;
+  margin: 0;
+  color: white;
+  border-bottom: 1px solid white;
+  text-decoration: none;
+`;
+
+const ListItem = styled.li`
+  list-style: none;
+  padding: 0;
+`;
+
+const Text = styled.p`
+  margin: 0;
+`;
 
 const List = ({ items, applyFunc }) => (
-  <li>
+  <ListItem>
     {items.map(item => {
       return (
-        <ul>
+        <ul key={item.id}>
           <Link href="/session/[id]" as={`/session/${item.id}`}>
-            <a>
-              <p>{applyFunc(item)}</p>
-              <p>{'>'}</p>
-            </a>
+            <Anchor>
+              <Text>{applyFunc(item)}</Text>
+              <Text>{'>'}</Text>
+            </Anchor>
           </Link>
         </ul>
       );
     })}
-    <style jsx>{`
+    {/* <style jsx>{`
       ul {
         
       }
@@ -26,7 +47,7 @@ const List = ({ items, applyFunc }) => (
       a {
         display: flex;
         justify-content: space-between;
-        background-color: #29b6f6;
+        // background-color: #29b6f6;
         padding: 12px 8px;
         margin: 0;
         color: white;
@@ -36,8 +57,8 @@ const List = ({ items, applyFunc }) => (
       p {
         margin: 0;
       }
-    `}</style>
-  </li>
+    `}</style> */}
+  </ListItem>
 );
 
 export default List;

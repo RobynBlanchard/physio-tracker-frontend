@@ -1,28 +1,43 @@
 import React from 'react';
 import Link from 'next/link';
 import Router, { withRouter } from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-const Nav = ({ router }) => (
-  <nav>
-    <ul>
+library.add(faArrowLeft);
+
+import styled from 'styled-components';
+const StyledIcon = styled(FontAwesomeIcon)`
+  color: white;
+  width: 20px;
+  margin-right: 10px;
+  margin: 0 18px;
+`;
+
+const Heading = styled.h1`
+  color: white;
+  font-size: 40px;
+  margin-bottom: 20px;
+  /* text-align: center; */
+`;
+
+const Anchor = styled.a`
+  /* float: left; */
+  padding-right: 20px;
+  color: white;
+`;
+// header
+const Nav = ({ router, title }) => (
+  <div>
+    <Heading>
       {router.pathname !== '/' && (
-        <li>
-          <a onClick={() => Router.back()}>Back</a>
-        </li>
+        <Anchor onClick={() => Router.back()}>
+          <StyledIcon icon="arrow-left" />
+        </Anchor>
       )}
-
-      <li>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/sessions">
-          <a>Sessions</a>
-        </Link>
-      </li>
-    </ul>
-
+      {title}
+    </Heading>
     <style jsx>{`
       :global(body) {
         margin: 0;
@@ -36,6 +51,10 @@ const Nav = ({ router }) => (
         display: flex;
         justify-content: space-between;
       }
+      svg {
+        color: white;
+        width: 20px;
+      }
       nav > ul {
         padding: 4px 16px;
       }
@@ -44,12 +63,12 @@ const Nav = ({ router }) => (
         padding: 6px 8px;
       }
       a {
-        color: #067df7;
+        color: white;
         text-decoration: none;
         font-size: 13px;
       }
     `}</style>
-  </nav>
+  </div>
 );
 
 export default withRouter(Nav);
