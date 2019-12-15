@@ -1,12 +1,12 @@
-import Layout from '../components/Layout';
+import { Layout, List, Button} from '../components';
 import { getSessions } from '../api';
-import List from '../components/List';
 import { formatDate } from '../utils/formatDate';
 
 function Sessions({ sessions }) {
   return (
     <Layout title={'Sessions'}>
       <List items={sessions} applyFunc={items => formatDate(items.date)} />
+      <Button text="Add session +" />
     </Layout>
   );
 }

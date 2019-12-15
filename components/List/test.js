@@ -1,21 +1,24 @@
+import Link from 'next/link';
 import List from './';
 import { shallow } from 'enzyme';
+import { Text } from './style';
 
 describe('List', () => {
-  const applyFunc = num => num * 2;
-  const items = [1, 2, 3];
+  const applyFunc = num => num.id * 2;
+  const items = [{ id: 1 }, { id: 2 }, { id: 3 }];
   const component = shallow(<List items={items} applyFunc={applyFunc} />);
-  const renderedItems = component.find('ul');
-  const firstRenderedItem = renderedItems.at(0);
+  const listItems = component.find('ul');
+  const listItem = listItems.at(0);
 
-  describe('iterating over each item', () => {
-    it('rends a list item for each item', () => {
-      expect(renderedItems.length).toEqual(3);
-    });
+  it('rends a list item for each item', () => {
+    expect(listItems.length).toEqual(3);
+  });
+
+  describe('List item', () => {
     it('renders the result of the given function applied to the item', () => {
       expect(
-        firstRenderedItem
-          .find('p')
+        listItem
+          .find(Text)
           .at(0)
           .text()
       ).toEqual('2');
@@ -23,15 +26,18 @@ describe('List', () => {
 
     it('renders an arrow', () => {
       expect(
-        firstRenderedItem
-          .find('p')
+        listItem
+          .find(Text)
           .at(1)
           .text()
       ).toEqual('>');
     });
 
-    it('passes an onClick/href to each item', () => {
-      // expect(firstRenderedItem.prop('href')).toEqual('/session?userId=1');
+    it('renders a link', () => {
+      const link = listItem.find(Link);
+
+      expect(link.prop('href')).toEqual('/session/[id]');
+      expect(link.prop('as')).toEqual('/session/1');
     });
   });
 });
