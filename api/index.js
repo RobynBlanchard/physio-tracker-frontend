@@ -56,3 +56,32 @@ export const getSessions = (userId, sessionID) => {
 
   return Promise.resolve(data);
 };
+
+export const getSets = id => {
+  const data = [
+    {
+      title: 'Both legs',
+      sets: [
+        { id: 1, setNum: 1, reps: 12, weight: 36 },
+        { id: 2, setNum: 2, reps: 12, weight: 34 },
+        { id: 3, setNum: 3, reps: 12, weight: 34 }
+      ]
+    },
+    {
+      title: 'Left leg',
+      sets: [
+        { id: 4, setNum: 1, reps: 12, weight: 12 },
+        { id: 5, setNum: 2, reps: 12, weight: 12 }
+      ]
+    },
+    {
+      title: 'Right leg',
+      sets: [
+        { id: 6, setNum: 1, reps: 12, weight: 14 },
+        { id: 7, setNum: 2, reps: 12, weight: 14 }
+      ]
+    }
+  ];
+
+  return Promise.resolve(data);
+};

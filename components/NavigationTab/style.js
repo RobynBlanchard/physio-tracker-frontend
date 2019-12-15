@@ -12,13 +12,13 @@ export const Tab = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  background-color: ${({ current }) => (current ?  '#2553bc': '#1c75c6')};
+  background-color: ${({ current, theme }) =>
+    current ? theme.colors.primaryDark : theme.colors.primary};
   font-size: ${({ theme }) => theme.font.size.L};
   color: ${({ current }) => (current ? 'black' : 'white')};
   font-weight: ${({ theme }) => theme.font.weight.M};
   color: white;
   /* background: ; */
-
 `;
 
 export const TabContent = styled.div``;
