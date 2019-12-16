@@ -1,4 +1,5 @@
 import Router, { withRouter } from 'next/router';
+import { string } from 'prop-types';
 import { Heading, Anchor, StyledIcon } from './style';
 
 const Header = ({ router, title }) => (
@@ -13,5 +14,12 @@ const Header = ({ router, title }) => (
     </Heading>
   </div>
 );
+
+Header.propTypes = {
+  router: {
+    pathname: string
+  },
+  title: string
+};
 
 export default withRouter(Header);
