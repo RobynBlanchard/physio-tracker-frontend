@@ -3,8 +3,9 @@ import { Wrapper } from './style';
 import ToggleSwitch from '../ToggleSwitch';
 import TitleLink from './TitleLink';
 import ExerciseSummary from './ExerciseSummary';
+import { arrayOf, string, shape } from 'prop-types';
 
-const Exercises = ({exercises}) => {
+const Exercises = ({ exercises }) => {
   const [toggleAll, setToggleAll] = useState(false);
 
   const handleToggleAll = () => {
@@ -27,6 +28,15 @@ const Exercises = ({exercises}) => {
       })}
     </>
   );
+};
+
+Exercises.propTypes = {
+  exercises: arrayOf(
+    shape({
+      name: string
+      // exercise summary props TODO:
+    })
+  )
 };
 
 export default Exercises;
