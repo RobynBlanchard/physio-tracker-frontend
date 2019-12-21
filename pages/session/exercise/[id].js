@@ -15,7 +15,7 @@ const Exercise = ({ data }) => {
   const headings = [
     { colID: 'setNum', name: 'Set' },
     { colID: 'weight', name: 'Weight' },
-    { colID: 'reps', name: 'reps' }
+    { colID: 'reps', name: 'Reps' }
   ];
 
   const content = {

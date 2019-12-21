@@ -23,4 +23,9 @@ export const ButtonStyle = styled.button`
   &:hover {
     background: ${({ theme }) => `${theme.colors.primaryDark}`};
   }
+
+  &:active {
+    box-shadow: 2px 2px ${({ theme }) => `${theme.colors.white}`};
+    transform: translate(2px, 2px);
+  }
 `;

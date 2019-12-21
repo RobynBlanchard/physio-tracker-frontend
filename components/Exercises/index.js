@@ -33,7 +33,8 @@ const Exercises = ({ exercises }) => {
 Exercises.propTypes = {
   exercises: arrayOf(
     shape({
-      name: string
+      name: string,
+      
       // exercise summary props TODO:
     })
   )

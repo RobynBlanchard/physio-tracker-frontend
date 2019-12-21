@@ -5,7 +5,15 @@ const Session = ({ session }) => {
   return (
     <Layout title={'Your workout'}>
       <Exercises exercises={session.exercises} />
-      <Button text="Add exercise +" />
+      <div className="button-align">
+        <Button text="Add exercise +" />
+      </div>
+      <style jsx>{`
+        .button-align {
+          width: 100%;
+          text-align: center;
+        }
+      `}</style>
     </Layout>
   );
 };

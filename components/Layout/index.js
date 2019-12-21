@@ -1,12 +1,12 @@
 import { ThemeProvider } from 'styled-components';
 import Header from '../Header';
 import Head from 'next/head';
-import { theme } from '../../styles';
 import Navigation from '../Navigation';
+import { theme } from '../../styles';
 
 import '../Icons';
 
-const Layout = props => (
+const Layout = ({ title, children }) => (
   <div>
     <Head>
       <title>Home</title>
@@ -18,8 +18,8 @@ const Layout = props => (
     </Head>
     <ThemeProvider theme={theme}>
       <div className="container">
-        {<Header title={props.title} />}
-        {props.children}
+        <Header title={title} />
+        {children}
       </div>
       <div className="nav-container">
         <Navigation />
@@ -40,14 +40,14 @@ const Layout = props => (
       body {
         margin: 20px;
 
-      //   background-image: linear-gradient(
-      //     to bottom,
-      //     rgba(20, 136, 204, 0.7),
-      //     rgba(43, 50, 178, 0.8)
-      //   ),
-      //   url(/weights-image.jpg);
-      // background-size: cover;
-        
+        //   background-image: linear-gradient(
+        //     to bottom,
+        //     rgba(20, 136, 204, 0.7),
+        //     rgba(43, 50, 178, 0.8)
+        //   ),
+        //   url(/weights-image.jpg);
+        // background-size: cover;
+
         background: linear-gradient(to bottom, #1488cc, #2b32b2);
         font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
           Helvetica, sans-serif;
