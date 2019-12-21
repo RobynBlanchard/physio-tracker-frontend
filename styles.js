@@ -15,13 +15,15 @@ export const theme = {
   },
   spacing: {
     XS: '8px',
+    S: '12px',
     M: '14px',
     L: '16px'
   },
   font: {
     size: {
       M: '14px',
-      L: '16px'
+      L: '16px',
+      XL: '20px'
     },
     weight: {
       M: 600,

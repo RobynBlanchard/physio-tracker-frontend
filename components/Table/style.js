@@ -10,13 +10,13 @@ export const TableStyle = styled.table`
 `;
 
 export const TableHeader = styled.th`
-  padding: ${props => props.theme.spacing.M};
+  padding: ${({ theme }) => theme.spacing.M};
   width: calc(100% / 3);
   font-weight: 500;
 `;
 
 export const TableData = styled.td`
-  padding: ${props => props.theme.spacing.M};
+  padding: ${({ theme }) => theme.spacing.M};
   width: calc(100% / 3);
   text-align: center;
 `;
