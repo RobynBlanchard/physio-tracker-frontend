@@ -39,7 +39,15 @@ const Layout = ({ title, children }) => (
       }
 
       .layout-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .container {
+        max-width: 780px;
         padding: 20px;
+        width: 100%;
       }
 
       body {
@@ -60,8 +68,10 @@ const Layout = ({ title, children }) => (
         margin-bottom: 20px;
         position: fixed;
         bottom: 0;
-        left: 0;
         width: 100%;
+        max-width: 780px;
+        text-align: center;
+        max-width: 960px;
       }
     `}</style>
   </div>
