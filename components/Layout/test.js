@@ -6,7 +6,7 @@ import Navigation from '../Navigation';
 describe('Layout', () => {
   const component = shallow(
     <Layout title="Title">
-      <div>child</div>
+      <div className="child">child</div>
     </Layout>
   );
   it('renders a header', () => {
@@ -16,7 +16,12 @@ describe('Layout', () => {
     expect(header.prop('title')).toEqual('Title');
   });
 
-  it('renders children', () => {});
+  it('renders children', () => {
+    const child = component.find('.child');
+  
+    expect(child.length).toEqual(1);
+    expect(child.text()).toEqual('child');
+  });
 
   it('renders a navigation', () => {
     const nav = component.find(Navigation);
