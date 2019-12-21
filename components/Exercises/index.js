@@ -16,12 +16,13 @@ const Exercises = ({ exercises }) => {
     <>
       <ToggleSwitch onClick={handleToggleAll} />
       {exercises.map(exercise => {
+        const { name } = exercise;
         return (
-          <React.Fragment key={exercise.name}>
-            <TitleLink title={exercise.name} />
+          <React.Fragment key={name}>
+            <TitleLink title={name} />
 
             <Wrapper open={toggleAll}>
-              <ExerciseSummary />
+              <ExerciseSummary sets={3} reps={12} weight={17.5} />
             </Wrapper>
           </React.Fragment>
         );
@@ -33,8 +34,8 @@ const Exercises = ({ exercises }) => {
 Exercises.propTypes = {
   exercises: arrayOf(
     shape({
-      name: string,
-      
+      name: string
+
       // exercise summary props TODO:
     })
   )

@@ -1,24 +1,11 @@
-import styled from 'styled-components';
+import { StyledIcon, TextWrapper } from './style';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-const StyledIcon = styled(FontAwesomeIcon)`
-  width: 20px;
-  margin: 0 18px;
-  color: #e4e4e4;
-`;
-
-const TextWrapper = styled.div`
-  padding: 10px;
-  color: #e4e4e4;
-`;
-
-const ExerciseSummary = () => {
+const ExerciseSummary = ({ sets, reps, weight }) => {
   return (
     <TextWrapper>
-      <StyledIcon icon="layer-group" /> 10 sets
-      <StyledIcon icon="redo-alt" /> 8 reps
-      <StyledIcon icon="weight-hanging" /> 60kg
+      <StyledIcon icon="layer-group" /> {sets} sets
+      <StyledIcon icon="redo-alt" /> {reps} reps
+      <StyledIcon icon="weight-hanging" /> {weight}kg
     </TextWrapper>
   );
 };
