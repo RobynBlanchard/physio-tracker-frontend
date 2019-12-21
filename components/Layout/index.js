@@ -7,7 +7,7 @@ import { theme } from '../../styles';
 import '../Icons';
 
 const Layout = ({ title, children }) => (
-  <div>
+  <div className="layout-container">
     <Head>
       <title>Home</title>
       <link rel="icon" href="/favicon.ico" />
@@ -37,8 +37,11 @@ const Layout = ({ title, children }) => (
         height: 100%;
       }
 
+      .layout-container {
+        padding: 20px;
+      }
+
       body {
-        margin: 20px;
 
         //   background-image: linear-gradient(
         //     to bottom,
