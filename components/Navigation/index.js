@@ -1,21 +1,6 @@
 import Link from 'next/link';
 import { Anchor, ListItem, List, Nav } from './style';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faCheckSquare, faCoffee } from '@fortawesome/fontawesome-free-solid'
-// import fontawesome from '@fortawesome/fontawesome'
-// // import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-// fontawesome.library.add(faCheckSquare, faCoffee);
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faUser,
-  faHome,
-  faChartLine,
-  faDumbbell
-} from '@fortawesome/free-solid-svg-icons';
-
-library.add(faUser, faHome, faChartLine, faDumbbell);
 
 const Navigation = () => {
   return (
