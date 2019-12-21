@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { func } from 'prop-types';
 import { Switch, Slider } from './style';
 
 const ToggleSwitch = ({ onClick }) => {
@@ -12,6 +13,10 @@ const ToggleSwitch = ({ onClick }) => {
       ></Slider>
     </Switch>
   );
+};
+
+ToggleSwitch.propTypes = {
+  onClick: func
 };
 
 export default ToggleSwitch;

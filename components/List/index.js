@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { arrayOf, func, shape } from 'prop-types';
+
 import { Anchor, ListItem, Text } from './style';
 
 const List = ({ items, applyFunc }) => (
@@ -17,5 +19,10 @@ const List = ({ items, applyFunc }) => (
     })}
   </ListItem>
 );
+
+List.propTypes = {
+  items: arrayOf(shape({})),
+  applyFunc: func
+};
 
 export default List;

@@ -1,5 +1,5 @@
 import Router, { withRouter } from 'next/router';
-import { string } from 'prop-types';
+import { string, shape } from 'prop-types';
 import { Heading, Anchor, StyledIcon } from './style';
 
 const Header = ({ router, title }) => (
@@ -16,9 +16,7 @@ const Header = ({ router, title }) => (
 );
 
 Header.propTypes = {
-  router: {
-    pathname: string
-  },
+  router: shape({ pathname: string }),
   title: string
 };
 

@@ -1,4 +1,5 @@
 import { ThemeProvider } from 'styled-components';
+import { string, node } from 'prop-types';
 import Header from '../Header';
 import Head from 'next/head';
 import Navigation from '../Navigation';
@@ -42,7 +43,6 @@ const Layout = ({ title, children }) => (
       }
 
       body {
-
         //   background-image: linear-gradient(
         //     to bottom,
         //     rgba(20, 136, 204, 0.7),
@@ -66,5 +66,10 @@ const Layout = ({ title, children }) => (
     `}</style>
   </div>
 );
+
+Layout.propTypes = {
+  title: string,
+  children: node
+};
 
 export default Layout;

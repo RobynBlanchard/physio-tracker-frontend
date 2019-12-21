@@ -1,3 +1,4 @@
+import { number } from 'prop-types';
 import { StyledIcon, TextWrapper } from './style';
 
 const ExerciseSummary = ({ sets, reps, weight }) => {
@@ -8,6 +9,12 @@ const ExerciseSummary = ({ sets, reps, weight }) => {
       <StyledIcon icon="weight-hanging" /> {weight}kg
     </TextWrapper>
   );
+};
+
+ExerciseSummary.propTypes = {
+  sets: number,
+  reps: number,
+  weight: number
 };
 
 export default ExerciseSummary;
