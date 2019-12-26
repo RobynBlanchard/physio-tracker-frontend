@@ -28,7 +28,7 @@ const Exercise = ({ data }) => {
     <Layout title={id}>
       <NavigationTab tabHeadings={tabHeadings} contentPanes={content} />
       <div className="button-align">
-        <Button text="Add set +" />
+        <Button>Add set +</Button>
       </div>
       <style jsx>{`
         .button-align {

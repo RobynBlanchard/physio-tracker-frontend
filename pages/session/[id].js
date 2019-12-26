@@ -6,7 +6,7 @@ const Session = ({ session }) => {
     <Layout title={'Your workout'}>
       <Exercises exercises={session.exercises} />
       <div className="button-align">
-        <Button text="Add exercise +" />
+        <Button>Add exercise +</Button>
       </div>
       <style jsx>{`
         .button-align {
