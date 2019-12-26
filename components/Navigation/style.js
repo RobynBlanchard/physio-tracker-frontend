@@ -15,6 +15,7 @@ export const Anchor = styled.a`
 
 export const ListItem = styled.li`
   list-style: none;
+  cursor: pointer;
 `;
 
 export const List = styled.ul`

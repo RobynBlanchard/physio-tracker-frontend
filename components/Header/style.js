@@ -12,6 +12,7 @@ export const Heading = styled.h1`
   color: white;
   font-size: 40px;
   margin-bottom: 20px;
+  cursor: pointer;
 `;
 
 export const Anchor = styled.a`

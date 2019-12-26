@@ -10,9 +10,13 @@ export const Anchor = styled.a`
   text-decoration: none;
 `;
 
-export const ListItem = styled.li`
+export const List = styled.li`
   list-style: none;
   padding: 0;
+`;
+
+export const ListItem = styled.ul`
+  cursor: pointer;
 `;
 
 export const Text = styled.p`

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import moment from 'moment';
 import { arrayOf, shape, string } from 'prop-types';
-import { Anchor, ListItem, Text } from './style';
+import { ListItem, Anchor, List, Text } from './style';
 
-const SessionsList = ({ sessions=[] }) => {
+const SessionsList = ({ sessions = [] }) => {
   const formatDate = date => {
     const m = moment(date, 'YYYY-MM-DD');
 
@@ -11,21 +11,21 @@ const SessionsList = ({ sessions=[] }) => {
   };
 
   return (
-    <ListItem>
+    <List>
       {sessions.map(session => {
         const { id, date } = session;
         return (
-          <ul key={id}>
+          <ListItem key={id}>
             <Link href="/session/[id]" as={`/session/${id}`}>
               <Anchor>
                 <Text>{formatDate(date)}</Text>
                 <Text>{'>'}</Text>
               </Anchor>
             </Link>
-          </ul>
+          </ListItem>
         );
       })}
-    </ListItem>
+    </List>
   );
 };
 
