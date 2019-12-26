@@ -1,12 +1,15 @@
 import Link from 'next/link';
-import List from './';
+import SessionsList from '.';
 import { shallow } from 'enzyme';
 import { Text } from './style';
 
-describe('List', () => {
-  const applyFunc = num => num.id * 2;
-  const items = [{ id: 1 }, { id: 2 }, { id: 3 }];
-  const component = shallow(<List items={items} applyFunc={applyFunc} />);
+describe('SessionsList', () => {
+  const sessions = [
+    { id: 1, date: '2019-01-01' },
+    { id: 2, date: '2019-01-05' },
+    { id: 3, date: '2019-01-10' }
+  ];
+  const component = shallow(<SessionsList sessions={sessions} />);
   const listItems = component.find('ul');
   const listItem = listItems.at(0);
 
@@ -15,13 +18,13 @@ describe('List', () => {
   });
 
   describe('List item', () => {
-    it('renders the result of the given function applied to the item', () => {
+    it('formats the date', () => {
       expect(
         listItem
           .find(Text)
           .at(0)
           .text()
-      ).toEqual('2');
+      ).toEqual('Tuesday 1st January');
     });
 
     it('renders an arrow', () => {

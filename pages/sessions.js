@@ -1,14 +1,17 @@
 import { useState } from 'react';
+import { gql } from 'apollo-boost';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
-import fetch from 'node-fetch';
-import ApolloClient, { gql } from 'apollo-boost';
-import { Layout, List, Button } from '../components';
+import { Layout, SessionsList, Button } from '../components';
 
-const client = new ApolloClient({
-  uri: 'http://localhost:4000',
-  fetch: fetch
-});
-
+const CREATE_SESSION = gql`
+  mutation createSession($data: CreateSessionInput) {
+    createSession(data: $data) {
+      id
+      date
+    }
+  }
+`;
 const GET_SESSIONS = gql`
   {
     sessions(userID: "1") {
@@ -18,56 +21,67 @@ const GET_SESSIONS = gql`
   }
 `;
 
-const ADD_SESSION = gql`
-  mutation createSession($data: CreateSessionInput) {
-    createSession(data: $data) {
-      id
-      date
-    }
-  }
-`;
+function Sessions() {
+  const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
+  const [addSession, addSessionResponse] = useMutation(CREATE_SESSION);
+  const { loading, error, data } = useQuery(GET_SESSIONS);
 
-function Sessions({ sessions }) {
-  const [startDate, setStartDate] = useState(moment().format('L'));
-
-  const addSession = date => {
-    client.mutate({
-      mutation: ADD_SESSION,
-      variables: { data: { user: '1', date: '2019-12-25' } }
+  const handleAddSession = date => {
+    return addSession({
+      variables: { data: { user: '1', date } },
+      refetchQueries: [
+        {
+          query: GET_SESSIONS,
+          variables: { userID: '1' }
+        }
+      ]
     });
   };
 
-  const formatDate = date => {
-    const m = moment(date, 'YYYY-MM-DD')
-    console.log(m)
-    return m.format('dddd Do MMMM')
-  }
-
-  
+  if (loading) return <div>loading</div>;
+  if (error) return <div>error fetching sessions</div>;
 
   return (
     <Layout title={'Sessions'}>
-      <List items={sessions} applyFunc={items => formatDate(items.date)} />
-      <input value={startDate} onChange={e => setStartDate(e.target.value)} />
+      <SessionsList sessions={data && data.sessions} />
+      {addSessionResponse.error && (
+        <div>{addSessionResponse.error.message}</div>
+      )}
+
+      {addSessionResponse.loading && <div>loading</div>}
+      <div className="input-align">
+        <input
+          value={startDate}
+          onChange={e => setStartDate(e.target.value)}
+          maxLength="10"
+        />
+      </div>
       <div className="button-align">
-        <Button onClick={() => addSession(startDate)}>Add session +</Button>
+        <Button onClick={() => handleAddSession(startDate)}>
+          Add session +
+        </Button>
       </div>
       <style jsx>{`
-        .button-align {
-          width: 100%;
+        .button-align,
+        .input-align {
           text-align: center;
+        }
+
+        .input-align {
+          padding: 20px;
+        }
+
+        input {
+          font-family: inherit;
+          padding: 4px 12px;
+        }
+
+        input:focus {
+          outline: 2px solid #1d75c7;
         }
       `}</style>
     </Layout>
   );
 }
-
-Sessions.getInitialProps = async () => {
-  const data = await client.query({
-    query: GET_SESSIONS
-  });
-
-  return { sessions: data.data.sessions };
-};
 
 export default Sessions;
