@@ -4,19 +4,20 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { Layout, SessionsList, Button } from '../components';
 
-const CREATE_SESSION = gql`
-  mutation createSession($data: CreateSessionInput) {
-    createSession(data: $data) {
-      id
-      date
-    }
-  }
-`;
 const GET_SESSIONS = gql`
   {
     sessions(userID: "1") {
       date
       id
+    }
+  }
+`;
+
+const CREATE_SESSION = gql`
+  mutation createSession($data: CreateSessionInput) {
+    createSession(data: $data) {
+      id
+      date
     }
   }
 `;

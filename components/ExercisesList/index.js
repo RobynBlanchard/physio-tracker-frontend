@@ -5,7 +5,7 @@ import TitleLink from './TitleLink';
 import ExerciseSummary from './ExerciseSummary';
 import { arrayOf, string, shape } from 'prop-types';
 
-const Exercises = ({ exercises }) => {
+const ExercisesList = ({ exercises = [] }) => {
   const [toggleAll, setToggleAll] = useState(false);
 
   const handleToggleAll = () => {
@@ -14,7 +14,7 @@ const Exercises = ({ exercises }) => {
 
   return (
     <>
-      <ToggleSwitch onClick={handleToggleAll} />
+      {exercises.length > 0 && <ToggleSwitch onClick={handleToggleAll} />}
       {exercises.map(exercise => {
         const { name } = exercise;
         return (
@@ -31,7 +31,7 @@ const Exercises = ({ exercises }) => {
   );
 };
 
-Exercises.propTypes = {
+ExercisesList.propTypes = {
   exercises: arrayOf(
     shape({
       name: string
@@ -41,4 +41,4 @@ Exercises.propTypes = {
   )
 };
 
-export default Exercises;
+export default ExercisesList;
