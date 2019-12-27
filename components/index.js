@@ -1,5 +1,6 @@
 import Button from './Button';
 import ExercisesList from './ExercisesList';
+import ExerciseSelect from './ExerciseSelect';
 import Header from './Header';
 import Layout from './Layout';
 import SessionsList from './SessionsList';
@@ -11,6 +12,7 @@ import ToggleSwitch from './ToggleSwitch';
 export {
   Button,
   ExercisesList,
+  ExerciseSelect,
   Header,
   Layout,
   SessionsList,

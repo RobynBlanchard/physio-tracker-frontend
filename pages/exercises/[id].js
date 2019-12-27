@@ -1,9 +1,14 @@
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { Layout, Button, ExercisesList } from '../../components';
+import {
+  Layout,
+  Button,
+  ExercisesList,
+  ExerciseSelect
+} from '../../components';
 
 const GET_EXERCISES = gql`
   query($sessionID: ID!) {
@@ -23,22 +28,15 @@ const CREATE_EXERCISE = gql`
   }
 `;
 
-
-// Exercises
-// - id
-// - exerciseType
-
-// ExerciseType
-// - of several types
-
-// SetsType
-// - sets
-
-// Running
-// - Distance, Time
-
-// etc...
-
+const exerciseOptions = [
+  { name: 'Treadmill', value: 'Treadmill' },
+  { name: 'Leg press', value: 'Leg press' },
+  { name: 'Leg extension', value: 'Leg extension' },
+  { name: 'Hamstring curls', value: 'Hamstring curls' },
+  { name: 'Exercise bike', value: 'Exercise bike' },
+  { name: 'Squats', value: 'Squats' },
+  { name: 'Deadlift', value: 'Deadlift' }
+];
 
 const Exercises = () => {
   const router = useRouter();
@@ -47,10 +45,13 @@ const Exercises = () => {
     variables: { sessionID: id }
   });
   const [addExercise, addExericseResponse] = useMutation(CREATE_EXERCISE);
+  const [exerciseOption, setExerciseOption] = useState(
+    exerciseOptions[0].value
+  );
 
   const handleAddExercise = () => {
     return addExercise({
-      variables: { data: { session: id, name: 'treadmill' } },
+      variables: { data: { session: id.toString(), name: exerciseOption } },
       refetchQueries: [
         {
           query: GET_EXERCISES,
@@ -69,14 +70,23 @@ const Exercises = () => {
       {addExericseResponse.error && (
         <div>{addExericseResponse.error.message}</div>
       )}
-
       {addExericseResponse.loading && <div>loading</div>}
+      <div className="select-align">
+        <ExerciseSelect
+          onChange={e => setExerciseOption(e.target.value)}
+          exerciseOptions={exerciseOptions}
+        />
+      </div>
       <div className="button-align">
         <Button onClick={() => handleAddExercise()}>Add exercise +</Button>
       </div>
       <style jsx>{`
         .button-align {
-          width: 100%;
+          text-align: center;
+        }
+
+        .select-align {
+          padding: 20px;
           text-align: center;
         }
       `}</style>
