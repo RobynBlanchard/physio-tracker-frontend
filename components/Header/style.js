@@ -10,7 +10,7 @@ export const StyledIcon = styled(FontAwesomeIcon)`
 
 export const Heading = styled.h1`
   color: white;
-  font-size: 40px;
+  font-size: 32px;
   margin-bottom: 20px;
   cursor: pointer;
 `;

@@ -13,6 +13,8 @@ export const Anchor = styled.a`
 export const List = styled.li`
   list-style: none;
   padding: 0;
+  max-height: 60vh;
+  overflow-y: scroll;
 `;
 
 export const ListItem = styled.ul`

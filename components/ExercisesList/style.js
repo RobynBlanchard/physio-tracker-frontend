@@ -7,3 +7,8 @@ export const Wrapper = styled.div`
   transition: max-height 0.5s, overflow 0.5s 0.5s;
   color: white;
 `;
+
+export const ExerciseListWrapper = styled.div`
+  max-height: 55vh;
+  overflow-y: scroll;
+`;

@@ -42,6 +42,8 @@ const Layout = ({ title, children }) => (
         display: flex;
         justify-content: center;
         width: 100%;
+        height: 100%;
+        // background: linear-gradient(to bottom, #1488cc, #2b32b2);
       }
 
       .container {
@@ -65,6 +67,7 @@ const Layout = ({ title, children }) => (
       }
 
       .nav-container {
+        height: 20px;
         margin-bottom: 20px;
         position: fixed;
         bottom: 0;

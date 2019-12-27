@@ -35,7 +35,7 @@ const exerciseOptions = [
   { name: 'Hamstring curls', value: 'Hamstring curls' },
   { name: 'Exercise bike', value: 'Exercise bike' },
   { name: 'Squats', value: 'Squats' },
-  { name: 'Deadlift', value: 'Deadlift' }
+  { name: 'Deadlift', value: 'Deadlift' },
 ];
 
 const Exercises = () => {
@@ -83,10 +83,11 @@ const Exercises = () => {
       <style jsx>{`
         .button-align {
           text-align: center;
+          // height: 20px;
         }
 
         .select-align {
-          padding: 20px;
+          padding: 8px;
           text-align: center;
         }
       `}</style>

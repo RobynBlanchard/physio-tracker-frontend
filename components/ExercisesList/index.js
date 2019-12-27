@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Wrapper } from './style';
+import { Wrapper, ExerciseListWrapper } from './style';
 import ToggleSwitch from '../ToggleSwitch';
 import TitleLink from './TitleLink';
 import ExerciseSummary from './ExerciseSummary';
@@ -15,6 +15,7 @@ const ExercisesList = ({ exercises = [] }) => {
   return (
     <>
       {exercises.length > 0 && <ToggleSwitch onClick={handleToggleAll} />}
+      <ExerciseListWrapper>
       {exercises.map(exercise => {
         const { name } = exercise;
         return (
@@ -27,6 +28,7 @@ const ExercisesList = ({ exercises = [] }) => {
           </React.Fragment>
         );
       })}
+      </ExerciseListWrapper>
     </>
   );
 };
