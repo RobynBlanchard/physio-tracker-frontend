@@ -2,7 +2,7 @@ import { Layout, NavigationTab, Table, Button } from '../../../components';
 import { useRouter } from 'next/router';
 import { getSets } from '../../../api';
 
-const Exercise = ({ data }) => {
+const Sets = ({ data }) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -40,10 +40,10 @@ const Exercise = ({ data }) => {
   );
 };
 
-Exercise.getInitialProps = async props => {
+Sets.getInitialProps = async props => {
   const res = await getSets(props.query.id);
 
   return { data: res };
 };
 
-export default Exercise;
+export default Sets;

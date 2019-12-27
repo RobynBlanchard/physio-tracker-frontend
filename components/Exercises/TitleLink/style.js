@@ -8,4 +8,5 @@ export const Title = styled.h3`
 
 export const Anchor = styled.a`
   text-decoration: none;
+  cursor: pointer;
 `;

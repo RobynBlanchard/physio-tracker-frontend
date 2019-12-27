@@ -16,7 +16,7 @@ const SessionsList = ({ sessions = [] }) => {
         const { id, date } = session;
         return (
           <ListItem key={id}>
-            <Link href="/session/[id]" as={`/session/${id}`}>
+            <Link href="/exercises/[id]" as={`/exercises/${id}`}>
               <Anchor>
                 <Text>{formatDate(date)}</Text>
                 <Text>{'>'}</Text>
