@@ -35,7 +35,7 @@ const exerciseOptions = [
   { name: 'Hamstring curls', value: 'Hamstring curls' },
   { name: 'Exercise bike', value: 'Exercise bike' },
   { name: 'Squats', value: 'Squats' },
-  { name: 'Deadlift', value: 'Deadlift' },
+  { name: 'Deadlift', value: 'Deadlift' }
 ];
 
 const Exercises = () => {
@@ -61,8 +61,9 @@ const Exercises = () => {
     });
   };
 
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error fetching exercises</div>;
+  console.log('data', data);
+  console.log('loading', loading);
+  console.log('error', error);
 
   return (
     <Layout title={'Your workout'}>
@@ -73,6 +74,8 @@ const Exercises = () => {
       {addExericseResponse.loading && <div>loading</div>}
       <div className="select-align">
         <ExerciseSelect
+          loading={loading}
+          error={error}
           onChange={e => setExerciseOption(e.target.value)}
           exerciseOptions={exerciseOptions}
         />

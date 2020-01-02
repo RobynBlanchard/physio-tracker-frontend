@@ -10,7 +10,8 @@ const GET_SESSIONS = gql`
       date
       id
     }
-  }
+  },
+  
 `;
 
 const CREATE_SESSION = gql`
@@ -39,12 +40,18 @@ function Sessions() {
     });
   };
 
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error fetching sessions</div>;
+  console.log('data', data);
+  console.log('loading', loading)
+  console.log('error', error)
+
+
+
+// https://www.nearform.com/blog/introducing-graphql-hooks/
+
 
   return (
     <Layout title={'Sessions'}>
-      <SessionsList sessions={data && data.sessions} />
+      <SessionsList sessions={data && data.sessions} loading={loading} error={error} />
       {addSessionResponse.error && (
         <div>{addSessionResponse.error.message}</div>
       )}
