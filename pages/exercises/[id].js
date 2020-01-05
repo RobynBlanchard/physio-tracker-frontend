@@ -10,11 +10,26 @@ import {
   ExerciseSelect
 } from '../../components';
 
+// const nameAliases
+
 const GET_EXERCISES = gql`
   query($sessionID: ID!) {
     exercises(sessionID: $sessionID) {
-      id
-      name
+      # id
+      # name
+      ... on TimeDistanceExercise {
+        timedistancename: name
+        id
+      }
+      ... on FreeWeightExercise {
+        freewieghtname: name
+        id
+      }
+
+      ... on WeightMachineExercise {
+        weightname: name
+        id
+      }
     }
   }
 `;
@@ -44,6 +59,8 @@ const Exercises = () => {
   const { loading, error, data } = useQuery(GET_EXERCISES, {
     variables: { sessionID: id }
   });
+
+  console.log('DATA', data);
   const [addExercise, addExericseResponse] = useMutation(CREATE_EXERCISE);
   const [exerciseOption, setExerciseOption] = useState(
     exerciseOptions[0].value

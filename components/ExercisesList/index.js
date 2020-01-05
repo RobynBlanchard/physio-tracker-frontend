@@ -20,10 +20,11 @@ const ExercisesList = ({ loading, error, exercises = [] }) => {
       {exercises.length > 0 && <ToggleSwitch onClick={handleToggleAll} />}
       <ExerciseListWrapper>
         {exercises.map(exercise => {
-          const { name } = exercise;
+          const { timedistancename, id } = exercise;
+          const name = timedistancename;
           return (
             <React.Fragment key={name}>
-              <TitleLink title={name} />
+              <TitleLink title={name} exerciseId={id}/>
 
               <Wrapper open={toggleAll}>
                 <ExerciseSummary sets={3} reps={12} weight={17.5} />
