@@ -2,9 +2,9 @@ import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-import { Layout, NavigationTab, Table, Button } from '../../../components';
-// import exerciseToSet from '../../../util/mapExerciseToSetType';
-import SetFreeWeights from '../../../components/SetFreeWeights';
+import { Layout, NavigationTab, Table, Button, SetFreeWeights, SetTimeDistance } from '../../../../components';
+import exerciseToSet from '../../../../util/mapExerciseToSetType';
+
 
 const GET_SETS = gql`
   query($exerciseID: ID!) {
@@ -17,9 +17,10 @@ const GET_SETS = gql`
 
 const Sets = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, title } = router.query;
 
   console.log('ID-------------', id);
+  console.log('title-------------', title);
 
   // const setsInterfaceType = exerciseToSet[id];
 
@@ -28,7 +29,15 @@ const Sets = () => {
   // });
 
   const chooseLayout = () => {
-    if (id === )
+    if (exerciseToSet[id] === 'FreeWeightsSet') {
+      return <SetFreeWeights exerciseID={id}/>
+    }
+    if (exerciseToSet[id] === 'TimeDistanceSet') {
+      return <SetTimeDistance exerciseID={id}/>
+    }
+    if (exerciseToSet[id] === 'WeightMachineSet') {
+      return <SetTimeDistance exerciseID={id}/>
+    }
   }
 
   // console.log(data);
@@ -52,7 +61,7 @@ const Sets = () => {
   // };
 
   return (
-    <Layout title={id}>
+    <Layout title={title}>
       {/* <NavigationTab tabHeadings={tabHeadings} contentPanes={content} /> */}
       {chooseLayout()}
       <div className="button-align">

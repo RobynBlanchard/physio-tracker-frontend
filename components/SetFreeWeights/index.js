@@ -1,37 +1,32 @@
-import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-import { Layout, NavigationTab, Table, Button } from '../../../components';
-// import exerciseToSet from '../../../util/mapExerciseToSetType';
-import SetFreeWeights from '../../../components/SetFreeWeights';
+import { Layout, NavigationTab, Table, Button } from '../index';
 
 const GET_SETS = gql`
   query($exerciseID: ID!) {
     sets(exerciseID: $exerciseID) {
-      weight
-      reps
+      ... on FreeWeightsSet {
+      id
+      set {
+        weight
+        reps
+      }
+    }
     }
   }
 `;
 
-const Sets = () => {
-  const router = useRouter();
-  const { id } = router.query;
+const SetFreeWeights = ({exerciseID}) => {
+  const { loading, error, data } = useQuery(GET_SETS, {
+    variables: { exerciseID: id }
+  });
 
-  console.log('ID-------------', id);
+  // const chooseLayout = () => {
+  //   if ()
+  // }
 
-  // const setsInterfaceType = exerciseToSet[id];
-
-  // const { loading, error, data } = useQuery(GET_SETS, {
-  //   variables: { exerciseID: "1" }
-  // });
-
-  const chooseLayout = () => {
-    if (id === )
-  }
-
-  // console.log(data);
+  console.log(data);
 
   // const tabHeadings = [
   //   { id: 'bothLegs', title: 'Both legs' },
@@ -52,9 +47,10 @@ const Sets = () => {
   // };
 
   return (
-    <Layout title={id}>
+    <div>
       {/* <NavigationTab tabHeadings={tabHeadings} contentPanes={content} /> */}
-      {chooseLayout()}
+      {/* {chooseLayout()} */}
+      {/* {data && data.sets.map(set => <div>leg: {set</div>)} */}
       <div className="button-align">
         <Button>Add set +</Button>
       </div>
@@ -64,8 +60,8 @@ const Sets = () => {
           text-align: center;
         }
       `}</style>
-    </Layout>
+    </div>
   );
 };
 
-export default Sets;
+export default SetFreeWeights;

@@ -8,6 +8,8 @@ import Navigation from './Navigation';
 import NavigationTab from './NavigationTab';
 import Table from './Table';
 import ToggleSwitch from './ToggleSwitch';
+import SetFreeWeights from './SetFreeWeights';
+import SetTimeDistance from './SetTimeDistance';
 
 export {
   Button,
@@ -19,5 +21,7 @@ export {
   Navigation,
   NavigationTab,
   Table,
-  ToggleSwitch
+  ToggleSwitch,
+  SetFreeWeights,
+  SetTimeDistance
 };

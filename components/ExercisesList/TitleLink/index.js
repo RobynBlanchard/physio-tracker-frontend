@@ -8,10 +8,16 @@ const TitleLink = ({ title, exerciseId }) => {
   const setsInterfaceType = exerciseToSet[title];
 
   return (
+    // option 1
+    // <Link
+    //   href={`/exercises/${setsInterfaceType}/[id]}`}
+    //   as={`/exercises/${setsInterfaceType}/${exerciseId}`}
+    // >
+    // option 2
     <Link
-      href={`/exercises/${setsInterfaceType}/[id]}`}
-      as={`/exercises/${setsInterfaceType}/${exerciseId}`}
-    >
+    href="/exercises/sets/[id]/[title]"
+    as={`/exercises/sets/${exerciseId}/${title}`}
+  >
       <Anchor>
         <Title>{title}</Title>
       </Anchor>
