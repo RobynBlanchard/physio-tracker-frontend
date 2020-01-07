@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-import { Layout, NavigationTab, Table, Button, SetFreeWeights, SetTimeDistance } from '../../../../components';
+import { Layout, NavigationTab, Table, Button, SetFreeWeights, SetTimeDistance, SetWeightMachine } from '../../../../components';
 import exerciseToSet from '../../../../util/mapExerciseToSetType';
 
 
@@ -27,16 +27,18 @@ const Sets = () => {
   // const { loading, error, data } = useQuery(GET_SETS, {
   //   variables: { exerciseID: "1" }
   // });
+  console.log('111', exerciseToSet[id])
 
   const chooseLayout = () => {
-    if (exerciseToSet[id] === 'FreeWeightsSet') {
+    if (exerciseToSet[title] === 'FreeWeightsSet') {
       return <SetFreeWeights exerciseID={id}/>
     }
-    if (exerciseToSet[id] === 'TimeDistanceSet') {
+    if (exerciseToSet[title] === 'TimeDistanceSet') {
       return <SetTimeDistance exerciseID={id}/>
     }
-    if (exerciseToSet[id] === 'WeightMachineSet') {
-      return <SetTimeDistance exerciseID={id}/>
+    if (exerciseToSet[title] === 'WeightMachineSet') {
+      console.log('111')
+      return <SetWeightMachine exerciseID={id}/>
     }
   }
 
@@ -64,9 +66,9 @@ const Sets = () => {
     <Layout title={title}>
       {/* <NavigationTab tabHeadings={tabHeadings} contentPanes={content} /> */}
       {chooseLayout()}
-      <div className="button-align">
+      {/* <div className="button-align">
         <Button>Add set +</Button>
-      </div>
+      </div> */}
       <style jsx>{`
         .button-align {
           width: 100%;

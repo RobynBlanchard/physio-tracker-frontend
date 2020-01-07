@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-import { Layout, NavigationTab, Table, Button } from '../index';
+import { InputBlock, Table, Button } from '../index';
 
 const GET_SETS = gql`
   query($exerciseID: ID!) {
@@ -9,37 +9,88 @@ const GET_SETS = gql`
       ... on TimeDistanceSet {
         time
         distance
+        id
       }
     }
   }
 `;
 
-const Sets = ({exerciseID}) => {
-  // should pass in eercise id 
+const CREATE_SET = gql`
+  mutation createSet($data: CreateSetInput!) {
+    createSet(data: $data) {
+      id
+      # date
+    }
+  }
+`;
 
-  console.log('ID-------------', id);
-
+const Sets = ({ exerciseID }) => {
+  const [inputTime, setInputTime] = useState();
+  const [inputDistance, setInputDistance] = useState();
+  const [addSet, addSetResponse] = useMutation(CREATE_SET);
   const { loading, error, data } = useQuery(GET_SETS, {
     variables: { exerciseID: exerciseID }
   });
 
-  console.log(data);
+  const handleAddSet = () => {
+    console.log(exerciseID);
+    console.log(inputTime);
+    console.log(inputDistance);
+
+    return addSet({
+      variables: {
+        data: { exercise: exerciseID, time: inputTime, distance: inputDistance }
+      },
+      refetchQueries: [
+        {
+          query: GET_SETS,
+          variables: { exerciseID: exerciseID }
+        }
+      ]
+    });
+  };
+
+  const tableHeadings = [
+    { colID: 'time', name: 'Time (mins)' },
+    { colID: 'distance', name: 'Distance (km)' }
+  ];
+
+  if (loading) return <div>Loading</div>;
+  if (error) return <div>error</div>;
 
   return (
     <div>
-      {/* <NavigationTab tabHeadings={tabHeadings} contentPanes={content} /> */}
-      {data && data.sets.map(set => (
-        <div>
-          time: {set.time} distance: {set.distance}
-        </div>
-      ))}
-      <div className="button-align">
-        <Button>Add thing +</Button>
+      <Table tableHeadings={tableHeadings} rowData={data.sets} />
+
+      <div className="input-align">
+        <InputBlock
+          label="Time"
+          onChange={e => setInputTime(parseInt(e.target.value, 10))}
+        />
+        <InputBlock
+          label="Distance"
+          onChange={e => setInputDistance(parseInt(e.target.value, 10))}
+        />
       </div>
+
+      <div className="button-align">
+        <Button onClick={handleAddSet}>Add Set +</Button>
+      </div>
+      {addSetResponse.error && (
+        <div>{addSetResponse.error.message}</div>
+      )}
+
+      {addSetResponse.loading && <div>loading</div>}
       <style jsx>{`
         .button-align {
           width: 100%;
           text-align: center;
+        }
+
+        .input-align {
+          display: flex;
+          justify-content: space-around;
+          padding: 16px;
         }
       `}</style>
     </div>

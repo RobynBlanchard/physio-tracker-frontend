@@ -10,6 +10,8 @@ import Table from './Table';
 import ToggleSwitch from './ToggleSwitch';
 import SetFreeWeights from './SetFreeWeights';
 import SetTimeDistance from './SetTimeDistance';
+import SetWeightMachine from './SetWeightMachine';
+import InputBlock from './InputBlock';
 
 export {
   Button,
@@ -23,5 +25,7 @@ export {
   Table,
   ToggleSwitch,
   SetFreeWeights,
-  SetTimeDistance
+  SetTimeDistance,
+  SetWeightMachine,
+  InputBlock
 };

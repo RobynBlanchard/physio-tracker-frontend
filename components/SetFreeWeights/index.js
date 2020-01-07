@@ -19,7 +19,7 @@ const GET_SETS = gql`
 
 const SetFreeWeights = ({exerciseID}) => {
   const { loading, error, data } = useQuery(GET_SETS, {
-    variables: { exerciseID: id }
+    variables: { exerciseID: exerciseID }
   });
 
   // const chooseLayout = () => {

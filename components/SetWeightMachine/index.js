@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-import { Layout, NavigationTab, Table, Button } from '../../../components';
+import { Layout, NavigationTab, Table, Button } from '../';
 // import exerciseToSet from '../../../util/mapExerciseToSetType';
 
 const GET_SETS = gql`
@@ -20,7 +20,7 @@ const GET_SETS = gql`
 `;
 
 const Sets = ({exerciseID}) => {
-
+  console.log('=========sets!', exerciseID)
   // const setsInterfaceType = exerciseToSet[id];
 
   const { loading, error, data } = useQuery(GET_SETS, {
