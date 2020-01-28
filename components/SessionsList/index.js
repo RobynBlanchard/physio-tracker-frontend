@@ -3,15 +3,12 @@ import moment from 'moment';
 import { arrayOf, shape, string } from 'prop-types';
 import { ListItem, Anchor, List, Text } from './style';
 
-const SessionsList = ({ loading, error, sessions = [] }) => {
+const SessionsList = ({ sessions = [] }) => {
   const formatDate = date => {
     const m = moment(date, 'YYYY-MM-DD');
 
     return m.format('dddd Do MMMM');
   };
-
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error fetching sessions</div>;
 
   return (
     <List>

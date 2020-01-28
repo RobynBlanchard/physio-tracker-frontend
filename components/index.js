@@ -12,6 +12,7 @@ import SetFreeWeights from './SetFreeWeights';
 import SetTimeDistance from './SetTimeDistance';
 import SetWeightMachine from './SetWeightMachine';
 import InputBlock from './InputBlock';
+import ExercisePage from './ExercisePage';
 
 export {
   Button,
@@ -27,5 +28,6 @@ export {
   SetFreeWeights,
   SetTimeDistance,
   SetWeightMachine,
-  InputBlock
+  InputBlock,
+  ExercisePage
 };

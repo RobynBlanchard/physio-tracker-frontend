@@ -2,19 +2,22 @@ import { useState } from 'react';
 import { gql } from 'apollo-boost';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
-import { Layout, SessionsList, Button } from '../components';
+import { Layout, SessionsList, Button } from '../index';
+import styled from 'styled-components';
 
-const GET_SESSIONS = gql`
-  {
-    sessions(userID: "1") {
-      date
+export const LOADING_MESSAGE = 'loading sessions';
+export const ERROR_MESSAGE = 'error fetching sessions';
+
+export const GET_SESSIONS = gql`
+  query getSessions($userID: ID) {
+    sessions(userID: $userID) {
       id
+      date
     }
-  },
-  
+  }
 `;
 
-const CREATE_SESSION = gql`
+export const CREATE_SESSION = gql`
   mutation createSession($data: CreateSessionInput) {
     createSession(data: $data) {
       id
@@ -24,9 +27,12 @@ const CREATE_SESSION = gql`
 `;
 
 function Sessions() {
+  const userID = '1';
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
   const [addSession, addSessionResponse] = useMutation(CREATE_SESSION);
-  const { loading, error, data } = useQuery(GET_SESSIONS);
+  const { loading, error, data } = useQuery(GET_SESSIONS, {
+    variables: { userID }
+  });
 
   const handleAddSession = date => {
     return addSession({
@@ -40,24 +46,18 @@ function Sessions() {
     });
   };
 
-  console.log('data', data);
-  console.log('loading', loading)
-  console.log('error', error)
+  // https://www.nearform.com/blog/introducing-graphql-hooks/
 
-
-
-// https://www.nearform.com/blog/introducing-graphql-hooks/
-
+  if (loading) return <div>{LOADING_MESSAGE}</div>;
+  if (error) return <div>{ERROR_MESSAGE}</div>;
 
   return (
-    <Layout title={'Sessions'}>
-      
-      {/* <SessionsList sessions={data && data.sessions} loading={loading} error={error} />
+    <div>
+      <SessionsList sessions={data && data.sessions} />
       {addSessionResponse.error && (
         <div>{addSessionResponse.error.message}</div>
       )}
-
-      {addSessionResponse.loading && <div>loading</div>}
+      {addSessionResponse.loading && <Loading>adding session...</Loading>}
       <div className="input-align">
         <input
           value={startDate}
@@ -69,7 +69,7 @@ function Sessions() {
         <Button onClick={() => handleAddSession(startDate)}>
           Add session +
         </Button>
-      </div> */}
+      </div>
       <style jsx>{`
         .button-align,
         .input-align {
@@ -89,7 +89,7 @@ function Sessions() {
           outline: 2px solid #1d75c7;
         }
       `}</style>
-    </Layout>
+    </div>
   );
 }
 

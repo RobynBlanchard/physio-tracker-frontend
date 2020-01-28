@@ -1,56 +1,59 @@
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-import { Layout, NavigationTab, Table, Button } from '../index';
+import { InputBlock, Table, Button } from '../index';
 
 const GET_SETS = gql`
   query($exerciseID: ID!) {
     sets(exerciseID: $exerciseID) {
       ... on FreeWeightsSet {
-      id
-      set {
-        weight
-        reps
+        id
+        set {
+          weight
+          reps
+        }
       }
-    }
     }
   }
 `;
 
-const SetFreeWeights = ({exerciseID}) => {
+const SetFreeWeights = ({ exerciseID }) => {
+  const [inputWeight, setInputWeight] = useState();
+  const [inputReps, setInputReps] = useState();
   const { loading, error, data } = useQuery(GET_SETS, {
     variables: { exerciseID: exerciseID }
   });
 
-  // const chooseLayout = () => {
-  //   if ()
-  // }
-
   console.log(data);
 
-  // const tabHeadings = [
-  //   { id: 'bothLegs', title: 'Both legs' },
-  //   { id: 'leftLeg', title: 'Left leg' },
-  //   { id: 'rightLeg', title: 'Right leg' }
-  // ];
+  const transform = data => {
+    const sets = data.sets;
+    return sets.map(set => ({
+      id: set.id,
+      weight: set.set.weight,
+      reps: set.set.reps
+    }));
+  };
 
-  // const headings = [
-  //   { colID: 'setNum', name: 'Set' },
-  //   { colID: 'weight', name: 'Weight' },
-  //   { colID: 'reps', name: 'Reps' }
-  // ];
-
-  // const content = {
-  //   bothLegs: <Table tableHeadings={headings} rowData={data[0].sets} />,
-  //   leftLeg: <Table tableHeadings={headings} rowData={data[1].sets} />,
-  //   rightLeg: <Table tableHeadings={headings} rowData={data[2].sets} />
-  // };
+  const tableHeadings = [
+    { colID: 'weight', name: 'Weight (kg)' },
+    { colID: 'reps', name: 'Reps' }
+  ];
 
   return (
     <div>
-      {/* <NavigationTab tabHeadings={tabHeadings} contentPanes={content} /> */}
-      {/* {chooseLayout()} */}
-      {/* {data && data.sets.map(set => <div>leg: {set</div>)} */}
+      <Table tableHeadings={tableHeadings} rowData={transform(data)} />
+
+      <div className="input-align">
+        <InputBlock
+          label="Weight"
+          onChange={e => setInputWeight(parseFloat(e.target.value, 10))}
+        />
+        <InputBlock
+          label="Reps"
+          onChange={e => setInputReps(parseInt(e.target.value, 10))}
+        />
+      </div>
       <div className="button-align">
         <Button>Add set +</Button>
       </div>
@@ -58,6 +61,12 @@ const SetFreeWeights = ({exerciseID}) => {
         .button-align {
           width: 100%;
           text-align: center;
+        }
+
+        .input-align {
+          display: flex;
+          justify-content: space-around;
+          padding: 16px;
         }
       `}</style>
     </div>

@@ -19,7 +19,6 @@ const CREATE_SET = gql`
   mutation createSet($data: CreateSetInput!) {
     createSet(data: $data) {
       id
-      # date
     }
   }
 `;
@@ -33,10 +32,6 @@ const Sets = ({ exerciseID }) => {
   });
 
   const handleAddSet = () => {
-    console.log(exerciseID);
-    console.log(inputTime);
-    console.log(inputDistance);
-
     return addSet({
       variables: {
         data: { exercise: exerciseID, time: inputTime, distance: inputDistance }
@@ -76,10 +71,7 @@ const Sets = ({ exerciseID }) => {
       <div className="button-align">
         <Button onClick={handleAddSet}>Add Set +</Button>
       </div>
-      {addSetResponse.error && (
-        <div>{addSetResponse.error.message}</div>
-      )}
-
+      {addSetResponse.error && <div>{addSetResponse.error.message}</div>}
       {addSetResponse.loading && <div>loading</div>}
       <style jsx>{`
         .button-align {
