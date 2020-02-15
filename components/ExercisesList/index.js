@@ -5,15 +5,12 @@ import TitleLink from './TitleLink';
 import ExerciseSummary from './ExerciseSummary';
 import { arrayOf, string, shape } from 'prop-types';
 
-const ExercisesList = ({ loading, error, exercises = [] }) => {
+const ExercisesList = ({ exercises = [] }) => {
   const [toggleAll, setToggleAll] = useState(false);
 
   const handleToggleAll = () => {
     setToggleAll(prevState => !toggleAll);
   };
-
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error fetching exercises</div>;
 
   return (
     <>

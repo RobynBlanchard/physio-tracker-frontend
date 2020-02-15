@@ -9,29 +9,27 @@ const ButtonWrapper = styled.div`
   text-align: center;
 `;
 
-// const nameAliases
+// const GET_EXERCISES = gql`
+//   query($sessionID: ID!) {
+//     exercises(sessionID: $sessionID) {
+//       # id
+//       # name
+//       ... on TimeDistanceExercise {
+//         timedistancename: name
+//         id
+//       }
+//       ... on FreeWeightExercise {
+//         freewieghtname: name
+//         id
+//       }
 
-const GET_EXERCISES = gql`
-  query($sessionID: ID!) {
-    exercises(sessionID: $sessionID) {
-      # id
-      # name
-      ... on TimeDistanceExercise {
-        timedistancename: name
-        id
-      }
-      ... on FreeWeightExercise {
-        freewieghtname: name
-        id
-      }
-
-      ... on WeightMachineExercise {
-        weightname: name
-        id
-      }
-    }
-  }
-`;
+//       ... on WeightMachineExercise {
+//         weightname: name
+//         id
+//       }
+//     }
+//   }
+// `;
 
 const CREATE_EXERCISE = gql`
   mutation createExercise($data: CreateExerciseInput!) {
@@ -42,6 +40,7 @@ const CREATE_EXERCISE = gql`
   }
 `;
 
+// TODO: populate from API
 const exerciseOptions = [
   { name: 'Treadmill', value: 'Treadmill' },
   { name: 'Leg press', value: 'Leg press' },
@@ -76,6 +75,9 @@ const ExercisePage = ({ sessionID }) => {
     });
   };
 
+  if (loading) return <div>{LOADING_MESSAGE}</div>;
+  if (error) return <div>{ERROR_MESSAGE}</div>;
+
   return (
     <>
       <ExercisesList exercises={data && data.exercises} />
@@ -84,8 +86,6 @@ const ExercisePage = ({ sessionID }) => {
       )}
       {addExericseResponse.loading && <div>loading</div>}
       <ExerciseSelect
-        loading={loading}
-        error={error}
         onChange={e => setExerciseOption(e.target.value)}
         exerciseOptions={exerciseOptions}
       />

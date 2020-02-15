@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { gql } from 'apollo-boost';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
-import { Layout, SessionsList, Button } from '../index';
-import styled from 'styled-components';
+import { SessionsList, Button } from '../index';
 
 export const LOADING_MESSAGE = 'loading sessions';
 export const ERROR_MESSAGE = 'error fetching sessions';
@@ -45,8 +44,6 @@ function Sessions() {
       ]
     });
   };
-
-  // https://www.nearform.com/blog/introducing-graphql-hooks/
 
   if (loading) return <div>{LOADING_MESSAGE}</div>;
   if (error) return <div>{ERROR_MESSAGE}</div>;
