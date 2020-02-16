@@ -29,7 +29,7 @@ const Navigation = () => {
           </Link>
         </ListItem>
 
-        <Link href="/user">
+        <Link href="/account">
           <ListItem>
             <Anchor>
               <FontAwesomeIcon icon="user" />
