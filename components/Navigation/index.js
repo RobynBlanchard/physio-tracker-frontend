@@ -1,8 +1,14 @@
 import Link from 'next/link';
 import { Anchor, ListItem, List, Nav } from './style';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuth } from '../../context/authentication';
 
 const Navigation = () => {
+  // did mount -> fetch user from cookie and login
+
+  const { user } = useAuth();
+  const accountLink = user && user.token ? '/account' : '/signIn';
+
   return (
     <Nav>
       <List>
@@ -29,7 +35,7 @@ const Navigation = () => {
           </Link>
         </ListItem>
 
-        <Link href="/account">
+        <Link href={accountLink}>
           <ListItem>
             <Anchor>
               <FontAwesomeIcon icon="user" />

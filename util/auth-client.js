@@ -1,10 +1,16 @@
 import Cookies from 'js-cookie';
 
-const register = (token) => {
+const register = (token, name) => {
   Cookies.set('authToken', token);
+  Cookies.set('name', name);
 };
 
-export default { register };
+const logout = () => {
+  Cookies.remove('authToken');
+  Cookies.remove('name');
+};
+
+export default { register, logout };
 // import client from './api-client'
 
 // const localStorageKey = '__bookshelf_token__'
