@@ -55,7 +55,7 @@ function SignIn() {
   }
 
   return (
-    <Layout title={'Account'}>
+    <Layout title={'Sign in'}>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">Email:</label>
@@ -88,7 +88,7 @@ function SignIn() {
       <div>
         <p>Not got an account?</p>
         <Link href="/register">
-          Create one 
+          <a>Create one</a>
         </Link>
       </div>
       <style jsx>{``}</style>

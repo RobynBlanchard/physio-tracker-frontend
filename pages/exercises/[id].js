@@ -61,10 +61,6 @@ const Exercises = () => {
     });
   };
 
-  console.log('data', data);
-  console.log('loading', loading);
-  console.log('error', error);
-
   return (
     <Layout title={'Your workout'}>
       <ExercisesList exercises={data && data.exercises} />

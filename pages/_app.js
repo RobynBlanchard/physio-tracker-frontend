@@ -1,29 +1,18 @@
-// import App from 'next/app';
-// import withApollo from '../util/apollo-client';
-
-// class CustomApp extends App {
-//   render() {
-//     const { Component, pageProps } = this.props;
-
-//     return (
-//       <Component {...pageProps} />
-//     );
-//   }
-// }
-
-// export default withApollo(CustomApp);
-
-// // TODO: userContext - to pass through user id
-// https://www.apollographql.com/docs/react/networking/authentication/
 import React from 'react';
 import App from 'next/app';
 import { ApolloProvider } from '@apollo/react-hooks';
 
 import withData from '../util/apollo-client';
-import {AuthProvider} from '../context/authentication';
+import { AuthProvider, useAuth } from '../context/authentication';
 class MyApp extends App {
   render() {
     const { Component, pageProps, apollo } = this.props;
+    // const { login, user, logout } = useAuth();
+    console.log(useAuth)
+
+    console.log(user)
+    console.log(login )
+
     return (
       <ApolloProvider client={apollo}>
         <AuthProvider>
@@ -34,9 +23,7 @@ class MyApp extends App {
   }
 }
 
-// Wraps all components in the tree with the data provider
 export default withData(MyApp);
-
 
 // TODO
 // import React from 'react'

@@ -10,10 +10,12 @@ function AuthProvider(props) {
 
   const login = (token, name, email) => {
     authClient.register(token, name);
-    console.log('log in', token)
-    console.log('log in', name)
+    console.log('set user')
+    console.log(token)
+    console.log(name)
+
     return setUser({ token, name });
-  }; // make a login request
+  }; 
 
   const register = (token, name, email) => {
     authClient.register(token, name);

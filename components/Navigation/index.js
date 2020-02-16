@@ -6,8 +6,11 @@ import { useAuth } from '../../context/authentication';
 const Navigation = () => {
   // did mount -> fetch user from cookie and login
 
-  const { user } = useAuth();
-  const accountLink = user && user.token ? '/account' : '/signIn';
+  // TODO: fix
+  // const { user } = useAuth();
+  // const accountLink = user && user.token ? '/account' : '/signIn';
+  // console.log('==========user', user);
+
 
   return (
     <Nav>
@@ -35,7 +38,7 @@ const Navigation = () => {
           </Link>
         </ListItem>
 
-        <Link href={accountLink}>
+        <Link href={'/account'}>
           <ListItem>
             <Anchor>
               <FontAwesomeIcon icon="user" />

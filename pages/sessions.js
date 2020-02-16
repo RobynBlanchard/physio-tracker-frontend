@@ -6,16 +6,15 @@ import { Layout, SessionsList, Button } from '../components';
 
 const GET_SESSIONS = gql`
   {
-    sessions(userID: "1") {
+    sessions {
       date
       id
     }
-  },
-  
+  }
 `;
 
 const CREATE_SESSION = gql`
-  mutation createSession($data: CreateSessionInput) {
+  mutation createSession($data: CreatSessionInput) {
     createSession(data: $data) {
       id
       date
@@ -30,28 +29,22 @@ function Sessions() {
 
   const handleAddSession = date => {
     return addSession({
-      variables: { data: { user: '1', date } },
+      variables: { data: { date } },
       refetchQueries: [
         {
-          query: GET_SESSIONS,
-          variables: { userID: '1' }
+          query: GET_SESSIONS
         }
       ]
     });
   };
 
-  console.log('data', data);
-  console.log('loading', loading)
-  console.log('error', error)
-
-
-
-// https://www.nearform.com/blog/introducing-graphql-hooks/
-
-
   return (
     <Layout title={'Sessions'}>
-      <SessionsList sessions={data && data.sessions} loading={loading} error={error} />
+      <SessionsList
+        sessions={data && data.sessions}
+        loading={loading}
+        error={error}
+      />
       {addSessionResponse.error && (
         <div>{addSessionResponse.error.message}</div>
       )}

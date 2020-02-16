@@ -2,19 +2,29 @@ import Router from 'next/router';
 import { Layout } from '../components';
 import { useAuth } from '../context/authentication';
 import { useEffect } from 'react';
-import Cookie from 'js-cookie';
-// TODO: on refresh if cookie in storage then log in
+import Cookies from 'js-cookie';
 
 function Account() {
-  const { logout, user } = useAuth();
+  const { login, user, logout } = useAuth();
 
   useEffect(() => {
     if (!user || !user.token) {
+      const token = Cookies.get('authToken');
+    if (token) {
+      const name = Cookies.get('name');
+
+      console.log('lay, log in');
+      login(token, name);
+    } else {
+
+      console.log('account, sign in');
       Router.push('/signIn');
+    }
     }
   }, []);
 
   const handleLogOut = () => {
+    console.log('account, log out');
     logout();
     Router.push('/signIn');
   };
