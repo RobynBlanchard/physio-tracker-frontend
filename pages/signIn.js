@@ -25,6 +25,7 @@ function SignIn() {
   // move login logic to authentication?
 
   const signInUser = () => {
+    console.log('sign in ')
     return signIn({
       variables: {
         data: {

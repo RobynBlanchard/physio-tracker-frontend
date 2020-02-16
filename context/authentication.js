@@ -3,19 +3,25 @@
 
 import React from 'react';
 import authClient from '../util/auth-client';
+import Cookies from 'js-cookie';
 // import {FullPageSpinner} from '../components/lib'
 const AuthContext = React.createContext();
 function AuthProvider(props) {
-  const [user, setUser] = React.useState(null);
+  const defaultUser = () => {
+    const token = Cookies.get('authToken');
+    const name = Cookies.get('name');
+    return {
+      token,
+      name
+    };
+  };
+  const [user, setUser] = React.useState(defaultUser()); //TODO: fetch user token on server and pass down app
 
   const login = (token, name, email) => {
     authClient.register(token, name);
-    console.log('set user')
-    console.log(token)
-    console.log(name)
-
+    console.log('log in action');
     return setUser({ token, name });
-  }; 
+  };
 
   const register = (token, name, email) => {
     authClient.register(token, name);

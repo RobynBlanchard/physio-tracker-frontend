@@ -3,8 +3,8 @@ import { colors } from '../styles';
 import { Layout } from '../components';
 import '../components/Icons';
 
-const Home = () => (
-    <Layout>
+const Home = (props) => (
+  <Layout userAuthenticated={props.userAuthenticated}>
       <div className="content">
         <h1>Physio Tracker</h1>
       </div>

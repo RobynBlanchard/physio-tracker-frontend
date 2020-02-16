@@ -2,24 +2,15 @@ import Router from 'next/router';
 import { Layout } from '../components';
 import { useAuth } from '../context/authentication';
 import { useEffect } from 'react';
-import Cookies from 'js-cookie';
 
 function Account() {
-  const { login, user, logout } = useAuth();
+  const { user, logout } = useAuth();
+  console.log(user)
 
   useEffect(() => {
     if (!user || !user.token) {
-      const token = Cookies.get('authToken');
-    if (token) {
-      const name = Cookies.get('name');
-
-      console.log('lay, log in');
-      login(token, name);
-    } else {
-
-      console.log('account, sign in');
+      console.log('did mount in account, no token => redirect => sign in');
       Router.push('/signIn');
-    }
     }
   }, []);
 
