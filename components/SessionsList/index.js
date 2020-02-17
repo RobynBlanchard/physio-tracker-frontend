@@ -9,7 +9,7 @@ const SessionsList = ({ loading, error, sessions = [] }) => {
 
     return m.format('dddd Do MMMM');
   };
-
+  console.log('SESSIONS', sessions);
   if (loading) return <div>loading</div>;
   if (error) return <div>error fetching sessions</div>;
 

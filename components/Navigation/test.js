@@ -1,7 +1,15 @@
 import { shallow } from 'enzyme';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuth } from '../../context/authentication';
 
+jest.mock('../../context/authentication');
+
+useAuth.mockReturnValue({
+  user: {
+    token: '123'
+  }
+});
 import Navigation from './';
 
 describe('Navigation', () => {
@@ -10,7 +18,7 @@ describe('Navigation', () => {
     { link: '/', icon: 'home' },
     { link: '/sessions', icon: 'dumbbell' },
     { link: '/analysis', icon: 'chart-line' },
-    { link: '/user', icon: 'user' }
+    { link: '/account', icon: 'user' }
   ];
 
   it('renders a link with the correct href and icon', () => {
