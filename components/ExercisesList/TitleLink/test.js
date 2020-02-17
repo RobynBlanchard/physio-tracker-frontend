@@ -11,8 +11,8 @@ describe('TitleLink', () => {
     const linkFound = component.find(Link);
 
     expect(linkFound.length).toEqual(1);
-    expect(linkFound.prop('href')).toEqual('/session/exercise/[id]');
-    expect(linkFound.prop('as')).toEqual('/session/exercise/Go to exercise');
+    expect(linkFound.prop('href')).toEqual('/exercises/sets/[id]');
+    expect(linkFound.prop('as')).toEqual('/exercises/sets/Go to exercise');
   });
 
   it('renders text', () => {

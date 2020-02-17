@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import SessionsList from '.';
 import { shallow } from 'enzyme';
-import { Text } from './style';
+import { ListItem, Text } from './style';
 
 describe('SessionsList', () => {
   const sessions = [
@@ -10,7 +10,7 @@ describe('SessionsList', () => {
     { id: 3, date: '2019-01-10' }
   ];
   const component = shallow(<SessionsList sessions={sessions} />);
-  const listItems = component.find('ul');
+  const listItems = component.find(ListItem);
   const listItem = listItems.at(0);
 
   it('rends a list item for each item', () => {
@@ -39,8 +39,8 @@ describe('SessionsList', () => {
     it('renders a link', () => {
       const link = listItem.find(Link);
 
-      expect(link.prop('href')).toEqual('/session/[id]');
-      expect(link.prop('as')).toEqual('/session/1');
+      expect(link.prop('href')).toEqual('/exercises/[id]');
+      expect(link.prop('as')).toEqual('/exercises/1');
     });
   });
 });

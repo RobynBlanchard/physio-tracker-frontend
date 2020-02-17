@@ -3,19 +3,19 @@ import { gql } from 'apollo-boost';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { Layout, SessionsList, Button } from '../components';
+import { useAuth } from '../context/authentication';
 
 const GET_SESSIONS = gql`
   {
-    sessions(userID: "1") {
+    sessions {
       date
       id
     }
-  },
-  
+  }
 `;
 
 const CREATE_SESSION = gql`
-  mutation createSession($data: CreateSessionInput) {
+  mutation createSession($data: CreatSessionInput) {
     createSession(data: $data) {
       id
       date
@@ -27,31 +27,26 @@ function Sessions() {
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
   const [addSession, addSessionResponse] = useMutation(CREATE_SESSION);
   const { loading, error, data } = useQuery(GET_SESSIONS);
-
+  const { user } = useAuth();
+  console.log(user)
   const handleAddSession = date => {
     return addSession({
-      variables: { data: { user: '1', date } },
+      variables: { data: { date } },
       refetchQueries: [
         {
-          query: GET_SESSIONS,
-          variables: { userID: '1' }
+          query: GET_SESSIONS
         }
       ]
     });
   };
 
-  console.log('data', data);
-  console.log('loading', loading)
-  console.log('error', error)
-
-
-
-// https://www.nearform.com/blog/introducing-graphql-hooks/
-
-
   return (
     <Layout title={'Sessions'}>
-      <SessionsList sessions={data && data.sessions} loading={loading} error={error} />
+      <SessionsList
+        sessions={data && data.sessions}
+        loading={loading}
+        error={error}
+      />
       {addSessionResponse.error && (
         <div>{addSessionResponse.error.message}</div>
       )}
