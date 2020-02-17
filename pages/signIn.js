@@ -2,9 +2,37 @@ import Router from 'next/router';
 import Link from 'next/link';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { Layout } from '../components';
+import { Layout, Button, FormInput } from '../components';
 import { useAuth } from '../context/authentication';
 import useForm from '../util/useForm';
+import styled from 'styled-components';
+
+const Form = styled.form`
+  display: flex;
+  align-items: column;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SecondaryLinkWrapper = styled.div`
+  text-align: center;
+`;
+
+const SecondaryLinkText = styled.p`
+  color: turquoise;
+`;
+
+const SecondaryLink = styled.a`
+  color: aliceblue;
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
+const InputContainer = styled.div`
+  width: 80%;
+  text-align: left;
+`;
 
 const SIGN_IN = gql`
   mutation login($data: LoginUserInput!) {
@@ -22,10 +50,7 @@ function SignIn() {
   const [signIn, signInResponse] = useMutation(SIGN_IN);
   const { login, user } = useAuth();
 
-  // move login logic to authentication?
-
   const signInUser = () => {
-    console.log('sign in ')
     return signIn({
       variables: {
         data: {
@@ -57,41 +82,43 @@ function SignIn() {
 
   return (
     <Layout title={'Sign in'}>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
+      <Form onSubmit={handleSubmit}>
+        <InputContainer>
+          <FormInput
             name="email"
+            type="email"
             onChange={handleInputChange}
             value={inputs.email}
+            label="Email"
             required
           />
-        </div>
+        </InputContainer>
 
-        <div>
-          <label htmlFor="password">Password (8 characters minimum):</label>
-          <input
-            type="password"
-            id="password"
+        <InputContainer>
+          <FormInput
             name="password"
-            minLength="8"
+            type="password"
             onChange={handleInputChange}
             value={inputs.password}
+            label="Password"
             required
+            minLength="8"
           />
-        </div>
+        </InputContainer>
         <div>{signInResponse.error && signInResponse.error.message}</div>
 
-        <input type="submit" value="Sign in" />
-      </form>
-      <div>
-        <p>Not got an account?</p>
-        <Link href="/register">
-          <a>Create one</a>
-        </Link>
-      </div>
+        <Button type="submit" value="Sign in">
+          Sign in
+        </Button>
+      </Form>
+      <SecondaryLinkWrapper>
+        <SecondaryLinkText>
+          Don't have an account?{' '}
+          <Link href="/register">
+            <SecondaryLink>Register now</SecondaryLink>
+          </Link>
+        </SecondaryLinkText>
+      </SecondaryLinkWrapper>
       <style jsx>{``}</style>
     </Layout>
   );

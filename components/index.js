@@ -1,6 +1,7 @@
 import Button from './Button';
 import ExercisesList from './ExercisesList';
 import ExerciseSelect from './ExerciseSelect';
+import FormInput from './FormInput';
 import Header from './Header';
 import Layout from './Layout';
 import SessionsList from './SessionsList';
@@ -19,5 +20,6 @@ export {
   Navigation,
   NavigationTab,
   Table,
-  ToggleSwitch
+  ToggleSwitch,
+  FormInput
 };

@@ -3,6 +3,7 @@ import { gql } from 'apollo-boost';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { Layout, SessionsList, Button } from '../components';
+import { useAuth } from '../context/authentication';
 
 const GET_SESSIONS = gql`
   {
@@ -26,7 +27,8 @@ function Sessions() {
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
   const [addSession, addSessionResponse] = useMutation(CREATE_SESSION);
   const { loading, error, data } = useQuery(GET_SESSIONS);
-
+  const { user } = useAuth();
+  console.log(user)
   const handleAddSession = date => {
     return addSession({
       variables: { data: { date } },

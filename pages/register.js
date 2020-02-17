@@ -1,9 +1,23 @@
 import Router from 'next/router';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { Layout } from '../components';
+import { Layout, FormInput, Button } from '../components';
 import { useAuth } from '../context/authentication';
 import useForm from '../util/useForm';
+import styled from 'styled-components';
+
+const Form = styled.form`
+  display: flex;
+  align-items: column;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const InputContainer = styled.div`
+  width: 80%;
+  text-align: left;
+`;
 
 const CREATE_USER = gql`
   mutation createUser($data: CreateUserInput) {
@@ -16,6 +30,7 @@ const CREATE_USER = gql`
     }
   }
 `;
+
 function Account() {
   const [addUser, addUserResponse] = useMutation(CREATE_USER);
   const { register, user } = useAuth();
@@ -36,7 +51,6 @@ function Account() {
     createAccount
   );
 
-
   // move to component did mount ???
   // without !user || !user.token - get max depth exceeded error
   if (addUserResponse.data && (!user || !user.token)) {
@@ -50,10 +64,7 @@ function Account() {
   }
 
   if (addUserResponse.data && user && user.token) {
-    Router.push('/');
-    // Or redirect to signed in page
-    // hello, R
-    // sign out
+    Router.push('/account');
   }
 
   console.log(user);
@@ -61,46 +72,45 @@ function Account() {
 
   return (
     <Layout title={'Account'}>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
+      <Form onSubmit={handleSubmit}>
+        <InputContainer>
+          <FormInput
             name="name"
+            type="text"
             onChange={handleInputChange}
-            value={inputs.firstName}
+            value={inputs.name}
+            label="Name"
             required
           />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
+        </InputContainer>
+        <InputContainer>
+          <FormInput
             name="email"
+            type="email"
             onChange={handleInputChange}
             value={inputs.email}
+            label="Email"
             required
           />
-        </div>
+        </InputContainer>
 
-        <div>
-          <label htmlFor="password">Password (8 characters minimum):</label>
-          <input
-            type="password"
-            id="password"
+        <InputContainer>
+          <FormInput
             name="password"
-            minLength="8"
+            type="password"
             onChange={handleInputChange}
             value={inputs.password}
+            label="Password"
             required
+            minLength="8"
           />
-        </div>
+        </InputContainer>
         <div>{addUserResponse.error && addUserResponse.error.message}</div>
 
-        <input type="submit" value="Create account" />
-      </form>
+        <Button type="submit" value="Sign in">
+          Create account
+        </Button>
+      </Form>
       <style jsx>{``}</style>
     </Layout>
   );
