@@ -5,11 +5,10 @@ import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import fetch from 'isomorphic-unfetch';
 import Cookies from 'js-cookie';
-// Update the GraphQL endpoint to any instance of GraphQL that you like
-// const GRAPHQL_URL = 'https://radiant-harbor-05701.herokuapp.com/';
-// const GRAPHQL_URL = 'https://lit-inlet-86349.herokuapp.com/';
 
-const GRAPHQL_URL = 'http://localhost:4000/';
+const GRAPHQL_URL = 'https://lit-inlet-86349.herokuapp.com/';
+
+// const GRAPHQL_URL = 'http://localhost:4000/';
 
 const httpLink = createHttpLink({
   fetch,
