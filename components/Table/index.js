@@ -1,7 +1,7 @@
 import { arrayOf, string, shape } from 'prop-types';
 import { TableStyle, TableRow, TableHeader, TableData } from './style';
 
-const Table = ({ tableHeadings, rowData }) => {
+const Table = ({ tableHeadings = [], rowData = [] }) => {
   return (
     <TableStyle>
       <thead>

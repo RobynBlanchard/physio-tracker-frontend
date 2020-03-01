@@ -7,10 +7,12 @@ import fetch from 'isomorphic-unfetch';
 import Cookies from 'js-cookie';
 // Update the GraphQL endpoint to any instance of GraphQL that you like
 // const GRAPHQL_URL = 'https://radiant-harbor-05701.herokuapp.com/';
-const GRAPHQL_URL = 'https://lit-inlet-86349.herokuapp.com/';
+// const GRAPHQL_URL = 'https://lit-inlet-86349.herokuapp.com/';
+
+const GRAPHQL_URL = 'http://localhost:4000/';
 
 const httpLink = createHttpLink({
-  fetch, // Switches between unfetch & node-fetch for client & server.
+  fetch,
   uri: GRAPHQL_URL
 });
 
@@ -21,22 +23,20 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : ''
     }
-  }
+  };
 });
-
 
 // Export a HOC from next-with-apollo
 // Docs: https://www.npmjs.com/package/next-with-apollo
+
+// const GRAPHQL_URL = 'https://radiant-harbor-05701.herokuapp.com/';
+
 export default withApollo(
-  // You can get headers and ctx (context) from the callback params
-  // e.g. ({ headers, ctx, initialState })
   ({ initialState }) =>
     new ApolloClient({
       link: authLink.concat(httpLink),
-      cache: new InMemoryCache()
-        //  rehydrate the cache using the initial data passed from the server:
-        .restore(initialState || {})
+      cache: new InMemoryCache().restore(initialState || {})
     })
 );

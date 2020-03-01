@@ -35,8 +35,7 @@ function Account() {
   const [addUser, addUserResponse] = useMutation(CREATE_USER);
   const { register, user } = useAuth();
   const createAccount = () => {
-    debugger;
-    return addUser({
+      return addUser({
       variables: {
         data: {
           name: inputs.name,

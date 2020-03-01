@@ -4,45 +4,46 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { Layout, SessionsList, Button } from '../components';
 import { useAuth } from '../context/authentication';
+import SessionPage from '../components/SessionPage';
+// const GET_SESSIONS = gql`
+//   {
+//     sessions {
+//       date
+//       id
+//     }
+//   }
+// `;
 
-const GET_SESSIONS = gql`
-  {
-    sessions {
-      date
-      id
-    }
-  }
-`;
-
-const CREATE_SESSION = gql`
-  mutation createSession($data: CreatSessionInput) {
-    createSession(data: $data) {
-      id
-      date
-    }
-  }
-`;
+// const CREATE_SESSION = gql`
+//   mutation createSession($data: CreatSessionInput) {
+//     createSession(data: $data) {
+//       id
+//       date
+//     }
+//   }
+// `;
 
 function Sessions() {
-  const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
-  const [addSession, addSessionResponse] = useMutation(CREATE_SESSION);
-  const { loading, error, data } = useQuery(GET_SESSIONS);
-  const { user } = useAuth();
-  console.log(user)
-  const handleAddSession = date => {
-    return addSession({
-      variables: { data: { date } },
-      refetchQueries: [
-        {
-          query: GET_SESSIONS
-        }
-      ]
-    });
-  };
+  // const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
+  // const [addSession, addSessionResponse] = useMutation(CREATE_SESSION);
+  // const { loading, error, data } = useQuery(GET_SESSIONS);
+  // const { user } = useAuth();
+  // console.log(user)
+  // const handleAddSession = date => {
+  //   return addSession({
+  //     variables: { data: { date } },
+  //     refetchQueries: [
+  //       {
+  //         query: GET_SESSIONS
+  //       }
+  //     ]
+  //   });
+  // };
 
   return (
     <Layout title={'Sessions'}>
-      <SessionsList
+      <SessionPage />
+      {/* <SessionsList
         sessions={data && data.sessions}
         loading={loading}
         error={error}
@@ -63,26 +64,7 @@ function Sessions() {
         <Button onClick={() => handleAddSession(startDate)}>
           Add session +
         </Button>
-      </div>
-      <style jsx>{`
-        .button-align,
-        .input-align {
-          text-align: center;
-        }
-
-        .input-align {
-          padding: 20px;
-        }
-
-        input {
-          font-family: inherit;
-          padding: 4px 12px;
-        }
-
-        input:focus {
-          outline: 2px solid #1d75c7;
-        }
-      `}</style>
+      </div> */} 
     </Layout>
   );
 }

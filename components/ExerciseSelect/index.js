@@ -1,14 +1,22 @@
+import styled from 'styled-components';
 import { arrayOf, shape, string, func } from 'prop-types';
+
+const Wrapper = styled.div`
+  padding: 8px;
+  text-align: center;
+`;
 
 const ExerciseSelect = ({ exerciseOptions, onChange }) => {
   return (
-    <select onChange={onChange}>
-      {exerciseOptions.map(exercise => (
-        <option value={exercise.value} key={exercise.value}>
-          {exercise.name}
-        </option>
-      ))}
-    </select>
+    <Wrapper>
+      <select onChange={onChange}>
+        {exerciseOptions.map(exercise => (
+          <option value={exercise.value} key={exercise.value}>
+            {exercise.name}
+          </option>
+        ))}
+      </select>
+    </Wrapper>
   );
 };
 

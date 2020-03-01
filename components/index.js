@@ -9,6 +9,10 @@ import Navigation from './Navigation';
 import NavigationTab from './NavigationTab';
 import Table from './Table';
 import ToggleSwitch from './ToggleSwitch';
+import SetRepWeights from './SetRepWeights';
+import SetTimeDistance from './SetTimeDistance';
+import InputBlock from './InputBlock';
+import ExercisePage from './ExercisePage';
 
 export {
   Button,
@@ -21,5 +25,9 @@ export {
   NavigationTab,
   Table,
   ToggleSwitch,
-  FormInput
+  FormInput,
+  SetRepWeights,
+  SetTimeDistance,
+  InputBlock,
+  ExercisePage
 };

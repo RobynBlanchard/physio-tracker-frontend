@@ -5,25 +5,22 @@ import TitleLink from './TitleLink';
 import ExerciseSummary from './ExerciseSummary';
 import { arrayOf, string, shape } from 'prop-types';
 
-const ExercisesList = ({ loading, error, exercises = [] }) => {
+const ExercisesList = ({ exercises = [] }) => {
   const [toggleAll, setToggleAll] = useState(false);
 
   const handleToggleAll = () => {
     setToggleAll(prevState => !toggleAll);
   };
 
-  if (loading) return <div>loading</div>;
-  if (error) return <div>error fetching exercises</div>;
-
   return (
     <>
       {exercises.length > 0 && <ToggleSwitch onClick={handleToggleAll} />}
       <ExerciseListWrapper>
         {exercises.map(exercise => {
-          const { name } = exercise;
+          const { name, id } = exercise;
           return (
             <React.Fragment key={name}>
-              <TitleLink title={name} />
+              <TitleLink title={name} exerciseId={id}/>
 
               <Wrapper open={toggleAll}>
                 <ExerciseSummary sets={3} reps={12} weight={17.5} />
