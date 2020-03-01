@@ -42,13 +42,16 @@ const CREATE_EXERCISE = gql`
 
 // TODO: populate from API
 const exerciseOptions = [
-  { name: 'Treadmill', value: 'Treadmill' },
-  { name: 'Leg press', value: 'Leg press' },
-  { name: 'Leg extension', value: 'Leg extension' },
-  { name: 'Hamstring curls', value: 'Hamstring curls' },
-  { name: 'Exercise bike', value: 'Exercise bike' },
-  { name: 'Squats', value: 'Squats' },
-  { name: 'Deadlift', value: 'Deadlift' }
+  { name: 'Treadmill', value: 'TREADMILL' },
+  { name: 'Leg press left leg', value: 'LEG_PRESS_LEFT_LEG' },
+  { name: 'Leg press right leg', value: 'LEG_PRESS_RIGHT_LEG' },
+  { name: 'Leg press both legs', value: 'LEG_PRESS_BOTH_LEGS' },
+  { name: 'Hamstring curls left leg', value: 'HAMSTRING_CURL_LEFT_LEG' },
+  { name: 'Hamstring curls right leg', value: 'HAMSTRING_CURL_RIGHT_LEG' },
+  { name: 'Hamstring curls both legs', value: 'HAMSTRING_CURL_BOTH_LEGS' },
+  { name: 'Exercise bike', value: 'SPINNING_BIKE' },
+  { name: 'Squats', value: 'SQUAT' },
+  { name: 'Deadlift', value: 'DEADLIFT' }
 ];
 
 const ExercisePage = ({ sessionID }) => {

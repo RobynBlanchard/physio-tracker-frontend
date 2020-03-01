@@ -6,11 +6,9 @@ import { InputBlock, Table, Button } from '../index';
 const GET_SETS = gql`
   query($exerciseID: ID!) {
     sets(exerciseID: $exerciseID) {
-      ... on TimeDistanceSet {
-        time
-        distance
-        id
-      }
+      time
+      distance
+      id
     }
   }
 `;

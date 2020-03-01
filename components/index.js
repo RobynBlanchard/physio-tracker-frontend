@@ -8,9 +8,8 @@ import Navigation from './Navigation';
 import NavigationTab from './NavigationTab';
 import Table from './Table';
 import ToggleSwitch from './ToggleSwitch';
-import SetFreeWeights from './SetFreeWeights';
+import SetRepWeights from './SetRepWeights';
 import SetTimeDistance from './SetTimeDistance';
-import SetWeightMachine from './SetWeightMachine';
 import InputBlock from './InputBlock';
 import ExercisePage from './ExercisePage';
 
@@ -25,9 +24,8 @@ export {
   NavigationTab,
   Table,
   ToggleSwitch,
-  SetFreeWeights,
+  SetRepWeights,
   SetTimeDistance,
-  SetWeightMachine,
   InputBlock,
   ExercisePage
 };

@@ -6,34 +6,19 @@ import { InputBlock, Table, Button } from '../index';
 const GET_SETS = gql`
   query($exerciseID: ID!) {
     sets(exerciseID: $exerciseID) {
-      ... on FreeWeightsSet {
-        id
-        set {
-          weight
-          reps
-        }
-      }
+      id
+      weight
+      reps
     }
   }
 `;
 
-const SetFreeWeights = ({ exerciseID }) => {
+const SetRepWeights = ({ exerciseID }) => {
   const [inputWeight, setInputWeight] = useState();
   const [inputReps, setInputReps] = useState();
   const { loading, error, data } = useQuery(GET_SETS, {
     variables: { exerciseID: exerciseID }
   });
-
-  console.log(data);
-
-  const transform = data => {
-    const sets = data.sets;
-    return sets.map(set => ({
-      id: set.id,
-      weight: set.set.weight,
-      reps: set.set.reps
-    }));
-  };
 
   const tableHeadings = [
     { colID: 'weight', name: 'Weight (kg)' },
@@ -42,7 +27,7 @@ const SetFreeWeights = ({ exerciseID }) => {
 
   return (
     <div>
-      <Table tableHeadings={tableHeadings} rowData={transform(data)} />
+      <Table tableHeadings={tableHeadings} rowData={data.sets} />
 
       <div className="input-align">
         <InputBlock
@@ -73,4 +58,4 @@ const SetFreeWeights = ({ exerciseID }) => {
   );
 };
 
-export default SetFreeWeights;
+export default SetRepWeights;
