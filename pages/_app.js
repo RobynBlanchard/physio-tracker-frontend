@@ -1,11 +1,11 @@
 import React from 'react';
 import App from 'next/app';
 import { ApolloProvider } from '@apollo/react-hooks';
+import Head from 'next/head';
 
 import withData from '../util/apollo-client';
-import { AuthProvider, useAuth } from '../context/authentication';
+import { AuthProvider } from '../context/authentication';
 import Cookies from 'js-cookie';
-import Navigation from '../components/Navigation';
 
 function MyComponent({ children }) {
   // const { login, user, logout } = useAuth();
@@ -58,16 +58,22 @@ class MyApp extends App {
       userAuthenticated: userAuthenticated
     };
   }
+
   render() {
     const { Component, pageProps, apollo, userAuthenticated } = this.props;
     return (
-      <ApolloProvider client={apollo}>
-        <AuthProvider>
-          <MyComponent>
-            <Component {...pageProps} userAuthenticated={userAuthenticated} />
-          </MyComponent>
-        </AuthProvider>
-      </ApolloProvider>
+      <>
+        <Head>
+          <title>Home</title>
+        </Head>
+        <ApolloProvider client={apollo}>
+          <AuthProvider>
+            <MyComponent>
+              <Component {...pageProps} userAuthenticated={userAuthenticated} />
+            </MyComponent>
+          </AuthProvider>
+        </ApolloProvider>
+      </>
     );
   }
 }
