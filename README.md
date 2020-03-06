@@ -1,4 +1,4 @@
-https://physio-tracker.robyn1881.now.sh
+https://physio-tracker.now.sh/
 
 TODO:
 PWA
