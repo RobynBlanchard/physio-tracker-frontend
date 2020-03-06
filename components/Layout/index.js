@@ -59,7 +59,7 @@ const Layout = ({ title, children }) => {
 
         .nav-container {
           height: 20px;
-          margin-bottom: 20px;
+          margin-bottom: 50px;
           position: fixed;
           bottom: 0;
           width: 100%;

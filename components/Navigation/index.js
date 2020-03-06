@@ -13,14 +13,14 @@ const Navigation = () => {
         <ListItem>
           <Link href="/">
             <Anchor>
-              <FontAwesomeIcon icon="home" />
+              <FontAwesomeIcon icon="home" size="lg" />
             </Anchor>
           </Link>
         </ListItem>
         <ListItem>
           <Link href="/sessions">
             <Anchor>
-              <FontAwesomeIcon icon="dumbbell" />
+              <FontAwesomeIcon icon="dumbbell" size="lg" />
             </Anchor>
           </Link>
         </ListItem>
@@ -28,7 +28,7 @@ const Navigation = () => {
         <ListItem>
           <Link href="/analysis">
             <Anchor>
-              <FontAwesomeIcon icon="chart-line" />
+              <FontAwesomeIcon icon="chart-line" size="lg" />
             </Anchor>
           </Link>
         </ListItem>
@@ -36,7 +36,7 @@ const Navigation = () => {
         <Link href={accountLink}>
           <ListItem>
             <Anchor>
-              <FontAwesomeIcon icon="user" />
+              <FontAwesomeIcon icon="user" size="lg" />
             </Anchor>
           </ListItem>
         </Link>

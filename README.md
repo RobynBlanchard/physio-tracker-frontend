@@ -10,3 +10,5 @@ fix tap focus on sign up text boxes
 Update user
 Only fetch latest 10 sessions at first
 D3 for analysis
+fix margins on iphone
+remove heroky endpoint
