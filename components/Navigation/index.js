@@ -26,7 +26,8 @@ const Navigation = () => {
         </ListItem>
 
         <ListItem>
-          <Link href="/analysis">
+          {/* TODO <Link href="/analysis"> */}
+          <Link href="/#">
             <Anchor>
               <FontAwesomeIcon icon="chart-line" size="lg" />
             </Anchor>

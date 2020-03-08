@@ -3,19 +3,9 @@ import { gql } from 'apollo-boost';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { SessionsList, Button } from '../index';
-import { useAuth } from '../../context/authentication'
 
 export const LOADING_MESSAGE = 'loading sessions';
 export const ERROR_MESSAGE = 'error fetching sessions';
-
-// export const GET_SESSIONS = gql`
-//   query getSessions($userID: ID) {
-//     sessions(userID: $userID) {
-//       id
-//       date
-//     }
-//   }
-// `;
 
 export const GET_SESSIONS = gql`
   query getSessions {
@@ -25,15 +15,6 @@ export const GET_SESSIONS = gql`
     }
   }
 `;
-
-// export const CREATE_SESSION = gql`
-//   mutation createSession($data: CreateSessionInput) {
-//     createSession(data: $data) {
-//       id
-//       date
-//     }
-//   }
-// `;
 
 export const CREATE_SESSION = gql`
   mutation createSession($data: CreateSessionInput) {
@@ -45,25 +26,9 @@ export const CREATE_SESSION = gql`
 `;
 
 function Sessions() {
-  const { user } = useAuth();
-  // const userID = '1';
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
   const [addSession, addSessionResponse] = useMutation(CREATE_SESSION);
-  const { loading, error, data } = useQuery(GET_SESSIONS, {
-    // variables: { userID: user }
-  });
-
-  // const handleAddSession = date => {
-  //   return addSession({
-  //     variables: { data: { user: user, date } },
-  //     refetchQueries: [
-  //       {
-  //         query: GET_SESSIONS,
-  //         variables: { userID: user }
-  //       }
-  //     ]
-  //   });
-  // };
+  const { loading, error, data } = useQuery(GET_SESSIONS);
 
   const handleAddSession = date => {
     return addSession({

@@ -55,7 +55,6 @@ const ExercisePage = ({ sessionID }) => {
     exerciseOptions[0].value
   );
 
-  console.log(data)
   const handleAddExercise = () => {
     return addExercise({
       variables: {
