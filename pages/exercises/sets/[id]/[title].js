@@ -9,7 +9,7 @@ const Sets = () => {
   const SetLayout = exerciseToSet[title];
 
   return (
-    <Layout title={title}>
+    <Layout title={title} backgroundID={4}>
       <SetLayout exerciseID={id} />
     </Layout>
   );

@@ -3,6 +3,7 @@ import { gql } from 'apollo-boost';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
 import { SessionsList, Button } from '../index';
+import { InformationText, ErrorText } from '../../styles';
 
 export const LOADING_MESSAGE = 'loading sessions';
 export const ERROR_MESSAGE = 'error fetching sessions';
@@ -41,16 +42,18 @@ function Sessions() {
     });
   };
 
-  if (loading) return <div>{LOADING_MESSAGE}</div>;
-  if (error) return <div>{ERROR_MESSAGE}</div>;
+  if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
+  if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;
 
   return (
     <div>
       <SessionsList sessions={data && data.sessions} />
       {addSessionResponse.error && (
-        <div>{addSessionResponse.error.message}</div>
+        <ErrorText>{addSessionResponse.error.message}</ErrorText>
       )}
-      {addSessionResponse.loading && <div>adding session...</div>}
+      {addSessionResponse.loading && (
+        <InformationText>Adding session</InformationText>
+      )}
       <div className="input-align">
         <input
           value={startDate}

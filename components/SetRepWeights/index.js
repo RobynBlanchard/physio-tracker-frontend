@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
 import { InputBlock, Table, Button } from '../index';
+import { InformationText, ErrorText } from '../../styles';
 
 const GET_SETS = gql`
   query($exerciseID: ID!) {
@@ -50,8 +51,8 @@ const SetRepWeights = ({ exerciseID }) => {
     });
   };
 
-  if (loading) return <div>Loading</div>;
-  if (error) return <div>error</div>;
+  if (loading) return <InformationText>Loading</InformationText>;
+  if (error) return <ErrorText>error</ErrorText>;
 
   return (
     <div>
@@ -69,8 +70,8 @@ const SetRepWeights = ({ exerciseID }) => {
       </div>
       <div className="button-align">
         <Button onClick={handleAddSet}>Add Set +</Button>
-        {addSetResponse.error && <div>{addSetResponse.error.message}</div>}
-        {addSetResponse.loading && <div>loading</div>}
+        {addSetResponse.error && <ErrorText>{addSetResponse.error.message}</ErrorText>}
+        {addSetResponse.loading && <InformationText>loading</InformationText>}
       </div>
       <style jsx>{`
         .button-align {

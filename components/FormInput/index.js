@@ -1,5 +1,6 @@
 import { string, oneOf, func, any } from 'prop-types';
 import { StyledInput, StyledLabel } from './style';
+import { ErrorText } from '../../styles';
 
 const FormInput = ({
   name,
@@ -9,6 +10,7 @@ const FormInput = ({
   error,
   children,
   label,
+  hasDarkBackground=false,
   type = 'text',
   placeholder = undefined,
   className = undefined,
@@ -16,7 +18,7 @@ const FormInput = ({
 }) => {
   return (
     <>
-      <StyledLabel htmlFor={name}>{label}</StyledLabel>
+      <StyledLabel hasDarkBackground={hasDarkBackground} htmlFor={name}>{label}</StyledLabel>
       <StyledInput
         id={name}
         name={name}
@@ -25,11 +27,12 @@ const FormInput = ({
         onChange={onChange}
         value={value}
         className={className}
+        hasDarkBackground={hasDarkBackground}
         required
         style={error && { border: 'solid 1px red' }}
         {...props}
       />
-      {error && <p>{error}</p>}
+      {error && <ErrorText>{error}</ErrorText>}
     </>
   );
 };

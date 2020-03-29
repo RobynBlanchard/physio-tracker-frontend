@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   overflow: ${({ open }) => (open ? 'auto' : 'hidden')};
   border-bottom: 1px solid white;
   transition: max-height 0.5s, overflow 0.5s 0.5s;
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
 `;
 
 export const ExerciseListWrapper = styled.div`

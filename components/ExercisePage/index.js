@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost';
 import { useState } from 'react';
 
 import { Button, ExercisesList, ExerciseSelect } from '../../components';
+import { InformationText, ErrorText } from '../../styles';
 
 export const LOADING_MESSAGE = 'loading exercises';
 export const ERROR_MESSAGE = 'error fetching exercises';
@@ -69,14 +70,14 @@ const ExercisePage = ({ sessionID }) => {
     });
   };
 
-  if (loading) return <div>{LOADING_MESSAGE}</div>;
-  if (error) return <div>{ERROR_MESSAGE}</div>;
+  if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
+  if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;
 
   return (
     <>
       <ExercisesList exercises={data && data.exercises} />
       {addExericseResponse.error && (
-        <div>{addExericseResponse.error.message}</div>
+        <ErrorText>{addExericseResponse.error.message}</ErrorText>
       )}
       {addExericseResponse.loading && <div>loading</div>}
       <ExerciseSelect

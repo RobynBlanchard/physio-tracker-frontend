@@ -1,17 +1,16 @@
-export const colors = {
-  primary: '#29b6f6',
-  primaryLight: '#73e8ff',
-  primaryDark: '#0086c3'
-};
+import styled from 'styled-components';
 
 export const theme = {
   colors: {
-    // primary: '#29b6f6',
-    // primaryLight: '#73e8ff',
-    // primaryDark: '#0086c3'
-    primary: '#1d75c7',
-    primaryDark: '#2553bc',
-    white: '#fff'
+    primary: '#7433dd',
+    primaryDark: '#9013fe',
+    secondary: '#576cdf',
+    white: '#fff',
+    darkestGrey: '#323337',
+    darkGrey: '#858891',
+    grey: '#C3C4C3',
+    lightestGrey: '#E9E9E9',
+    red: '#F74444',
   },
   spacing: {
     XS: '8px',
@@ -30,4 +29,19 @@ export const theme = {
       L: 700
     }
   }
+};
+
+export const InformationText = styled.p`
+  font-size: 16px;
+  color: ${theme.colors.lightestGrey};
+`;
+
+export const ErrorText = styled.p`
+  font-size: 16px;
+  color: ${theme.colors.red};
+`;
+
+export const breakpoints = {
+  tablet: 768,
+  desktop: 960,
 };

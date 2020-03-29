@@ -13,6 +13,7 @@ import SetRepWeights from './SetRepWeights';
 import SetTimeDistance from './SetTimeDistance';
 import InputBlock from './InputBlock';
 import ExercisePage from './ExercisePage';
+import PageBackground from './PageBackground';
 
 export {
   Button,
@@ -29,5 +30,6 @@ export {
   SetRepWeights,
   SetTimeDistance,
   InputBlock,
-  ExercisePage
+  ExercisePage,
+  PageBackground
 };

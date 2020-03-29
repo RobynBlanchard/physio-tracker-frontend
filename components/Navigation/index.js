@@ -1,11 +1,14 @@
 import Link from 'next/link';
-import { Anchor, ListItem, List, Nav } from './style';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Anchor, ListItem, List, Nav, StyledIcon } from './style';
 import { useAuth } from '../../context/authentication';
 
-const Navigation = () => {
+const Navigation = ({backgroundID}) => {
   const { user } = useAuth();
   const accountLink = user && user.token ? '/account' : '/signIn';
+
+  const fill = [4,5].includes(backgroundID) ? '#7433dd' : 'white' ; // to do primary color
+  console.log('fill', fill)
+  console.log('fill', backgroundID)
 
   return (
     <Nav>
@@ -13,14 +16,14 @@ const Navigation = () => {
         <ListItem>
           <Link href="/">
             <Anchor>
-              <FontAwesomeIcon icon="home" size="lg" />
+              <StyledIcon fill={fill} icon="home" size="lg" />
             </Anchor>
           </Link>
         </ListItem>
         <ListItem>
           <Link href="/sessions">
             <Anchor>
-              <FontAwesomeIcon icon="dumbbell" size="lg" />
+              <StyledIcon fill={fill} icon="dumbbell" size="lg" />
             </Anchor>
           </Link>
         </ListItem>
@@ -29,7 +32,7 @@ const Navigation = () => {
           {/* TODO <Link href="/analysis"> */}
           <Link href="/#">
             <Anchor>
-              <FontAwesomeIcon icon="chart-line" size="lg" />
+              <StyledIcon fill={fill} icon="chart-line" size="lg" />
             </Anchor>
           </Link>
         </ListItem>
@@ -37,7 +40,7 @@ const Navigation = () => {
         <Link href={accountLink}>
           <ListItem>
             <Anchor>
-              <FontAwesomeIcon icon="user" size="lg" />
+              <StyledIcon fill={fill} icon="user" size="lg" />
             </Anchor>
           </ListItem>
         </Link>

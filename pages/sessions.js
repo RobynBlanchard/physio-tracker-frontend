@@ -3,7 +3,7 @@ import SessionPage from '../components/SessionPage';
 
 function Sessions() {
   return (
-    <Layout title={'Sessions'}>
+    <Layout title={'Sessions'} backgroundID={2}>
       <SessionPage />
     </Layout>
   );

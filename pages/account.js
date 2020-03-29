@@ -5,14 +5,18 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const Text = styled.h2`
-  color: white;
+  color: ${({ theme }) => theme.colors.darkestGrey};
   text-align: center;
   margin: 20px;
 `;
 
 const Wrapper = styled.div`
   text-align: center;
+`;
 
+const ProfileWrapper = styled.div`
+  text-align: center;
+  margin: 50px;
 `;
 
 function Account() {
@@ -30,7 +34,10 @@ function Account() {
   };
 
   return (
-    <Layout title={'Account'}>
+    <Layout title={'Account'} backgroundID={5}>
+      <ProfileWrapper>
+        <img src="/images/account.png" />
+      </ProfileWrapper>
       <Wrapper>
         <Text>Hello {user && user.name}</Text>
         <Button onClick={handleLogOut}>sign out</Button>

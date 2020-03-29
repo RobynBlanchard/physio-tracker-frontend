@@ -1,21 +1,25 @@
 import { ThemeProvider } from 'styled-components';
-import { string, node } from 'prop-types';
+import { string, node, number } from 'prop-types';
 import Header from '../Header';
 import Navigation from '../Navigation';
+import PageBackground from '../PageBackground';
+
 import { theme } from '../../styles';
 import '../Icons';
+import { ContentContainer, NavContainer, LayoutContainer } from './style';
 
-const Layout = ({ title, children }) => {
+const Layout = ({ title, backgroundID = 1, children }) => {
   return (
-    <div className="layout-container">
+    <LayoutContainer>
+      <PageBackground backgroundID={backgroundID} />
       <ThemeProvider theme={theme}>
-        <div className="container">
+        <ContentContainer>
           <Header title={title} />
           {children}
-        </div>
-        <div className="nav-container">
-          <Navigation />
-        </div>
+        </ContentContainer>
+        <NavContainer>
+          <Navigation backgroundID={backgroundID} />
+        </NavContainer>
       </ThemeProvider>
       <style jsx global>{`
         * {
@@ -24,56 +28,27 @@ const Layout = ({ title, children }) => {
           border: 0;
         }
 
+        #__next {
+          height: 100%;
+        }
+
         html,
         body {
           height: 100%;
         }
 
-        .layout-container {
-          display: flex;
-          justify-content: center;
-          width: 100%;
-          height: 100%;
-          // background: linear-gradient(to bottom, #1488cc, #2b32b2);
-        }
-
-        .container {
-          max-width: 780px;
-          padding: 20px;
-          width: 100%;
-        }
-
         body {
-          //   background-image: linear-gradient(
-          //     to bottom,
-          //     rgba(20, 136, 204, 0.7),
-          //     rgba(43, 50, 178, 0.8)
-          //   ),
-          //   url(/weights-image.jpg);
-          // background-size: cover;
-
-          background: linear-gradient(to bottom, #1488cc, #2b32b2);
           font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
             Helvetica, sans-serif;
         }
-
-        .nav-container {
-          height: 20px;
-          margin-bottom: 50px;
-          position: fixed;
-          bottom: 0;
-          width: 100%;
-          max-width: 780px;
-          text-align: center;
-          max-width: 960px;
-        }
       `}</style>
-    </div>
+    </LayoutContainer>
   );
 };
 
 Layout.propTypes = {
   title: string,
+  backgroundID: number,
   children: node
 };
 

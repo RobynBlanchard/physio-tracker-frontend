@@ -5,6 +5,7 @@ import { Layout, FormInput, Button } from '../components';
 import { useAuth } from '../context/authentication';
 import useForm from '../util/useForm';
 import styled from 'styled-components';
+import { ErrorText } from '../styles';
 
 const Form = styled.form`
   display: flex;
@@ -19,6 +20,11 @@ const InputContainer = styled.div`
   text-align: left;
 `;
 
+const ProfileWrapper = styled.div`
+  text-align: center;
+  margin: 50px;
+`;
+
 const CREATE_USER = gql`
   mutation createUser($data: CreateUserInput) {
     createUser(data: $data) {
@@ -30,6 +36,8 @@ const CREATE_USER = gql`
     }
   }
 `;
+
+
 
 function Account() {
   const [addUser, addUserResponse] = useMutation(CREATE_USER);
@@ -66,11 +74,11 @@ function Account() {
     Router.push('/account');
   }
 
-  console.log(user);
-  console.log(addUserResponse);
-
   return (
-    <Layout title={'Account'}>
+    <Layout title={'Register'} backgroundID={4}>
+      <ProfileWrapper>
+        <img src="/images/new-user-icon.png" />
+      </ProfileWrapper>
       <Form onSubmit={handleSubmit}>
         <InputContainer>
           <FormInput
@@ -79,7 +87,9 @@ function Account() {
             onChange={handleInputChange}
             value={inputs.name}
             label="Name"
+            hasDarkBackground
             required
+
           />
         </InputContainer>
         <InputContainer>
@@ -89,6 +99,7 @@ function Account() {
             onChange={handleInputChange}
             value={inputs.email}
             label="Email"
+            hasDarkBackground
             required
           />
         </InputContainer>
@@ -101,10 +112,11 @@ function Account() {
             value={inputs.password}
             label="Password"
             required
+            hasDarkBackground
             minLength="8"
           />
         </InputContainer>
-        <div>{addUserResponse.error && addUserResponse.error.message}</div>
+        <ErrorText>{addUserResponse.error && addUserResponse.error.message}</ErrorText>
 
         <Button type="submit" value="Sign in">
           Create account

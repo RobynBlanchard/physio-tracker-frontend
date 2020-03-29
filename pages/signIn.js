@@ -6,6 +6,7 @@ import { Layout, Button, FormInput } from '../components';
 import { useAuth } from '../context/authentication';
 import useForm from '../util/useForm';
 import styled from 'styled-components';
+import { ErrorText } from '../styles';
 
 const Form = styled.form`
   display: flex;
@@ -20,11 +21,11 @@ const SecondaryLinkWrapper = styled.div`
 `;
 
 const SecondaryLinkText = styled.p`
-  color: turquoise;
+  color: ${({ theme }) => theme.colors.darkGrey};
 `;
 
 const SecondaryLink = styled.a`
-  color: aliceblue;
+  color: ${({ theme }) => theme.colors.secondary};
   text-decoration: underline;
   cursor: pointer;
 `;
@@ -32,6 +33,12 @@ const SecondaryLink = styled.a`
 const InputContainer = styled.div`
   width: 80%;
   text-align: left;
+  margin-bottom: 10px;
+`;
+
+const ProfileWrapper = styled.div`
+  text-align: center;
+  margin: 50px;
 `;
 
 const SIGN_IN = gql`
@@ -81,7 +88,10 @@ function SignIn() {
   }
 
   return (
-    <Layout title={'Sign in'}>
+    <Layout title={'Sign in'} backgroundID={5}>
+      <ProfileWrapper>
+        <img src="/images/account.png" />
+      </ProfileWrapper>
       <Form onSubmit={handleSubmit}>
         <InputContainer>
           <FormInput
@@ -105,7 +115,7 @@ function SignIn() {
             minLength="8"
           />
         </InputContainer>
-        <div>{signInResponse.error && signInResponse.error.message}</div>
+        <ErrorText>{signInResponse.error && signInResponse.error.message}</ErrorText>
 
         <Button type="submit" value="Sign in">
           Sign in
@@ -119,7 +129,6 @@ function SignIn() {
           </Link>
         </SecondaryLinkText>
       </SecondaryLinkWrapper>
-      <style jsx>{``}</style>
     </Layout>
   );
 }

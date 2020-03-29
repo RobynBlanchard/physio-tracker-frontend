@@ -6,7 +6,7 @@ const Exercises = () => {
   const { id } = router.query;
 
   return (
-    <Layout title={'Your workout'}>
+    <Layout title={'Your workout'} backgroundID={3}>
       <ExercisePage sessionID={id} />
     </Layout>
   );

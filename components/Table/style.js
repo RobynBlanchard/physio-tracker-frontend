@@ -2,15 +2,17 @@ import styled from 'styled-components';
 
 export const TableStyle = styled.table`
   width: 100%;
-  /* margin-top: 10px; */
-  /* background: white; */
-  background: #2553bc;
+  background: ${({ theme }) => theme.colors.lightestGrey};
   border-collapse: collapse;
-  color: white;
+  color:  ${({ theme }) => theme.colors.darkestGrey};
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
 `;
 
 export const TableHeader = styled.th`
   padding: ${({ theme }) => theme.spacing.M};
+  background: ${({ theme }) => theme.colors.grey};
   width: calc(100% / 3);
   font-weight: 500;
 `;
