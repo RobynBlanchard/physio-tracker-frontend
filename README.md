@@ -1,5 +1,7 @@
 https://physio-tracker.now.sh/
 
+Credit for style guide and theme: https://www.invisionapp.com/inside-design/design-resources/fitgoal-ui-kit/
+
 TODO:
 handle auth errors
 edit and delete data
@@ -11,6 +13,5 @@ D3 for analysis
 fix margins on iphone
 remove heroku endpoint
 Display loading indicator
-Add src directory, extract style.js into folder
 Lint
 more useful log in errors
