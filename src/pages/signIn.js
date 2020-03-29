@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Layout, Button, FormInput, ErrorText } from '../components';
 import { useAuth } from '../context/authentication';
-import useForm from '../../util/useForm';
+import useForm from '../customHooks/useForm';
 import styled from 'styled-components';
 
 const Form = styled.form`

@@ -1,11 +1,10 @@
 import Router from 'next/router';
 import { useMutation } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
-import { Layout, FormInput, Button } from '../components';
-import { useAuth } from '../context/authentication';
-import useForm from '../../util/useForm';
 import styled from 'styled-components';
-import { ErrorText } from '../styles/styles';
+import { gql } from 'apollo-boost';
+import { Layout, FormInput, Button, ErrorText } from '../components';
+import { useAuth } from '../context/authentication';
+import useForm from '../customHooks/useForm';
 
 const Form = styled.form`
   display: flex;
