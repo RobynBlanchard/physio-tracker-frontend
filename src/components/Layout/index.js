@@ -2,7 +2,8 @@ import { ThemeProvider } from 'styled-components';
 import { string, node, number } from 'prop-types';
 import Header from '../Header';
 import Navigation from '../Navigation';
-import PageBackground from '../PageBackground';
+// import PageBackground from '../PageBackground';
+// import breakpoints from '../../styles/breakpoints';
 
 import theme from '../../styles/theme';
 import '../Icons';
@@ -11,7 +12,6 @@ import { ContentContainer, NavContainer, LayoutContainer } from './style';
 const Layout = ({ title, backgroundID = 1, children }) => {
   return (
     <LayoutContainer>
-      <PageBackground backgroundID={backgroundID} />
       <ThemeProvider theme={theme}>
         <ContentContainer>
           <Header title={title} />
@@ -36,11 +36,23 @@ const Layout = ({ title, backgroundID = 1, children }) => {
         body {
           height: 100%;
         }
-
+        @media (min-width: 500px) {
+          body {
+            background: lightblue url("/images/Background-${backgroundID}-desktop.png") no-repeat fixed center;
+          }
+        }
+        @media (max-width: 500px) {
+          body {
+            background: lightblue url("/images/Background-${backgroundID}.png") no-repeat fixed center;
+          }
+        }
+        
         body {
           font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-            Helvetica, sans-serif;
+          Helvetica, sans-serif;
+          background-size: cover;
         }
+
       `}</style>
     </LayoutContainer>
   );

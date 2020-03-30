@@ -26,7 +26,14 @@ function MyComponent({ children }) {
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let userAuthenticated = false;
+    console.log('_app', userAuthenticated)
     const token = Cookies.get('authToken');
+    // console.log('_app token', token)
+    // console.log('_app token', req)
+    // console.log('_app token', ctx.req.cookies)
+    var cookiee = ctx.req ? { cookie: ctx.req.headers.cookie } : undefined
+    console.log('cookie', cookiee);
+
     // const { AppToken } = nextCookie(ctx);
     if (token) {
       // TODO: expire token

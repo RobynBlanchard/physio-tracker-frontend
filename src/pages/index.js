@@ -3,8 +3,8 @@ import theme from '../styles/theme';
 import { Layout } from '../components';
 import '../components/Icons';
 
-const Home = props => (
-  <Layout userAuthenticated={props.userAuthenticated} backgroundID={1}>
+const Home = () => (
+  <Layout backgroundID={1}>
     <div className="content">
       <h1>Physio Tracker</h1>
     </div>
