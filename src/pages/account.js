@@ -34,7 +34,7 @@ function Account() {
   };
 
   return (
-    <Layout title={'Account'} backgroundID={5}>
+    <Layout title={'Account'}>
       <ProfileWrapper>
         <img src="/images/account.png" />
       </ProfileWrapper>

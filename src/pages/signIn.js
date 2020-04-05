@@ -87,7 +87,7 @@ function SignIn() {
   }
 
   return (
-    <Layout title={'Sign in'} backgroundID={5}>
+    <Layout title={'Sign in'}>
       <ProfileWrapper>
         <img src="/images/account.png" />
       </ProfileWrapper>

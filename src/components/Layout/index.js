@@ -2,14 +2,11 @@ import { ThemeProvider } from 'styled-components';
 import { string, node, number } from 'prop-types';
 import Header from '../Header';
 import Navigation from '../Navigation';
-// import PageBackground from '../PageBackground';
-// import breakpoints from '../../styles/breakpoints';
-
 import theme from '../../styles/theme';
 import '../Icons';
 import { ContentContainer, NavContainer, LayoutContainer } from './style';
 
-const Layout = ({ title, backgroundID = 1, children }) => {
+const Layout = ({ title, children }) => {
   return (
     <LayoutContainer>
       <ThemeProvider theme={theme}>
@@ -18,7 +15,7 @@ const Layout = ({ title, backgroundID = 1, children }) => {
           {children}
         </ContentContainer>
         <NavContainer>
-          <Navigation backgroundID={backgroundID} />
+          <Navigation />
         </NavContainer>
       </ThemeProvider>
       <style jsx global>{`
@@ -36,23 +33,12 @@ const Layout = ({ title, backgroundID = 1, children }) => {
         body {
           height: 100%;
         }
-        @media (min-width: 500px) {
-          body {
-            background: lightblue url("/images/Background-${backgroundID}-desktop.png") no-repeat fixed center;
-          }
-        }
-        @media (max-width: 500px) {
-          body {
-            background: lightblue url("/images/Background-${backgroundID}.png") no-repeat fixed center;
-          }
-        }
         
         body {
           font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
           Helvetica, sans-serif;
-          background-size: cover;
+          background: linear-gradient(${theme.colors.primary}, ${theme.colors.secondary}, ${theme.colors.teritary});
         }
-
       `}</style>
     </LayoutContainer>
   );
@@ -60,7 +46,6 @@ const Layout = ({ title, backgroundID = 1, children }) => {
 
 Layout.propTypes = {
   title: string,
-  backgroundID: number,
   children: node
 };
 

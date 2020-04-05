@@ -2,12 +2,9 @@ import Link from 'next/link';
 import { Anchor, ListItem, List, Nav, StyledIcon } from './style';
 import { useAuth } from '../../context/authentication';
 
-const Navigation = ({backgroundID}) => {
+const Navigation = () => {
   const { user } = useAuth();
   const accountLink = user && user.token ? '/account' : '/signIn';
-
-  const fill = [4,5].includes(backgroundID) ? '#7433dd' : 'white' ; // to do primary color
-
 
   return (
     <Nav>
@@ -15,14 +12,14 @@ const Navigation = ({backgroundID}) => {
         <ListItem>
           <Link href="/">
             <Anchor>
-              <StyledIcon fill={fill} icon="home" size="lg" />
+              <StyledIcon icon="home" size="lg" />
             </Anchor>
           </Link>
         </ListItem>
         <ListItem>
           <Link href="/sessions">
             <Anchor>
-              <StyledIcon fill={fill} icon="dumbbell" size="lg" />
+              <StyledIcon icon="dumbbell" size="lg" />
             </Anchor>
           </Link>
         </ListItem>
@@ -31,7 +28,7 @@ const Navigation = ({backgroundID}) => {
           {/* TODO <Link href="/analysis"> */}
           <Link href="/#">
             <Anchor>
-              <StyledIcon fill={fill} icon="chart-line" size="lg" />
+              <StyledIcon icon="chart-line" size="lg" />
             </Anchor>
           </Link>
         </ListItem>
@@ -39,7 +36,7 @@ const Navigation = ({backgroundID}) => {
         <Link href={accountLink}>
           <ListItem>
             <Anchor>
-              <StyledIcon fill={fill} icon="user" size="lg" />
+              <StyledIcon icon="user" size="lg" />
             </Anchor>
           </ListItem>
         </Link>

@@ -36,20 +36,18 @@ const CREATE_USER = gql`
   }
 `;
 
-
-
 function Account() {
   const [addUser, addUserResponse] = useMutation(CREATE_USER);
   const { register, user } = useAuth();
   const createAccount = () => {
-      return addUser({
+    return addUser({
       variables: {
         data: {
           name: inputs.name,
           email: inputs.email,
-          password: inputs.password
-        }
-      }
+          password: inputs.password,
+        },
+      },
     });
   };
   const { inputs, handleInputChange, handleSubmit } = useForm(
@@ -74,7 +72,7 @@ function Account() {
   }
 
   return (
-    <Layout title={'Register'} backgroundID={4}>
+    <Layout title={'Register'}>
       <ProfileWrapper>
         <img src="/images/new-user-icon.png" />
       </ProfileWrapper>
@@ -88,7 +86,6 @@ function Account() {
             label="Name"
             hasDarkBackground
             required
-
           />
         </InputContainer>
         <InputContainer>
@@ -115,7 +112,9 @@ function Account() {
             minLength="8"
           />
         </InputContainer>
-        <ErrorText>{addUserResponse.error && addUserResponse.error.message}</ErrorText>
+        <ErrorText>
+          {addUserResponse.error && addUserResponse.error.message}
+        </ErrorText>
 
         <Button type="submit" value="Sign in">
           Create account
