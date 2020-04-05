@@ -9,18 +9,19 @@ const ExercisesList = ({ exercises = [] }) => {
   const [toggleAll, setToggleAll] = useState(false);
 
   const handleToggleAll = () => {
-    setToggleAll(prevState => !toggleAll);
+    setToggleAll((prevState) => !prevState);
   };
 
   return (
     <>
       {exercises.length > 0 && <ToggleSwitch onClick={handleToggleAll} />}
       <ExerciseListWrapper>
-        {exercises.map(exercise => {
+        {exercises.map((exercise) => {
           const { name, id } = exercise;
+
           return (
-            <React.Fragment key={name}>
-              <TitleLink title={name} exerciseId={id}/>
+            <React.Fragment key={`${name}_${id}`}>
+              <TitleLink title={name} exerciseId={id} />
 
               <Wrapper open={toggleAll}>
                 <ExerciseSummary sets={3} reps={12} weight={17.5} />
@@ -36,11 +37,11 @@ const ExercisesList = ({ exercises = [] }) => {
 ExercisesList.propTypes = {
   exercises: arrayOf(
     shape({
-      name: string
+      name: string,
 
       // exercise summary props TODO:
     })
-  )
+  ),
 };
 
 export default ExercisesList;
