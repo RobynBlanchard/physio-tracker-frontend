@@ -2,7 +2,7 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { MockedProvider } from '@apollo/react-testing';
 import { mountWithTheme } from '../../util/testing/theme';
-import { updateWrapper } from '../../util/testing/act';
+import { updateWrapper, actWait } from '../../util/testing/act';
 import Sessions, {
   GET_SESSIONS,
   CREATE_SESSION,
@@ -10,6 +10,7 @@ import Sessions, {
   ERROR_MESSAGE,
 } from '.';
 import { SessionsList, Button } from '../index';
+import wait from 'waait';
 
 it('renders without error', async () => {
   const mocks = [
@@ -99,9 +100,10 @@ it('displays an error message when the query is unsuccessful', async () => {
   expect(component.find(SessionsList).length).toEqual(0);
 });
 
-// adding a session
 describe('adding a session', () => {
-  it.only('calls create session mutation and displays refetched sessions', async () => {
+  it('calls create session mutation and displays refetched sessions', async () => {
+    Date.now = jest.fn(() => new Date(Date.UTC(2020, 1, 1)).valueOf());
+
     const mockGetSessions = {
       request: {
         query: GET_SESSIONS,
@@ -114,9 +116,9 @@ describe('adding a session', () => {
     const mockCreateSession = {
       request: {
         query: CREATE_SESSION,
-        variables: { data: { date: '2019-02-30' } },
+        variables: { data: { date: '2020-02-01' } },
       },
-      result: { data: { id: '3', date: '2019-02-30' } },
+      result: { data: { id: '3', date: '2020-02-01' } },
     };
 
     const mockRefreshedGetSessions = {
@@ -124,7 +126,7 @@ describe('adding a session', () => {
         query: GET_SESSIONS,
       },
       result: {
-        data: { sessions: [{ id: '3', date: '2019-02-30' }] },
+        data: { sessions: [{ id: '3', date: '2020-02-01' }] },
       },
     };
 
@@ -141,32 +143,25 @@ describe('adding a session', () => {
     );
 
     await updateWrapper(component);
-    console.log('1', component.debug());
-
-    component
-      .find('#input-new-session-date')
-      .simulate('change', { target: { value: '2019-02-30' } });
-      console.log('2', component.debug());
-
-    await act(async () => {
-    console.log('3', component.debug());
-
-      await component.find('button').find('#add-new-session').prop('onClick')();
-    console.log('4',component.debug());
-
-    });
-    // console.log(component.debug());
     console.log(component.debug());
 
-    // expect(component.text()).toContain('Adding session');
+    act(() => {
+      component
+        .find('#input-new-session-date')
+        .simulate('change', { target: { value: '2020-02-01' } });
+    });
     await updateWrapper(component);
 
-    // console.log(component.debug());
-    // expect(component.text()).toContain('Adding session');
+    act(() => {
+      component.find('button').find('#add-new-session').prop('onClick')();
+    });
 
-    expect(component.text()).not.toContain(ERROR_MESSAGE);
-    const sessionList = component.find(SessionsList);
-    expect(sessionList.length).toEqual(1);
-    // expect(sessionList.prop('sessions')).toEqual(sessionsData);
+    expect(component.text()).toContain('Adding session');
+
+    await actWait();
+
+    expect(component.text()).not.toContain('Adding session');
+    expect(component.find('.add-session-error').exists()).toBe(false);
+    expect(component.text()).toContain('Saturday 1st February');
   });
 });
