@@ -8,9 +8,12 @@ import Sessions, {
   CREATE_SESSION,
   LOADING_MESSAGE,
   ERROR_MESSAGE,
+  ADD_SESSION_LOADING_MESSAGE,
+  ADD_SESSION_ERROR_MESSAGE,
+  DELETE_SESSION_LOADING_MESSAGE,
+  DELETE_SESSION_ERROR_MESSAGE,
 } from '.';
 import { SessionsList, Button } from '../index';
-import wait from 'waait';
 
 it('renders without error', async () => {
   const mocks = [
@@ -101,67 +104,122 @@ it('displays an error message when the query is unsuccessful', async () => {
 });
 
 describe('adding a session', () => {
-  it('calls create session mutation and displays refetched sessions', async () => {
-    Date.now = jest.fn(() => new Date(Date.UTC(2020, 1, 1)).valueOf());
+  describe('when the mutation is successful', () => {
+    it('calls create session mutation and displays refetched sessions', async () => {
+      Date.now = jest.fn(() => new Date(Date.UTC(2020, 1, 1)).valueOf());
 
-    const mockGetSessions = {
-      request: {
-        query: GET_SESSIONS,
-      },
-      result: {
-        data: { sessions: [] },
-      },
-    };
+      const mockGetSessions = {
+        request: {
+          query: GET_SESSIONS,
+        },
+        result: {
+          data: { sessions: [] },
+        },
+      };
 
-    const mockCreateSession = {
-      request: {
-        query: CREATE_SESSION,
-        variables: { data: { date: '2020-02-01' } },
-      },
-      result: { data: { id: '3', date: '2020-02-01' } },
-    };
+      const mockCreateSession = {
+        request: {
+          query: CREATE_SESSION,
+          variables: { data: { date: '2020-02-01' } },
+        },
+        result: { data: { id: '3', date: '2020-02-01' } },
+      };
 
-    const mockRefreshedGetSessions = {
-      request: {
-        query: GET_SESSIONS,
-      },
-      result: {
-        data: { sessions: [{ id: '3', date: '2020-02-01' }] },
-      },
-    };
+      const mockRefreshedGetSessions = {
+        request: {
+          query: GET_SESSIONS,
+        },
+        result: {
+          data: { sessions: [{ id: '3', date: '2020-02-01' }] },
+        },
+      };
 
-    const mocks = [
-      mockGetSessions,
-      mockCreateSession,
-      mockRefreshedGetSessions,
-    ];
+      const mocks = [
+        mockGetSessions,
+        mockCreateSession,
+        mockRefreshedGetSessions,
+      ];
 
-    const component = mountWithTheme(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <Sessions />
-      </MockedProvider>
-    );
+      const component = mountWithTheme(
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <Sessions />
+        </MockedProvider>
+      );
 
-    await updateWrapper(component);
-    console.log(component.debug());
+      await updateWrapper(component);
 
-    act(() => {
-      component
-        .find('#input-new-session-date')
-        .simulate('change', { target: { value: '2020-02-01' } });
+      act(() => {
+        component
+          .find('#input-new-session-date')
+          .simulate('change', { target: { value: '2020-02-01' } });
+      });
+      await updateWrapper(component);
+
+      act(() => {
+        component.find('button').find('#add-new-session').prop('onClick')();
+      });
+
+      expect(component.text()).toContain(ADD_SESSION_LOADING_MESSAGE);
+
+      await actWait();
+
+      expect(component.text()).not.toContain(ADD_SESSION_LOADING_MESSAGE);
+      expect(component.find(ADD_SESSION_ERROR_MESSAGE).exists()).toBe(false);
+      expect(component.text()).toContain('Saturday 1st February');
     });
-    await updateWrapper(component);
+  });
 
-    act(() => {
-      component.find('button').find('#add-new-session').prop('onClick')();
+  describe('when the mutation is unsuccessful', () => {
+    it('calls create session mutation and displays error', async () => {
+      Date.now = jest.fn(() => new Date(Date.UTC(2020, 1, 1)).valueOf());
+
+      const mockGetSessions = {
+        request: {
+          query: GET_SESSIONS,
+        },
+        result: {
+          data: { sessions: [] },
+        },
+      };
+      const mockError = {
+        request: {
+          query: CREATE_SESSION,
+          variables: { data: { date: '2020-02-01' } },
+        },
+        result: { errors: [{ message: 'Could not fetch sessions' }] },
+      };
+
+      const mocks = [mockGetSessions, mockError, mockGetSessions];
+
+      const component = mountWithTheme(
+        <MockedProvider
+          mocks={mocks}
+          addTypename={false}
+          defaultOptions={{
+            mutate: {
+              errorPolicy: 'all',
+            },
+          }}
+        >
+          <Sessions />
+        </MockedProvider>
+      );
+
+      await updateWrapper(component);
+
+      act(() => {
+        component
+          .find('#input-new-session-date')
+          .simulate('change', { target: { value: '2020-02-01' } });
+      });
+      await updateWrapper(component);
+      act(() => {
+        component.find('button').find('#add-new-session').prop('onClick')();
+      });
+
+      await actWait();
+
+      expect(component.text()).toContain(ADD_SESSION_ERROR_MESSAGE);
     });
-
-    expect(component.text()).toContain('Adding session');
-
-    await actWait();
-
-    expect(component.text()).not.toContain('Adding session');
-    expect(component.find('.add-session-error').exists()).toBe(false);
-    expect(component.text()).toContain('Saturday 1st February');
   });
 });
