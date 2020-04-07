@@ -6,6 +6,7 @@ import { updateWrapper, actWait } from '../../util/testing/act';
 import Sessions, {
   GET_SESSIONS,
   CREATE_SESSION,
+  DELETE_SESSION,
   LOADING_MESSAGE,
   ERROR_MESSAGE,
   ADD_SESSION_LOADING_MESSAGE,
@@ -13,7 +14,7 @@ import Sessions, {
   DELETE_SESSION_LOADING_MESSAGE,
   DELETE_SESSION_ERROR_MESSAGE,
 } from '.';
-import { SessionsList, Button } from '../index';
+import { SessionsList } from '../index';
 
 it('renders without error', async () => {
   const mocks = [
@@ -148,11 +149,14 @@ describe('adding a session', () => {
 
       await updateWrapper(component);
 
+      expect(component.find(SessionsList).prop('sessions').length).toEqual(0);
+
       act(() => {
         component
           .find('#input-new-session-date')
           .simulate('change', { target: { value: '2020-02-01' } });
       });
+
       await updateWrapper(component);
 
       act(() => {
@@ -161,11 +165,13 @@ describe('adding a session', () => {
 
       expect(component.text()).toContain(ADD_SESSION_LOADING_MESSAGE);
 
-      await actWait();
+      await updateWrapper(component);
+
+      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.text()).toContain('Saturday 1st February');
 
       expect(component.text()).not.toContain(ADD_SESSION_LOADING_MESSAGE);
       expect(component.find(ADD_SESSION_ERROR_MESSAGE).exists()).toBe(false);
-      expect(component.text()).toContain('Saturday 1st February');
     });
   });
 
@@ -207,6 +213,8 @@ describe('adding a session', () => {
 
       await updateWrapper(component);
 
+      expect(component.find(SessionsList).prop('sessions').length).toEqual(0);
+
       act(() => {
         component
           .find('#input-new-session-date')
@@ -220,6 +228,131 @@ describe('adding a session', () => {
       await actWait();
 
       expect(component.text()).toContain(ADD_SESSION_ERROR_MESSAGE);
+    });
+  });
+});
+
+describe('deleting a session', () => {
+  describe('when the mutation is successful', () => {
+    it('removes the session from the list', async () => {
+      const mockGetSessions = {
+        request: {
+          query: GET_SESSIONS,
+        },
+        result: {
+          data: { sessions: [{ id: '1', date: '2020-02-01' }] },
+        },
+      };
+
+      const mockDeleteSession = {
+        request: {
+          query: DELETE_SESSION,
+          variables: { id: '1' },
+        },
+        result: { data: { id: '1', date: '2020-02-01' } },
+      };
+
+      const mockRefreshGetSessions = {
+        request: {
+          query: GET_SESSIONS,
+        },
+        result: {
+          data: { sessions: [] },
+        },
+      };
+
+      const mocks = [
+        mockGetSessions,
+        mockDeleteSession,
+        mockRefreshGetSessions,
+      ];
+
+      const component = mountWithTheme(
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <Sessions />
+        </MockedProvider>
+      );
+
+      await updateWrapper(component);
+      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+
+      const event = {
+        target: {
+          getAttribute: function () {
+            return '1';
+          },
+        },
+      };
+
+      act(() => {
+        component.find(SessionsList).prop('deleteSession')(event);
+      });
+
+      expect(component.text()).toContain(DELETE_SESSION_LOADING_MESSAGE);
+
+      await updateWrapper(component);
+
+      expect(component.find(SessionsList).prop('sessions').length).toEqual(0);
+      expect(component.text()).not.toContain(DELETE_SESSION_LOADING_MESSAGE);
+      expect(component.text()).not.toContain(DELETE_SESSION_ERROR_MESSAGE);
+    });
+  });
+
+  describe('when the mutation is unsuccessful', () => {
+    it('renders an error and does not remove any sessions', async () => {
+      const mockGetSessions = {
+        request: {
+          query: GET_SESSIONS,
+        },
+        result: {
+          data: { sessions: [{ id: '1', date: '2020-02-01' }] },
+        },
+      };
+
+      const mockDeleteSession = {
+        request: {
+          query: DELETE_SESSION,
+          variables: { id: '1' },
+        },
+        result: { errors: [{ message: 'Could not delete session' }] },
+      };
+
+      const mocks = [mockGetSessions, mockDeleteSession, mockGetSessions];
+
+      const component = mountWithTheme(
+        <MockedProvider
+          mocks={mocks}
+          addTypename={false}
+          defaultOptions={{
+            mutate: {
+              errorPolicy: 'all',
+            },
+          }}
+        >
+          <Sessions />
+        </MockedProvider>
+      );
+
+      await updateWrapper(component);
+      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+
+      const event = {
+        target: {
+          getAttribute: function () {
+            return '1';
+          },
+        },
+      };
+
+      act(() => {
+        component.find(SessionsList).prop('deleteSession')(event);
+      });
+
+      await updateWrapper(component);
+
+      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.text()).not.toContain(DELETE_SESSION_LOADING_MESSAGE);
+      expect(component.text()).toContain(DELETE_SESSION_ERROR_MESSAGE);
     });
   });
 });
