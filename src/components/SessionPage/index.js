@@ -13,6 +13,9 @@ export const ADD_SESSION_ERROR_MESSAGE = 'sorry could not add session';
 export const DELETE_SESSION_LOADING_MESSAGE = 'deleting session';
 export const DELETE_SESSION_ERROR_MESSAGE = 'sorry could not delete session';
 
+export const UPDATE_SESSION_LOADING_MESSAGE = 'updating session';
+export const UPDATE_SESSION_ERROR_MESSAGE = 'sorry could not update session';
+
 export const GET_SESSIONS = gql`
   query getSessions {
     sessions {
@@ -40,10 +43,20 @@ export const DELETE_SESSION = gql`
   }
 `;
 
+export const UPDATE_SESSION = gql`
+  mutation updateSession($id: ID!, $data: updateSessionInput!) {
+    updateSession(id: $id, data: $data) {
+      id
+      date
+    }
+  }
+`;
+
 function Sessions() {
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
   const [addSession, addSessionResponse] = useMutation(CREATE_SESSION);
   const [deleteSession, deleteSessionResponse] = useMutation(DELETE_SESSION);
+  const [updateSession, updateSessionResponse] = useMutation(UPDATE_SESSION);
 
   const { loading, error, data } = useQuery(GET_SESSIONS);
 
@@ -58,9 +71,22 @@ function Sessions() {
     });
   };
 
+  // TODO - instrad handle event/logic in other compoent
+  // just take id here
   const handleDeleteSession = (e) => {
     return deleteSession({
       variables: { id: e.target.getAttribute('data-id') },
+      refetchQueries: [
+        {
+          query: GET_SESSIONS,
+        },
+      ],
+    });
+  };
+
+  const handleEditSession = (id, newDate) => {
+    return updateSession({
+      variables: { id, data: { date: newDate } },
       refetchQueries: [
         {
           query: GET_SESSIONS,
@@ -77,6 +103,7 @@ function Sessions() {
       <SessionsList
         sessions={data && data.sessions}
         deleteSession={handleDeleteSession}
+        submitEditSession={handleEditSession}
       />
       {addSessionResponse.error && (
         <ErrorText>{ADD_SESSION_ERROR_MESSAGE}</ErrorText>
@@ -90,6 +117,13 @@ function Sessions() {
       {deleteSessionResponse.loading && (
         <InformationText>{DELETE_SESSION_LOADING_MESSAGE}</InformationText>
       )}
+      {updateSessionResponse.error && (
+        <ErrorText>{UPDATE_SESSION_ERROR_MESSAGE}</ErrorText>
+      )}
+      {updateSessionResponse.loading && (
+        <InformationText>{UPDATE_SESSION_LOADING_MESSAGE}</InformationText>
+      )}
+
       <div className="input-align">
         <input
           id="input-new-session-date"
