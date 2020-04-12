@@ -7,6 +7,12 @@ import { SessionsList, Button, InformationText, ErrorText } from '../index';
 export const LOADING_MESSAGE = 'loading sessions';
 export const ERROR_MESSAGE = 'error fetching sessions';
 
+export const ADD_SESSION_LOADING_MESSAGE = 'adding session';
+export const ADD_SESSION_ERROR_MESSAGE = 'sorry could not add session';
+
+export const DELETE_SESSION_LOADING_MESSAGE = 'deleting session';
+export const DELETE_SESSION_ERROR_MESSAGE = 'sorry could not delete session';
+
 export const GET_SESSIONS = gql`
   query getSessions {
     sessions {
@@ -25,19 +31,41 @@ export const CREATE_SESSION = gql`
   }
 `;
 
+export const DELETE_SESSION = gql`
+  mutation deleteSession($id: ID!) {
+    deleteSession(id: $id) {
+      id
+      date
+    }
+  }
+`;
+
 function Sessions() {
   const [startDate, setStartDate] = useState(moment().format('YYYY-MM-DD'));
   const [addSession, addSessionResponse] = useMutation(CREATE_SESSION);
+  const [deleteSession, deleteSessionResponse] = useMutation(DELETE_SESSION);
+
   const { loading, error, data } = useQuery(GET_SESSIONS);
 
-  const handleAddSession = date => {
+  const handleAddSession = (date) => {
     return addSession({
       variables: { data: { date } },
       refetchQueries: [
         {
-          query: GET_SESSIONS
-        }
-      ]
+          query: GET_SESSIONS,
+        },
+      ],
+    });
+  };
+
+  const handleDeleteSession = (e) => {
+    return deleteSession({
+      variables: { id: e.target.getAttribute('data-id') },
+      refetchQueries: [
+        {
+          query: GET_SESSIONS,
+        },
+      ],
     });
   };
 
@@ -46,22 +74,35 @@ function Sessions() {
 
   return (
     <div>
-      <SessionsList sessions={data && data.sessions} />
+      <SessionsList
+        sessions={data && data.sessions}
+        deleteSession={handleDeleteSession}
+      />
       {addSessionResponse.error && (
-        <ErrorText>{addSessionResponse.error.message}</ErrorText>
+        <ErrorText>{ADD_SESSION_ERROR_MESSAGE}</ErrorText>
       )}
       {addSessionResponse.loading && (
-        <InformationText>Adding session</InformationText>
+        <InformationText>{ADD_SESSION_LOADING_MESSAGE}</InformationText>
+      )}
+      {deleteSessionResponse.error && (
+        <ErrorText>{DELETE_SESSION_ERROR_MESSAGE}</ErrorText>
+      )}
+      {deleteSessionResponse.loading && (
+        <InformationText>{DELETE_SESSION_LOADING_MESSAGE}</InformationText>
       )}
       <div className="input-align">
         <input
+          id="input-new-session-date"
           value={startDate}
-          onChange={e => setStartDate(e.target.value)}
+          onChange={(e) => setStartDate(e.target.value)}
           maxLength="10"
         />
       </div>
       <div className="button-align">
-        <Button onClick={() => handleAddSession(startDate)}>
+        <Button
+          id="add-new-session"
+          onClick={() => handleAddSession(startDate)}
+        >
           Add session +
         </Button>
       </div>
