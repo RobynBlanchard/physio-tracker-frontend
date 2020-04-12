@@ -6,9 +6,9 @@ import { setContext } from 'apollo-link-context';
 import fetch from 'isomorphic-unfetch';
 import Cookies from 'js-cookie';
 
-const GRAPHQL_URL = 'https://lit-inlet-86349.herokuapp.com/';
+// const GRAPHQL_URL = 'https://lit-inlet-86349.herokuapp.com/';
 
-// const GRAPHQL_URL = 'http://localhost:4000/';
+const GRAPHQL_URL = 'http://localhost:4000/';
 
 const httpLink = createHttpLink({
   fetch,

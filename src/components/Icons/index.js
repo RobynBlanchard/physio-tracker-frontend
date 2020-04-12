@@ -7,7 +7,10 @@ import {
   faUser,
   faHome,
   faChartLine,
-  faDumbbell
+  faDumbbell,
+  faEdit,
+  faTrashAlt,
+  faSave,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -18,5 +21,8 @@ library.add(
   faUser,
   faHome,
   faChartLine,
-  faDumbbell
+  faDumbbell,
+  faEdit,
+  faTrashAlt,
+  faSave,
 );

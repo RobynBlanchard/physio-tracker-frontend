@@ -1,7 +1,13 @@
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-import { InputBlock, Table, Button, InformationText, ErrorText } from '../index';
+import {
+  InputBlock,
+  Table,
+  Button,
+  InformationText,
+  ErrorText,
+} from '../index';
 
 const GET_SETS = gql`
   query($exerciseID: ID!) {
@@ -28,25 +34,25 @@ const SetRepWeights = ({ exerciseID }) => {
   const [inputReps, setInputReps] = useState();
   const [addSet, addSetResponse] = useMutation(CREATE_SET);
   const { loading, error, data } = useQuery(GET_SETS, {
-    variables: { exerciseID: exerciseID }
+    variables: { exerciseID: exerciseID },
   });
 
   const tableHeadings = [
     { colID: 'weight', name: 'Weight (kg)' },
-    { colID: 'reps', name: 'Reps' }
+    { colID: 'reps', name: 'Reps' },
   ];
 
   const handleAddSet = () => {
     return addSet({
       variables: {
-        data: { exercise: exerciseID, weight: inputWeight, reps: inputReps }
+        data: { exercise: exerciseID, weight: inputWeight, reps: inputReps },
       },
       refetchQueries: [
         {
           query: GET_SETS,
-          variables: { exerciseID: exerciseID }
-        }
-      ]
+          variables: { exerciseID: exerciseID },
+        },
+      ],
     });
   };
 
@@ -56,20 +62,21 @@ const SetRepWeights = ({ exerciseID }) => {
   return (
     <div>
       <Table tableHeadings={tableHeadings} rowData={data && data.sets} />
-
       <div className="input-align">
         <InputBlock
           label="Weight"
-          onChange={e => setInputWeight(parseFloat(e.target.value, 10))}
+          onChange={(e) => setInputWeight(parseFloat(e.target.value, 10))}
         />
         <InputBlock
           label="Reps"
-          onChange={e => setInputReps(parseInt(e.target.value, 10))}
+          onChange={(e) => setInputReps(parseInt(e.target.value, 10))}
         />
       </div>
       <div className="button-align">
         <Button onClick={handleAddSet}>Add Set +</Button>
-        {addSetResponse.error && <ErrorText>{addSetResponse.error.message}</ErrorText>}
+        {addSetResponse.error && (
+          <ErrorText>{addSetResponse.error.message}</ErrorText>
+        )}
         {addSetResponse.loading && <InformationText>loading</InformationText>}
       </div>
       <style jsx>{`
