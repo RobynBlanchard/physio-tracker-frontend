@@ -11,8 +11,12 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
 
   const formatDate = (date) => {
     const m = moment(date, 'YYYY-MM-DD');
-
     return m.format('dddd Do MMMM');
+  };
+
+  const handleDeleteSession = (e) => {
+    const id = e.target.getAttribute('data-id');
+    deleteSession(id);
   };
 
   const handleEditSession = (e) => {
@@ -113,7 +117,7 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
                   />
                 </IconButton>
               )}
-              <IconButton onClick={deleteSession} data-id={id}>
+              <IconButton onClick={handleDeleteSession} data-id={id}>
                 <StyledIcon
                   aria-hidden="true"
                   title="Delete this session?"

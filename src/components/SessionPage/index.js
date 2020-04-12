@@ -71,11 +71,9 @@ function Sessions() {
     });
   };
 
-  // TODO - instrad handle event/logic in other compoent
-  // just take id here
-  const handleDeleteSession = (e) => {
+  const handleDeleteSession = (id) => {
     return deleteSession({
-      variables: { id: e.target.getAttribute('data-id') },
+      variables: { id },
       refetchQueries: [
         {
           query: GET_SESSIONS,

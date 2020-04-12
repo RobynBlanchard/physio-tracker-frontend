@@ -290,16 +290,8 @@ describe('deleting a session', () => {
       await updateWrapper(component);
       expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
 
-      const event = {
-        target: {
-          getAttribute: function () {
-            return '1';
-          },
-        },
-      };
-
       act(() => {
-        component.find(SessionsList).prop('deleteSession')(event);
+        component.find(SessionsList).prop('deleteSession')('1');
       });
 
       expect(component.text()).toContain(DELETE_SESSION_LOADING_MESSAGE);
@@ -359,7 +351,7 @@ describe('deleting a session', () => {
       };
 
       act(() => {
-        component.find(SessionsList).prop('deleteSession')(event);
+        component.find(SessionsList).prop('deleteSession')('1');
       });
 
       await updateWrapper(component);
