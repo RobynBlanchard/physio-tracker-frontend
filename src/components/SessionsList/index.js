@@ -14,17 +14,13 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
     return m.format('dddd Do MMMM');
   };
 
-  const handleDeleteSession = (e) => {
-    const id = e.target.getAttribute('data-id');
+  const handleDeleteSession = (id) => {
     deleteSession(id);
   };
 
-  const handleEditSession = (e) => {
+  const handleEditSession = (id, date) => {
     document.addEventListener('mousedown', handleCancelEdit);
-    const id = e.target.getAttribute('data-id');
-    const date = moment(e.target.getAttribute('data-date')).format(
-      'YYYY-MM-DD'
-    );
+
     updatedEdittedSession({ id, date });
   };
 
@@ -53,8 +49,7 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
     );
   };
 
-  const handleSaveSession = (e) => {
-    const oldDate = e.target.getAttribute('data-date');
+  const handleSaveSession = (oldDate) => {
     if (oldDate !== edittedSession.date) {
       const { id, date } = edittedSession;
       submitEditSession(id, date);
@@ -68,6 +63,7 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
       inputRef.current && !inputRef.current.contains(e.target);
     const clickOutsideSaveIcon =
       saveRef.current && !saveRef.current.contains(e.target);
+
     if (clickOutsideInput && clickOutsideSaveIcon) {
       updatedEdittedSession(null);
       document.removeEventListener('mousedown', handleCancelEdit);
@@ -81,18 +77,18 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
     <List>
       {sessions.map((session) => {
         const { id, date } = session;
+        const formattedDate = moment(date).format('YYYY-MM-DD');
         return (
           <ListItem key={id}>
             {isSessionUnderEdit(id)
               ? renderEditSession()
-              : linkToSession(id, date)}
+              : linkToSession(id, formattedDate)}
             <div>
               {isSessionUnderEdit(id) ? (
                 <IconButton
-                  onClick={handleSaveSession}
+                  id="save-button"
+                  onClick={() => handleSaveSession(formattedDate)}
                   ref={saveRef}
-                  data-id={id}
-                  data-date={date}
                 >
                   <StyledIcon
                     aria-hidden="true"
@@ -104,9 +100,8 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
                 </IconButton>
               ) : (
                 <IconButton
-                  onClick={handleEditSession}
-                  data-id={id}
-                  data-date={date}
+                  id="edit-button"
+                  onClick={() => handleEditSession(id, formattedDate)}
                 >
                   <StyledIcon
                     aria-hidden="true"
@@ -117,7 +112,10 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
                   />
                 </IconButton>
               )}
-              <IconButton onClick={handleDeleteSession} data-id={id}>
+              <IconButton
+                id="delete-button"
+                onClick={() => handleDeleteSession(id)}
+              >
                 <StyledIcon
                   aria-hidden="true"
                   title="Delete this session?"
