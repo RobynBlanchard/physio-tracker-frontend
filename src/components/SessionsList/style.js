@@ -13,6 +13,7 @@ export const StyledIcon = styled(FontAwesomeIcon)`
 `;
 
 export const Anchor = styled.a`
+  cursor: pointer;
   margin: 0;
   display: flex;
   justify-content: space-between;
@@ -31,7 +32,6 @@ export const ListItem = styled.ul`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid white;
-  cursor: pointer;
   padding: 12px 8px;
 `;
 
