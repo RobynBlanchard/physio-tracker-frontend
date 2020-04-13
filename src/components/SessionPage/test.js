@@ -201,7 +201,7 @@ describe('adding a session', () => {
           query: CREATE_SESSION,
           variables: { data: { date: '2020-02-01' } },
         },
-        result: { errors: [{ message: 'Could not fetch sessions' }] },
+        result: { errors: [{ message: 'Could not create session' }] },
       };
 
       const mocks = [mockGetSessions, mockError, mockGetSessions];

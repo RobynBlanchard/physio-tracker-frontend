@@ -3,28 +3,48 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
 
-import { Button, ExercisesList, ExerciseSelect, InformationText, ErrorText } from '..';
+import {
+  Button,
+  ExercisesList,
+  ExerciseSelect,
+  InformationText,
+  ErrorText,
+} from '..';
 
 export const LOADING_MESSAGE = 'loading exercises';
 export const ERROR_MESSAGE = 'error fetching exercises';
 
+export const ADD_EXERCISE_LOADING_MESSAGE = 'adding exercise';
+export const ADD_EXERCISE_ERROR_MESSAGE = 'error adding exercise';
+
+export const DELETE_EXERCISE_LOADING_MESSAGE = 'deleting exercise';
+export const DELETE_EXERCISE_ERROR_MESSAGE = 'error deleting exercise';
 
 const ButtonWrapper = styled.div`
   text-align: center;
 `;
 
-const GET_EXERCISES = gql`
-  query($sessionID: ID!) {
+export const GET_EXERCISES = gql`
+  query exercises($sessionID: ID!) {
     exercises(sessionID: $sessionID) {
       id
-      name  
+      name
     }
   }
 `;
 
-const CREATE_EXERCISE = gql`
+export const CREATE_EXERCISE = gql`
   mutation createExercise($data: CreateExerciseInput!) {
     createExercise(data: $data) {
+      id
+      name
+    }
+  }
+`;
+
+export const DELETE_EXERCISE = gql`
+  mutation deleteExercise($id: ID!) {
+    deleteExercise(id: $id) {
       id
       name
     }
@@ -42,30 +62,46 @@ const exerciseOptions = [
   { name: 'Hamstring curls both legs', value: 'HAMSTRING_CURL_BOTH_LEGS' },
   { name: 'Exercise bike', value: 'SPINNING_BIKE' },
   { name: 'Squats', value: 'SQUAT' },
-  { name: 'Deadlift', value: 'DEADLIFT' }
+  { name: 'Deadlift', value: 'DEADLIFT' },
 ];
 
 const ExercisePage = ({ sessionID }) => {
   const { loading, error, data } = useQuery(GET_EXERCISES, {
-    variables: { sessionID: sessionID }
+    variables: { sessionID: sessionID },
   });
 
-  const [addExercise, addExericseResponse] = useMutation(CREATE_EXERCISE);
+  const [addExercise, addExerciseResponse] = useMutation(CREATE_EXERCISE);
+  const [deleteExercise, deleteExerciseResponse] = useMutation(DELETE_EXERCISE);
+
   const [exerciseOption, setExerciseOption] = useState(
     exerciseOptions[0].value
   );
 
-  const handleAddExercise = () => {
-    return addExercise({
+  const handleDeleteExercise = (id) => {
+    return deleteExercise({
       variables: {
-        data: { session: sessionID.toString(), name: exerciseOption }
+        id: id,
       },
       refetchQueries: [
         {
           query: GET_EXERCISES,
-          variables: { sessionID: sessionID }
-        }
-      ]
+          variables: { sessionID: sessionID },
+        },
+      ],
+    });
+  };
+
+  const handleAddExercise = () => {
+    return addExercise({
+      variables: {
+        data: { session: sessionID.toString(), name: exerciseOption },
+      },
+      refetchQueries: [
+        {
+          query: GET_EXERCISES,
+          variables: { sessionID: sessionID },
+        },
+      ],
     });
   };
 
@@ -74,17 +110,30 @@ const ExercisePage = ({ sessionID }) => {
 
   return (
     <>
-      <ExercisesList exercises={data && data.exercises} />
-      {addExericseResponse.error && (
-        <ErrorText>{addExericseResponse.error.message}</ErrorText>
+      <ExercisesList
+        exercises={data && data.exercises}
+        deleteExercise={handleDeleteExercise}
+      />
+      {addExerciseResponse.error && (
+        <ErrorText>{ADD_EXERCISE_ERROR_MESSAGE}</ErrorText>
       )}
-      {addExericseResponse.loading && <div>loading</div>}
+      {addExerciseResponse.loading && (
+        <InformationText>{ADD_EXERCISE_LOADING_MESSAGE}</InformationText>
+      )}
+      {deleteExerciseResponse.error && (
+        <ErrorText>{DELETE_EXERCISE_ERROR_MESSAGE}</ErrorText>
+      )}
+      {deleteExerciseResponse.loading && (
+        <InformationText>{DELETE_EXERCISE_LOADING_MESSAGE}</InformationText>
+      )}
       <ExerciseSelect
-        onChange={e => setExerciseOption(e.target.value)}
+        onChange={(e) => setExerciseOption(e.target.value)}
         exerciseOptions={exerciseOptions}
       />
       <ButtonWrapper>
-        <Button onClick={() => handleAddExercise()}>Add exercise +</Button>
+        <Button id="add-new-exercise" onClick={() => handleAddExercise()}>
+          Add exercise +
+        </Button>
       </ButtonWrapper>
     </>
   );
