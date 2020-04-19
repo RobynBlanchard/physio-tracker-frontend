@@ -1,21 +1,25 @@
 import { shallow } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 import Table from './index';
 import { TableStyle, TableRow, TableHeader, TableData } from './style';
 
 describe('Table', () => {
   const mockTableHeadings = [
-    { colID: 'setNum', name: 'Set' },
     { colID: 'weight', name: 'Weight' },
-    { colID: 'reps', name: 'Reps' }
+    { colID: 'reps', name: 'Reps' },
   ];
   const mockTableData = [
-    { id: 1, setNum: 1, weight: 25, reps: 12 },
-    { id: 2, setNum: 2, weight: 27.5, reps: 12 },
-    { id: 3, setNum: 3, weight: 27.5, reps: 10 }
+    { id: 1, weight: 25, reps: 12 },
+    { id: 2, weight: 27.5, reps: 12 },
+    { id: 3, weight: 27.5, reps: 10 },
   ];
 
   const component = shallow(
-    <Table tableHeadings={mockTableHeadings} rowData={mockTableData} />
+    <Table
+      tableHeadings={mockTableHeadings}
+      rowData={mockTableData}
+      editSets={false}
+    />
   );
 
   it('renders a table', () => {
@@ -40,13 +44,127 @@ describe('Table', () => {
     expect(tbody).toHaveLength(1);
 
     const rows = tbody.find(TableRow);
-    expect(rows).toHaveLength(mockTableHeadings.length);
+    expect(rows).toHaveLength(mockTableData.length);
     rows.forEach((row, index) => {
       const cells = row.find(TableData);
       expect(cells).toHaveLength(mockTableHeadings.length);
-      expect(cells.at(0).text()).toEqual(`${mockTableData[index].setNum}`);
-      expect(cells.at(1).text()).toEqual(`${mockTableData[index].weight}`);
-      expect(cells.at(2).text()).toEqual(`${mockTableData[index].reps}`);
+      expect(cells.at(0).text()).toEqual(`${mockTableData[index].weight}`);
+      expect(cells.at(1).text()).toEqual(`${mockTableData[index].reps}`);
+    });
+  });
+});
+
+describe('editting table data', () => {
+  const mockTableHeadings = [
+    { colID: 'weight', name: 'Weight' },
+    { colID: 'reps', name: 'Reps' },
+  ];
+  const mockTableData = [{ id: 1, weight: 25, reps: 12 }];
+
+  describe('when editSets is true', () => {
+    describe('initial render', () => {
+      const component = shallow(
+        <Table
+          tableHeadings={mockTableHeadings}
+          rowData={mockTableData}
+          editSets={true}
+        />
+      );
+
+      it('renders an edit column', () => {
+        expect(
+          component.find(TableHeader).at(mockTableHeadings.length).text()
+        ).toContain('Edit');
+      });
+
+      it('renders an edit icon next to the row data', () => {
+        expect(component.find(TableRow).find('#edit-button').length).toEqual(1);
+      });
+
+      it('does not render a save icon next to the row data', () => {
+        expect(component.find(TableRow).find('#save-button').length).toEqual(0);
+      });
+
+      it('renders a delete icon next to the row data', () => {
+        expect(component.find(TableRow).find('#delete-button').length).toEqual(
+          1
+        );
+      });
+    });
+
+    describe('editting a row', () => {
+      const handleEdit = jest.fn();
+      let component;
+      beforeEach(() => {
+        component = shallow(
+          <Table
+            tableHeadings={mockTableHeadings}
+            rowData={mockTableData}
+            editSets={true}
+            handleEdit={handleEdit}
+          />
+        );
+        component.find('#edit-button').simulate('click');
+      });
+
+      it('renders an input for each row data', () => {
+        expect(component.find('input').length).toEqual(
+          mockTableHeadings.length
+        );
+      });
+
+      it('replaces the edit icon with a save icon', () => {
+        expect(component.find(TableRow).find('#edit-button').length).toEqual(0);
+        expect(component.find(TableRow).find('#save-button').length).toEqual(1);
+      });
+
+      describe('submitting updated data', () => {
+        it('calls handleEdit with correct args', async () => {
+          const newWeight = 20;
+          act(() => {
+            component
+              .find('input')
+              .at(0)
+              .simulate('change', {
+                target: { value: newWeight },
+                persist: jest.fn(),
+              });
+          });
+
+          component.find('#save-button').simulate('click');
+
+          await component.update();
+
+          expect(handleEdit).toHaveBeenCalledTimes(1);
+          expect(handleEdit).toBeCalledWith(
+            expect.objectContaining({
+              ...mockTableData[0],
+              weight: newWeight,
+            })
+          );
+        });
+      });
+    });
+
+    describe('deleting a row', () => {
+      const handleDelete = jest.fn();
+      let component;
+      beforeEach(() => {
+        component = shallow(
+          <Table
+            tableHeadings={mockTableHeadings}
+            rowData={mockTableData}
+            editSets={true}
+            handleDelete={handleDelete}
+          />
+        );
+        component.find('#delete-button').simulate('click');
+      });
+
+      it('calls handle delete with correct args', () => {
+        expect(handleDelete).toHaveBeenCalledTimes(1);
+        expect(handleDelete).toHaveBeenCalledWith(mockTableData[0].id);
+      });
     });
   });
 });

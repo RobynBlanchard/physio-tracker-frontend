@@ -11,6 +11,8 @@ const Sets = () => {
 
   return (
     <Layout title={formattedTitle} >
+            {/* TODO just one layout */}
+
       <SetLayout exerciseID={id} />
     </Layout>
   );

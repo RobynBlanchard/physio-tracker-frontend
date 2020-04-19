@@ -98,6 +98,7 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
                     size="lg"
                   />
                 </IconButton>
+                // <SaveIcon ref onClick />
               ) : (
                 <IconButton
                   id="edit-button"
