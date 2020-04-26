@@ -2,6 +2,7 @@ import { shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import Table from './index';
 import { TableStyle, TableRow, TableHeader, TableData } from './style';
+import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
 describe('Table', () => {
   const mockTableHeadings = [
@@ -78,15 +79,15 @@ describe('editting table data', () => {
       });
 
       it('renders an edit icon next to the row data', () => {
-        expect(component.find(TableRow).find('#edit-button').length).toEqual(1);
+        expect(component.find(TableRow).find(EditButton).length).toEqual(1);
       });
 
       it('does not render a save icon next to the row data', () => {
-        expect(component.find(TableRow).find('#save-button').length).toEqual(0);
+        expect(component.find(TableRow).find(SaveButton).length).toEqual(0);
       });
 
       it('renders a delete icon next to the row data', () => {
-        expect(component.find(TableRow).find('#delete-button').length).toEqual(
+        expect(component.find(TableRow).find(DeleteButton).length).toEqual(
           1
         );
       });
@@ -104,7 +105,7 @@ describe('editting table data', () => {
             handleEdit={handleEdit}
           />
         );
-        component.find('#edit-button').simulate('click');
+        component.find(EditButton).simulate('click');
       });
 
       it('renders an input for each row data', () => {
@@ -114,8 +115,8 @@ describe('editting table data', () => {
       });
 
       it('replaces the edit icon with a save icon', () => {
-        expect(component.find(TableRow).find('#edit-button').length).toEqual(0);
-        expect(component.find(TableRow).find('#save-button').length).toEqual(1);
+        expect(component.find(TableRow).find(EditButton).length).toEqual(0);
+        expect(component.find(TableRow).find(SaveButton).length).toEqual(1);
       });
 
       describe('submitting updated data', () => {
@@ -131,7 +132,7 @@ describe('editting table data', () => {
               });
           });
 
-          component.find('#save-button').simulate('click');
+          component.find(SaveButton).simulate('click');
 
           await component.update();
 
@@ -158,7 +159,7 @@ describe('editting table data', () => {
             handleDelete={handleDelete}
           />
         );
-        component.find('#delete-button').simulate('click');
+        component.find(DeleteButton).simulate('click');
       });
 
       it('calls handle delete with correct args', () => {

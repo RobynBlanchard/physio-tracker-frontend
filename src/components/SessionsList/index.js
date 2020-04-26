@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { useState, useRef } from 'react';
 import moment from 'moment';
 import { arrayOf, shape, string } from 'prop-types';
-import { ListItem, Anchor, List, Text, StyledIcon, IconButton } from './style';
+import { ListItem, Anchor, List, Text } from './style';
+import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
 const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
   const inputRef = useRef(null);
@@ -85,46 +86,17 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
               : linkToSession(id, formattedDate)}
             <div>
               {isSessionUnderEdit(id) ? (
-                <IconButton
-                  id="save-button"
-                  onClick={() => handleSaveSession(formattedDate)}
+                <SaveButton
                   ref={saveRef}
-                >
-                  <StyledIcon
-                    aria-hidden="true"
-                    title="Save session"
-                    aria-label="Save"
-                    icon="save"
-                    size="lg"
-                  />
-                </IconButton>
-                // <SaveIcon ref onClick />
-              ) : (
-                <IconButton
-                  id="edit-button"
-                  onClick={() => handleEditSession(id, formattedDate)}
-                >
-                  <StyledIcon
-                    aria-hidden="true"
-                    title="Edit session"
-                    aria-label="Edit"
-                    icon="edit"
-                    size="lg"
-                  />
-                </IconButton>
-              )}
-              <IconButton
-                id="delete-button"
-                onClick={() => handleDeleteSession(id)}
-              >
-                <StyledIcon
-                  aria-hidden="true"
-                  title="Delete this session?"
-                  aria-label="Delete"
-                  icon="trash-alt"
-                  size="lg"
+                  onClick={() => handleSaveSession(formattedDate)}
+                  title="Save session"
                 />
-              </IconButton>
+              ) : (
+                <EditButton
+                  onClick={() => handleEditSession(id, formattedDate)} title="Edit session"
+                />
+              )}
+              <DeleteButton onClick={() => handleDeleteSession(id)} title="Delete this session?" />
             </div>
           </ListItem>
         );

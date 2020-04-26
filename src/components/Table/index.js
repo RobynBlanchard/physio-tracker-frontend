@@ -1,13 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { arrayOf, string, shape } from 'prop-types';
-import {
-  TableStyle,
-  TableRow,
-  TableHeader,
-  TableData,
-  StyledIcon,
-  IconButton,
-} from './style';
+import { TableStyle, TableRow, TableHeader, TableData } from './style';
+import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
 const Table = ({
   handleEdit,
@@ -67,45 +61,23 @@ const Table = ({
             {shouldRenderEdit && (
               <TableData>
                 {!isSetUnderEdit(row.id) ? (
-                  <IconButton
-                    id="edit-button"
+                  <EditButton
                     onClick={() => handleEditSet(row)}
-                  >
-                    <StyledIcon
-                      fill={'black'}
-                      aria-hidden="true"
-                      title="Edit session"
-                      aria-label="Edit"
-                      icon="edit"
-                      size="lg"
-                    />
-                  </IconButton>
-                ) : (
-                  <IconButton id="save-button" onClick={handleSaveEdittedSet}>
-                    <StyledIcon
-                      fill={'black'}
-                      aria-hidden="true"
-                      title="Save session"
-                      aria-label="Save"
-                      icon="save"
-                      size="lg"
-                    />
-                  </IconButton>
-                )}
-
-                <IconButton
-                  id="delete-button"
-                  onClick={() => handleDelete(row.id)}
-                >
-                  <StyledIcon
-                    fill={'black'}
-                    aria-hidden="true"
-                    title="Delete this session?"
-                    aria-label="Delete"
-                    icon="trash-alt"
-                    size="lg"
+                    title="Edit Set"
+                    fill="black"
                   />
-                </IconButton>
+                ) : (
+                  <SaveButton
+                    onClick={handleSaveEdittedSet}
+                    title="Save set"
+                    fill="black"
+                  />
+                )}
+                <DeleteButton
+                  onClick={() => handleDelete(row.id)}
+                  title="Delete this set?"
+                  fill="black"
+                />
               </TableData>
             )}
           </TableRow>

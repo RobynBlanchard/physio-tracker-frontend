@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 import { ListItem, Text } from './style';
 import { updateWrapper } from '../../util/testing/act';
 import { mountWithTheme } from '../../util/testing/theme';
+import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
 describe('SessionsList', () => {
   const firstSessionID = '1';
@@ -52,12 +53,12 @@ describe('SessionsList', () => {
       });
 
       it('renders an edit button', () => {
-        const editButton = firstSession.find('#edit-button');
+        const editButton = firstSession.find(EditButton);
         expect(editButton.length).toEqual(1);
       });
 
       it('renders a delete button', () => {
-        const deleteButton = firstSession.find('#delete-button');
+        const deleteButton = firstSession.find(DeleteButton);
         expect(deleteButton.length).toEqual(1);
       });
 
@@ -72,7 +73,7 @@ describe('SessionsList', () => {
   describe('deleting a session', () => {
     it('calls deleteSession with correct args when the delete icon is clicked', () => {
       firstSession = component.find(ListItem).at(0);
-      firstSession.find('#delete-button').simulate('click');
+      firstSession.find(DeleteButton).simulate('click');
 
       expect(deleteSession).toHaveBeenCalledTimes(1);
       expect(deleteSession).toHaveBeenCalledWith(firstSessionID);
@@ -83,7 +84,7 @@ describe('SessionsList', () => {
     beforeEach(async () => {
       act(() => {
         firstSession = component.find(ListItem).at(0);
-        firstSession.find('#edit-button').simulate('click');
+        firstSession.find(EditButton).simulate('click');
       });
 
       await updateWrapper(component);
@@ -91,8 +92,8 @@ describe('SessionsList', () => {
     });
 
     it('renders a save icon instead of the edit button', () => {
-      expect(firstSession.find('#edit-button').length).toEqual(0);
-      expect(firstSession.find('#save-button').length).toEqual(1);
+      expect(firstSession.find(EditButton).length).toEqual(0);
+      expect(firstSession.find(SaveButton).length).toEqual(1);
     });
 
     it('renders an input instead of a link', () => {
@@ -116,7 +117,7 @@ describe('SessionsList', () => {
 
       const saveDate = async (component) => {
         act(() => {
-          component.find('#save-button').simulate('click');
+          component.find(SaveButton).simulate('click');
         });
       };
 
@@ -138,8 +139,7 @@ describe('SessionsList', () => {
           wrapper
             .find(ListItem)
             .at(0)
-            .find('button')
-            .find('#edit-button')
+            .find(EditButton)
             .simulate('click');
 
           await editDate(wrapper.find(ListItem).at(0), '2010-02-02');
@@ -156,8 +156,8 @@ describe('SessionsList', () => {
         });
 
         it('renders the edit icon instead of the save icon', () => {
-          expect(firstSession.find('#edit-button').length).toEqual(0);
-          expect(firstSession.find('#save-button').length).toEqual(1);
+          expect(firstSession.find(EditButton).length).toEqual(0);
+          expect(firstSession.find(SaveButton).length).toEqual(1);
         });
 
         it('does not submit the editted session', () => {
@@ -183,8 +183,8 @@ describe('SessionsList', () => {
           });
 
           it('resets the list item to a link with an edit icon', () => {
-            expect(firstSession.find('#edit-button').length).toEqual(1);
-            expect(firstSession.find('#save-button').length).toEqual(0);
+            expect(firstSession.find(EditButton).length).toEqual(1);
+            expect(firstSession.find(SaveButton).length).toEqual(0);
           });
 
           it('calls submitEditSession with correct args', () => {
@@ -210,8 +210,8 @@ describe('SessionsList', () => {
           });
 
           it('resets the list item to a link with an edit icon', () => {
-            expect(firstSession.find('#edit-button').length).toEqual(1);
-            expect(firstSession.find('#save-button').length).toEqual(0);
+            expect(firstSession.find(EditButton).length).toEqual(1);
+            expect(firstSession.find(SaveButton).length).toEqual(0);
           });
 
           it('does not call submitEditSession', () => {
