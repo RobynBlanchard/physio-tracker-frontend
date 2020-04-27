@@ -24,5 +24,5 @@ library.add(
   faDumbbell,
   faEdit,
   faTrashAlt,
-  faSave,
+  faSave
 );

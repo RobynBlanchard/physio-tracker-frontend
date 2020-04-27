@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import moment from 'moment';
-import { arrayOf, shape, string } from 'prop-types';
+import { arrayOf, shape, string, func } from 'prop-types';
 import { ListItem, Anchor, List, Text } from './style';
 import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
-const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
+const SessionsList = ({ deleteSession, submitEditSession, sessions }) => {
   const inputRef = useRef(null);
   const saveRef = useRef(null);
   const [edittedSession, updatedEdittedSession] = useState(null);
@@ -17,6 +17,18 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
 
   const handleDeleteSession = (id) => {
     deleteSession(id);
+  };
+
+  const handleCancelEdit = (e) => {
+    const clickOutsideInput =
+      inputRef.current && !inputRef.current.contains(e.target);
+    const clickOutsideSaveIcon =
+      saveRef.current && !saveRef.current.contains(e.target);
+
+    if (clickOutsideInput && clickOutsideSaveIcon) {
+      updatedEdittedSession(null);
+      document.removeEventListener('mousedown', handleCancelEdit);
+    }
   };
 
   const handleEditSession = (id, date) => {
@@ -59,18 +71,6 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
     document.removeEventListener('mousedown', handleCancelEdit);
   };
 
-  const handleCancelEdit = (e) => {
-    const clickOutsideInput =
-      inputRef.current && !inputRef.current.contains(e.target);
-    const clickOutsideSaveIcon =
-      saveRef.current && !saveRef.current.contains(e.target);
-
-    if (clickOutsideInput && clickOutsideSaveIcon) {
-      updatedEdittedSession(null);
-      document.removeEventListener('mousedown', handleCancelEdit);
-    }
-  };
-
   const isSessionUnderEdit = (id) =>
     !!edittedSession && edittedSession.id === id;
 
@@ -93,16 +93,26 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions = [] }) => {
                 />
               ) : (
                 <EditButton
-                  onClick={() => handleEditSession(id, formattedDate)} title="Edit session"
+                  onClick={() => handleEditSession(id, formattedDate)}
+                  title="Edit session"
                 />
               )}
-              <DeleteButton onClick={() => handleDeleteSession(id)} title="Delete this session?" />
+              <DeleteButton
+                onClick={() => handleDeleteSession(id)}
+                title="Delete this session?"
+              />
             </div>
           </ListItem>
         );
       })}
     </List>
   );
+};
+
+SessionsList.defaultProps = {
+  sessions: [],
+  deleteSession: () => {},
+  submitEditSession: () => {},
 };
 
 SessionsList.propTypes = {
@@ -112,6 +122,8 @@ SessionsList.propTypes = {
       date: string,
     })
   ),
+  deleteSession: func,
+  submitEditSession: func,
 };
 
 export default SessionsList;

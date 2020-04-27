@@ -15,18 +15,17 @@ export default {
     XS: '8px',
     S: '12px',
     M: '14px',
-    L: '16px'
+    L: '16px',
   },
   font: {
     size: {
       M: '14px',
       L: '16px',
-      XL: '20px'
+      XL: '20px',
     },
     weight: {
       M: 600,
-      L: 700
-    }
-  }
+      L: 700,
+    },
+  },
 };
-

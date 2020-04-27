@@ -9,14 +9,14 @@ import ExercisePage, {
   ERROR_MESSAGE,
   ADD_EXERCISE_LOADING_MESSAGE,
   ADD_EXERCISE_ERROR_MESSAGE,
-  DELETE_EXERCISE_LOADING_MESSAGE,
   DELETE_EXERCISE_ERROR_MESSAGE,
-} from './';
+} from '.';
 import { updateWrapper } from '../../util/testing/act';
 
 import { ExercisesList, ExerciseSelect, InformationText, ErrorText } from '..';
 
 const sessionID = '1';
+// eslint-disable-next-line jest/expect-expect
 it('renders without error', async () => {
   const mocks = [
     {
@@ -45,10 +45,10 @@ it('renders loading state initially', async () => {
       </MockedProvider>
     );
 
-    expect(component.find(InformationText).length).toEqual(1);
+    expect(component.find(InformationText)).toHaveLength(1);
     expect(component.find(InformationText).text()).toContain(LOADING_MESSAGE);
-    expect(component.find(ERROR_MESSAGE).length).toEqual(0);
-    expect(component.find(ExercisesList).length).toEqual(0);
+    expect(component.find(ERROR_MESSAGE)).toHaveLength(0);
+    expect(component.find(ExercisesList)).toHaveLength(0);
   });
 });
 
@@ -77,10 +77,10 @@ describe('fetching exercises', () => {
 
     await updateWrapper(component);
 
-    expect(component.find(InformationText).length).toEqual(0);
-    expect(component.find(ErrorText).length).toEqual(0);
+    expect(component.find(InformationText)).toHaveLength(0);
+    expect(component.find(ErrorText)).toHaveLength(0);
     const exerciseList = component.find(ExercisesList);
-    expect(exerciseList.length).toEqual(1);
+    expect(exerciseList).toHaveLength(1);
     expect(exerciseList.prop('exercises')).toEqual(exercises);
   });
 
@@ -100,11 +100,11 @@ describe('fetching exercises', () => {
 
     await updateWrapper(component);
 
-    expect(component.find(ErrorText).length).toEqual(1);
+    expect(component.find(ErrorText)).toHaveLength(1);
     expect(component.find(ErrorText).text()).toContain(ERROR_MESSAGE);
-    expect(component.find(InformationText).length).toEqual(0);
+    expect(component.find(InformationText)).toHaveLength(0);
 
-    expect(component.find(ExercisesList).length).toEqual(0);
+    expect(component.find(ExercisesList)).toHaveLength(0);
   });
 });
 
@@ -155,7 +155,7 @@ describe('adding an exercise', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(ExercisesList).prop('exercises').length).toEqual(0);
+      expect(component.find(ExercisesList).prop('exercises')).toHaveLength(0);
 
       act(() => {
         component
@@ -168,20 +168,20 @@ describe('adding an exercise', () => {
 
       component.find('button').find('#add-new-exercise').simulate('click');
 
-      expect(component.find(InformationText).length).toEqual(1);
+      expect(component.find(InformationText)).toHaveLength(1);
       expect(component.find(InformationText).text()).toContain(
         ADD_EXERCISE_LOADING_MESSAGE
       );
 
       await updateWrapper(component);
 
-      expect(component.find(ExercisesList).prop('exercises').length).toEqual(1);
+      expect(component.find(ExercisesList).prop('exercises')).toHaveLength(1);
       expect(component.find(ExercisesList).prop('exercises')[0]).toEqual(
         newExercise
       );
 
-      expect(component.find(InformationText).length).toEqual(0);
-      expect(component.find(ErrorText).length).toEqual(0);
+      expect(component.find(InformationText)).toHaveLength(0);
+      expect(component.find(ErrorText)).toHaveLength(0);
     });
   });
 
@@ -225,7 +225,7 @@ describe('adding an exercise', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(ExercisesList).prop('exercises').length).toEqual(0);
+      expect(component.find(ExercisesList).prop('exercises')).toHaveLength(0);
 
       act(() => {
         component
@@ -237,19 +237,19 @@ describe('adding an exercise', () => {
       await updateWrapper(component);
       component.find('button').find('#add-new-exercise').simulate('click');
 
-      expect(component.find(InformationText).length).toEqual(1);
+      expect(component.find(InformationText)).toHaveLength(1);
       expect(component.find(InformationText).text()).toContain(
         ADD_EXERCISE_LOADING_MESSAGE
       );
 
       await updateWrapper(component);
 
-      expect(component.find(ErrorText).length).toEqual(1);
+      expect(component.find(ErrorText)).toHaveLength(1);
       expect(component.find(ErrorText).text()).toContain(
         ADD_EXERCISE_ERROR_MESSAGE
       );
-      expect(component.find(ExercisesList).prop('exercises').length).toEqual(0);
-      expect(component.find(InformationText).length).toEqual(0);
+      expect(component.find(ExercisesList).prop('exercises')).toHaveLength(0);
+      expect(component.find(InformationText)).toHaveLength(0);
     });
   });
 });
@@ -300,7 +300,7 @@ describe('deleting an exercise', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(ExercisesList).prop('exercises').length).toEqual(1);
+      expect(component.find(ExercisesList).prop('exercises')).toHaveLength(1);
 
       act(() => {
         component.find(ExercisesList).prop('deleteExercise')('1');
@@ -313,10 +313,10 @@ describe('deleting an exercise', () => {
       // );
       await updateWrapper(component);
 
-      expect(component.find(ExercisesList).prop('exercises').length).toEqual(0);
-      expect(component.find(ErrorText).length).toEqual(0);
+      expect(component.find(ExercisesList).prop('exercises')).toHaveLength(0);
+      expect(component.find(ErrorText)).toHaveLength(0);
 
-      expect(component.find(InformationText).length).toEqual(0);
+      expect(component.find(InformationText)).toHaveLength(0);
     });
   });
 
@@ -359,21 +359,21 @@ describe('deleting an exercise', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(ExercisesList).prop('exercises').length).toEqual(1);
+      expect(component.find(ExercisesList).prop('exercises')).toHaveLength(1);
 
       act(() => {
         component.find(ExercisesList).prop('deleteExercise')('1');
       });
-      // expect(component.find(InformationText).length).toEqual(1);
+      // expect(component.find(InformationText)).toHaveLength(1);
 
       await updateWrapper(component);
 
-      expect(component.find(ExercisesList).prop('exercises').length).toEqual(1);
-      expect(component.find(ErrorText).length).toEqual(1);
+      expect(component.find(ExercisesList).prop('exercises')).toHaveLength(1);
+      expect(component.find(ErrorText)).toHaveLength(1);
       expect(component.find(ErrorText).text()).toContain(
-        DELETE_EXERCISE_LOADING_MESSAGE
+        DELETE_EXERCISE_ERROR_MESSAGE
       );
-      expect(component.find(InformationText).length).toEqual(0);
+      expect(component.find(InformationText)).toHaveLength(0);
     });
   });
 });

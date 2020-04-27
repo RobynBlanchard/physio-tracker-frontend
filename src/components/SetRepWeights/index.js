@@ -1,13 +1,12 @@
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-import {
-  InputBlock,
-  Table,
-  Button,
-  InformationText,
-  ErrorText,
-} from '../index';
+import { string } from 'prop-types';
+import InputBlock from '../InputBlock';
+import Table from '../Table';
+import Button from '../Button';
+import InformationText from '../InformationText';
+import ErrorText from '../ErrorText';
 
 const GET_SETS = gql`
   query($exerciseID: ID!) {
@@ -34,7 +33,7 @@ const SetRepWeights = ({ exerciseID }) => {
   const [inputReps, setInputReps] = useState();
   const [addSet, addSetResponse] = useMutation(CREATE_SET);
   const { loading, error, data } = useQuery(GET_SETS, {
-    variables: { exerciseID: exerciseID },
+    variables: { exerciseID },
   });
 
   const tableHeadings = [
@@ -42,19 +41,18 @@ const SetRepWeights = ({ exerciseID }) => {
     { colID: 'reps', name: 'Reps' },
   ];
 
-  const handleAddSet = () => {
-    return addSet({
+  const handleAddSet = () =>
+    addSet({
       variables: {
         data: { exercise: exerciseID, weight: inputWeight, reps: inputReps },
       },
       refetchQueries: [
         {
           query: GET_SETS,
-          variables: { exerciseID: exerciseID },
+          variables: { exerciseID },
         },
       ],
     });
-  };
 
   if (loading) return <InformationText>Loading</InformationText>;
   if (error) return <ErrorText>error</ErrorText>;
@@ -79,20 +77,26 @@ const SetRepWeights = ({ exerciseID }) => {
         )}
         {addSetResponse.loading && <InformationText>loading</InformationText>}
       </div>
-      <style jsx>{`
-        .button-align {
-          width: 100%;
-          text-align: center;
-        }
+      <style jsx>
+        {`
+          .button-align {
+            width: 100%;
+            text-align: center;
+          }
 
-        .input-align {
-          display: flex;
-          justify-content: space-around;
-          padding: 16px;
-        }
-      `}</style>
+          .input-align {
+            display: flex;
+            justify-content: space-around;
+            padding: 16px;
+          }
+        `}
+      </style>
     </div>
   );
+};
+
+SetRepWeights.propTypes = {
+  exerciseID: string.isRequired,
 };
 
 export default SetRepWeights;

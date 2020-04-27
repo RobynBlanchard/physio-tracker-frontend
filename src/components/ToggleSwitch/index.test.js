@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import ToggleSwitch from './';
+import ToggleSwitch from '.';
 import { Switch, Slider } from './style';
 
 describe('ToggleSwitch', () => {
@@ -9,14 +9,14 @@ describe('ToggleSwitch', () => {
   it('renders a switch which takes an onClick prop', () => {
     const switcher = component.find(Switch);
 
-    expect(switcher.length).toEqual(1);
+    expect(switcher).toHaveLength(1);
     expect(switcher.prop('onClick')).toEqual(mockOnClick);
   });
 
   it('renders a slider that switches the enabled prop on click', () => {
     const slide = component.find(Slider);
 
-    expect(slide.length).toEqual(1);
+    expect(slide).toHaveLength(1);
     expect(slide.prop('enabled')).toEqual(false);
 
     slide.simulate('click');

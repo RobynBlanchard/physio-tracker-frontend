@@ -15,9 +15,13 @@ const Header = ({ router, title }) => (
   </div>
 );
 
+Header.defaultProps = {
+  title: '',
+};
+
 Header.propTypes = {
-  router: shape({ pathname: string }),
-  title: string
+  router: shape({ pathname: string }).isRequired,
+  title: string,
 };
 
 export default withRouter(Header);

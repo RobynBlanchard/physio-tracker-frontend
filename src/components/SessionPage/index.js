@@ -60,8 +60,8 @@ function Sessions() {
 
   const { loading, error, data } = useQuery(GET_SESSIONS);
 
-  const handleAddSession = (date) => {
-    return addSession({
+  const handleAddSession = (date) =>
+    addSession({
       variables: { data: { date } },
       refetchQueries: [
         {
@@ -69,10 +69,9 @@ function Sessions() {
         },
       ],
     });
-  };
 
-  const handleDeleteSession = (id) => {
-    return deleteSession({
+  const handleDeleteSession = (id) =>
+    deleteSession({
       variables: { id },
       refetchQueries: [
         {
@@ -80,10 +79,9 @@ function Sessions() {
         },
       ],
     });
-  };
 
-  const handleEditSession = (id, newDate) => {
-    return updateSession({
+  const handleEditSession = (id, newDate) =>
+    updateSession({
       variables: { id, data: { date: newDate } },
       refetchQueries: [
         {
@@ -91,7 +89,6 @@ function Sessions() {
         },
       ],
     });
-  };
 
   if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
   if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;
@@ -138,25 +135,27 @@ function Sessions() {
           Add session +
         </Button>
       </div>
-      <style jsx>{`
-        .button-align,
-        .input-align {
-          text-align: center;
-        }
+      <style jsx>
+        {`
+          .button-align,
+          .input-align {
+            text-align: center;
+          }
 
-        .input-align {
-          padding: 20px;
-        }
+          .input-align {
+            padding: 20px;
+          }
 
-        input {
-          font-family: inherit;
-          padding: 4px 12px;
-        }
+          input {
+            font-family: inherit;
+            padding: 4px 12px;
+          }
 
-        input:focus {
-          outline: 2px solid #1d75c7;
-        }
-      `}</style>
+          input:focus {
+            outline: 2px solid #1d75c7;
+          }
+        `}
+      </style>
     </div>
   );
 }

@@ -4,8 +4,6 @@ import { Title, Anchor } from './style';
 import { formatExercise } from '../../../util';
 
 const TitleLink = ({ title, exerciseId }) => {
-  const formattedTitle = formatExercise(title);
-
   return (
     <Link
       href="/exercises/sets/[id]/[title]"
@@ -19,7 +17,8 @@ const TitleLink = ({ title, exerciseId }) => {
 };
 
 TitleLink.propTypes = {
-  title: string,
+  title: string.isRequired,
+  exerciseId: string.isRequired,
 };
 
 export default TitleLink;

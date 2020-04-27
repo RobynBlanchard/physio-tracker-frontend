@@ -2,10 +2,10 @@ import Router from 'next/router';
 import Link from 'next/link';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import styled from 'styled-components';
 import { Layout, Button, FormInput, ErrorText } from '../components';
 import { useAuth } from '../context/authentication';
 import useForm from '../customHooks/useForm';
-import styled from 'styled-components';
 
 const Form = styled.form`
   display: flex;
@@ -56,16 +56,16 @@ function SignIn() {
   const [signIn, signInResponse] = useMutation(SIGN_IN);
   const { login, user } = useAuth();
 
-  const signInUser = () => {
-    return signIn({
+  const signInUser = (inputs) =>
+    signIn({
       variables: {
         data: {
           email: inputs.email,
-          password: inputs.password
-        }
-      }
+          password: inputs.password,
+        },
+      },
     });
-  };
+
   const { inputs, handleInputChange, handleSubmit } = useForm(
     { email: '', password: '' },
     signInUser
@@ -73,10 +73,10 @@ function SignIn() {
 
   // without !user || !user.token - get max depth exceeded error
   if (signInResponse.data && (!user || !user.token)) {
-    const token = signInResponse.data.login.token;
+    const { token } = signInResponse.data.login;
     if (token) {
       const email = null;
-      const name = signInResponse.data.login.user.name;
+      const { name } = signInResponse.data.login.user;
 
       login(token, name, email);
     }
@@ -87,9 +87,9 @@ function SignIn() {
   }
 
   return (
-    <Layout title={'Sign in'}>
+    <Layout title="Sign in">
       <ProfileWrapper>
-        <img src="/images/account.png" />
+        <img src="/images/account.png" alt="profile" />
       </ProfileWrapper>
       <Form onSubmit={handleSubmit}>
         <InputContainer>
@@ -114,7 +114,9 @@ function SignIn() {
             minLength="8"
           />
         </InputContainer>
-        <ErrorText>{signInResponse.error && signInResponse.error.message}</ErrorText>
+        <ErrorText>
+          {signInResponse.error && signInResponse.error.message}
+        </ErrorText>
 
         <Button type="submit" value="Sign in">
           Sign in
@@ -122,7 +124,7 @@ function SignIn() {
       </Form>
       <SecondaryLinkWrapper>
         <SecondaryLinkText>
-          Don't have an account?{' '}
+          Don&apos;t have an account?
           <Link href="/register">
             <SecondaryLink>Register now</SecondaryLink>
           </Link>

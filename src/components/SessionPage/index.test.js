@@ -19,6 +19,7 @@ import Sessions, {
 } from '.';
 import { SessionsList } from '../index';
 
+// eslint-disable-next-line jest/expect-expect
 it('renders without error', async () => {
   const mocks = [
     {
@@ -52,7 +53,7 @@ it('renders loading state initially', async () => {
 
     expect(component.text()).toContain(LOADING_MESSAGE);
     expect(component.text()).not.toContain(ERROR_MESSAGE);
-    expect(component.find(SessionsList).length).toEqual(0);
+    expect(component.find(SessionsList)).toHaveLength(0);
   });
 });
 
@@ -83,7 +84,7 @@ describe('fetching sessions', () => {
     expect(component.text()).not.toContain(LOADING_MESSAGE);
     expect(component.text()).not.toContain(ERROR_MESSAGE);
     const sessionList = component.find(SessionsList);
-    expect(sessionList.length).toEqual(1);
+    expect(sessionList).toHaveLength(1);
     expect(sessionList.prop('sessions')).toEqual(sessionsData);
   });
 
@@ -105,7 +106,7 @@ describe('fetching sessions', () => {
 
     expect(component.text()).not.toContain(LOADING_MESSAGE);
     expect(component.text()).toContain(ERROR_MESSAGE);
-    expect(component.find(SessionsList).length).toEqual(0);
+    expect(component.find(SessionsList)).toHaveLength(0);
   });
 });
 
@@ -156,7 +157,7 @@ describe('adding a session', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(0);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
 
       act(() => {
         component
@@ -174,7 +175,7 @@ describe('adding a session', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
       expect(component.find(SessionsList).prop('sessions')[0]).toEqual(
         newSession
       );
@@ -222,7 +223,7 @@ describe('adding a session', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(0);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
 
       act(() => {
         component
@@ -241,7 +242,7 @@ describe('adding a session', () => {
       expect(component.text()).toContain(ADD_SESSION_ERROR_MESSAGE);
 
       expect(component.text()).not.toContain(ADD_SESSION_LOADING_MESSAGE);
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(0);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
     });
   });
 });
@@ -288,7 +289,7 @@ describe('deleting a session', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
 
       act(() => {
         component.find(SessionsList).prop('deleteSession')('1');
@@ -298,7 +299,7 @@ describe('deleting a session', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(0);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
       expect(component.text()).not.toContain(DELETE_SESSION_LOADING_MESSAGE);
       expect(component.text()).not.toContain(DELETE_SESSION_ERROR_MESSAGE);
     });
@@ -340,7 +341,7 @@ describe('deleting a session', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
 
       act(() => {
         component.find(SessionsList).prop('deleteSession')('1');
@@ -348,7 +349,7 @@ describe('deleting a session', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
       expect(component.text()).not.toContain(DELETE_SESSION_LOADING_MESSAGE);
       expect(component.text()).toContain(DELETE_SESSION_ERROR_MESSAGE);
     });
@@ -396,7 +397,7 @@ describe('editing a session', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
       expect(component.find(SessionsList).prop('sessions')[0]).toEqual(
         originalSession
       );
@@ -412,7 +413,7 @@ describe('editing a session', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
       expect(component.find(SessionsList).prop('sessions')[0]).toEqual(
         updatedSession
       );
@@ -459,7 +460,7 @@ describe('editing a session', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
       expect(component.find(SessionsList).prop('sessions')[0]).toEqual(
         originalSession
       );
@@ -475,7 +476,7 @@ describe('editing a session', () => {
 
       expect(component.text()).toContain(UPDATE_SESSION_ERROR_MESSAGE);
 
-      expect(component.find(SessionsList).prop('sessions').length).toEqual(1);
+      expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
       expect(component.find(SessionsList).prop('sessions')[0]).toEqual(
         originalSession
       );

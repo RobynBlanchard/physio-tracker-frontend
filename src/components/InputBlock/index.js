@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { string, func } from 'prop-types';
 
 const Label = styled.label`
   display: block;
@@ -17,13 +18,16 @@ const Input = styled.input`
   font-size: 16px;
 `;
 
-const InputBlock = ({ label, onChange }) => {
-  return (
-    <span>
-      <Label>{label}</Label>
-      <Input onChange={onChange} />
-    </span>
-  );
+const InputBlock = ({ label, onChange }) => (
+  <span>
+    <Label>{label}</Label>
+    <Input onChange={onChange} />
+  </span>
+);
+
+InputBlock.propTypes = {
+  label: string.isRequired,
+  onChange: func.isRequired,
 };
 
 export default InputBlock;

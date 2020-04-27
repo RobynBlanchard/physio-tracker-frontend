@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { act } from 'react-dom/test-utils';
-import SessionsList from '.';
 import { shallow } from 'enzyme';
+import SessionsList from '.';
 import { ListItem, Text } from './style';
 import { updateWrapper } from '../../util/testing/act';
 import { mountWithTheme } from '../../util/testing/theme';
@@ -42,7 +42,7 @@ describe('SessionsList', () => {
     });
 
     it('rends a list item for each session', () => {
-      expect(allSessions.length).toEqual(2);
+      expect(allSessions).toHaveLength(2);
     });
 
     describe('List item', () => {
@@ -54,12 +54,12 @@ describe('SessionsList', () => {
 
       it('renders an edit button', () => {
         const editButton = firstSession.find(EditButton);
-        expect(editButton.length).toEqual(1);
+        expect(editButton).toHaveLength(1);
       });
 
       it('renders a delete button', () => {
         const deleteButton = firstSession.find(DeleteButton);
-        expect(deleteButton.length).toEqual(1);
+        expect(deleteButton).toHaveLength(1);
       });
 
       it('renders a link', () => {
@@ -92,13 +92,13 @@ describe('SessionsList', () => {
     });
 
     it('renders a save icon instead of the edit button', () => {
-      expect(firstSession.find(EditButton).length).toEqual(0);
-      expect(firstSession.find(SaveButton).length).toEqual(1);
+      expect(firstSession.find(EditButton)).toHaveLength(0);
+      expect(firstSession.find(SaveButton)).toHaveLength(1);
     });
 
     it('renders an input instead of a link', () => {
-      expect(firstSession.find('input').length).toEqual(1);
-      expect(firstSession.find(Link).length).toEqual(0);
+      expect(firstSession.find('input')).toHaveLength(1);
+      expect(firstSession.find(Link)).toHaveLength(0);
     });
 
     it('defaults the input value to the date of the session', () => {
@@ -108,16 +108,16 @@ describe('SessionsList', () => {
     });
 
     describe('editting the session', () => {
-      const editDate = async (component, date) => {
+      const editDate = async (wrapper, date) => {
         const event = { target: { value: date }, persist: jest.fn() };
         act(() => {
-          component.find('input').simulate('change', event);
+          wrapper.find('input').simulate('change', event);
         });
       };
 
-      const saveDate = async (component) => {
+      const saveDate = async (wrapper) => {
         act(() => {
-          component.find(SaveButton).simulate('click');
+          wrapper.find(SaveButton).simulate('click');
         });
       };
 
@@ -136,11 +136,7 @@ describe('SessionsList', () => {
             />
           );
 
-          wrapper
-            .find(ListItem)
-            .at(0)
-            .find(EditButton)
-            .simulate('click');
+          wrapper.find(ListItem).at(0).find(EditButton).simulate('click');
 
           await editDate(wrapper.find(ListItem).at(0), '2010-02-02');
 
@@ -151,13 +147,13 @@ describe('SessionsList', () => {
           await updateWrapper(wrapper);
         });
         it('renders the session link', () => {
-          expect(wrapper.find(ListItem).at(0).find('input').length).toEqual(0);
-          expect(wrapper.find(ListItem).at(0).find(Link).length).toEqual(1);
+          expect(wrapper.find(ListItem).at(0).find('input')).toHaveLength(0);
+          expect(wrapper.find(ListItem).at(0).find(Link)).toHaveLength(1);
         });
 
         it('renders the edit icon instead of the save icon', () => {
-          expect(firstSession.find(EditButton).length).toEqual(0);
-          expect(firstSession.find(SaveButton).length).toEqual(1);
+          expect(firstSession.find(EditButton)).toHaveLength(0);
+          expect(firstSession.find(SaveButton)).toHaveLength(1);
         });
 
         it('does not submit the editted session', () => {
@@ -183,8 +179,8 @@ describe('SessionsList', () => {
           });
 
           it('resets the list item to a link with an edit icon', () => {
-            expect(firstSession.find(EditButton).length).toEqual(1);
-            expect(firstSession.find(SaveButton).length).toEqual(0);
+            expect(firstSession.find(EditButton)).toHaveLength(1);
+            expect(firstSession.find(SaveButton)).toHaveLength(0);
           });
 
           it('calls submitEditSession with correct args', () => {
@@ -210,8 +206,8 @@ describe('SessionsList', () => {
           });
 
           it('resets the list item to a link with an edit icon', () => {
-            expect(firstSession.find(EditButton).length).toEqual(1);
-            expect(firstSession.find(SaveButton).length).toEqual(0);
+            expect(firstSession.find(EditButton)).toHaveLength(1);
+            expect(firstSession.find(SaveButton)).toHaveLength(0);
           });
 
           it('does not call submitEditSession', () => {

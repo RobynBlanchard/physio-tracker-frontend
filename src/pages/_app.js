@@ -1,11 +1,13 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import App from 'next/app';
 import { ApolloProvider } from '@apollo/react-hooks';
 import Head from 'next/head';
 
-import withData from '../api/apollo-client'
-import { AuthProvider } from '../context/authentication';
 import Cookies from 'js-cookie';
+import withData from '../api/apollo-client';
+import { AuthProvider } from '../context/authentication';
 
 function MyComponent({ children }) {
   // const { login, user, logout } = useAuth();
@@ -26,13 +28,13 @@ function MyComponent({ children }) {
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let userAuthenticated = false;
-    console.log('_app', userAuthenticated)
+    // console.log('_app', userAuthenticated);
     const token = Cookies.get('authToken');
     // console.log('_app token', token)
     // console.log('_app token', req)
     // console.log('_app token', ctx.req.cookies)
-    var cookiee = ctx.req ? { cookie: ctx.req.headers.cookie } : undefined
-    console.log('cookie', cookiee);
+    // const cookiee = ctx.req ? { cookie: ctx.req.headers.cookie } : undefined;
+    // console.log('cookie', cookiee);
 
     // const { AppToken } = nextCookie(ctx);
     if (token) {
@@ -62,7 +64,7 @@ class MyApp extends App {
       pageProps: Component.getInitialProps
         ? await Component.getInitialProps(ctx)
         : {},
-      userAuthenticated: userAuthenticated
+      userAuthenticated,
     };
   }
 

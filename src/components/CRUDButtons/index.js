@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { string, func } from 'prop-types';
 import { StyledIcon, IconButton } from './style';
 
 export const SaveButton = forwardRef(
@@ -29,6 +30,17 @@ export const EditButton = ({ onClick, title = 'edit', fill = 'white' }) => (
   </IconButton>
 );
 
+EditButton.defaultProps = {
+  title: 'edit',
+  fill: 'white',
+};
+
+EditButton.propTypes = {
+  onClick: func.isRequired,
+  title: string,
+  fill: string,
+};
+
 export const DeleteButton = ({ onClick, title = 'delete', fill = 'white' }) => (
   <IconButton onClick={onClick}>
     <StyledIcon
@@ -41,3 +53,14 @@ export const DeleteButton = ({ onClick, title = 'delete', fill = 'white' }) => (
     />
   </IconButton>
 );
+
+DeleteButton.defaultProps = {
+  title: 'delete',
+  fill: 'white',
+};
+
+DeleteButton.propTypes = {
+  onClick: func.isRequired,
+  title: string,
+  fill: string,
+};

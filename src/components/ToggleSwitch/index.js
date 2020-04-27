@@ -8,15 +8,19 @@ const ToggleSwitch = ({ onClick }) => {
   return (
     <Switch onClick={onClick}>
       <Slider
-        onClick={() => toggleEnabled(prevEnabled => !prevEnabled)}
+        onClick={() => toggleEnabled((prevEnabled) => !prevEnabled)}
         enabled={enabled}
-      ></Slider>
+      />
     </Switch>
   );
 };
 
+ToggleSwitch.defaultProps = {
+  onClick: () => {},
+};
+
 ToggleSwitch.propTypes = {
-  onClick: func
+  onClick: func,
 };
 
 export default ToggleSwitch;

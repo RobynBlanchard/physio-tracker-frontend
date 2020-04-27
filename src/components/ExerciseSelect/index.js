@@ -6,28 +6,31 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
-const ExerciseSelect = ({ exerciseOptions, onChange }) => {
-  return (
-    <Wrapper>
-      <select onChange={onChange}>
-        {exerciseOptions.map(exercise => (
-          <option value={exercise.value} key={exercise.value}>
-            {exercise.name}
-          </option>
-        ))}
-      </select>
-    </Wrapper>
-  );
+const ExerciseSelect = ({ exerciseOptions, onChange }) => (
+  <Wrapper>
+    <select onChange={onChange}>
+      {exerciseOptions.map((exercise) => (
+        <option value={exercise.value} key={exercise.value}>
+          {exercise.name}
+        </option>
+      ))}
+    </select>
+  </Wrapper>
+);
+
+ExerciseSelect.defaultProps = {
+  exerciseOptions: [],
+  onChange: () => {},
 };
 
 ExerciseSelect.propTypes = {
   exerciseOptions: arrayOf(
     shape({
       name: string,
-      value: string
+      value: string,
     })
   ),
-  onChange: func
+  onChange: func,
 };
 
 export default ExerciseSelect;

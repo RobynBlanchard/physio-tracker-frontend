@@ -2,7 +2,7 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { MockedProvider } from '@apollo/react-testing';
 import { mountWithTheme } from '../../util/testing/theme';
-import { updateWrapper, actWait } from '../../util/testing/act';
+import { updateWrapper } from '../../util/testing/act';
 import Sets, {
   GET_SETS,
   CREATE_SET,
@@ -21,6 +21,7 @@ import Table from '../Table';
 
 const exerciseID = '1';
 
+// eslint-disable-next-line jest/expect-expect
 it('renders without error', async () => {
   const mocks = [
     {
@@ -55,7 +56,7 @@ it('renders loading state initially', async () => {
     );
   });
 
-  expect(component.find(Table).length).toEqual(0);
+  expect(component.find(Table)).toHaveLength(0);
   expect(component.text()).toContain(LOADING_MESSAGE);
   expect(component.text()).not.toContain(ERROR_MESSAGE);
 });
@@ -88,7 +89,7 @@ describe('fetching sets', () => {
     expect(component.text()).not.toContain(LOADING_MESSAGE);
     expect(component.text()).not.toContain(ERROR_MESSAGE);
     const setsTable = component.find(Table);
-    expect(setsTable.length).toEqual(1);
+    expect(setsTable).toHaveLength(1);
     expect(setsTable.prop('rowData')).toEqual(setsData);
   });
 
@@ -111,7 +112,7 @@ describe('fetching sets', () => {
 
     expect(component.text()).not.toContain(LOADING_MESSAGE);
     expect(component.text()).toContain(ERROR_MESSAGE);
-    expect(component.find(Table).length).toEqual(0);
+    expect(component.find(Table)).toHaveLength(0);
   });
 });
 
@@ -195,11 +196,11 @@ describe('adding a set', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(Table).prop('rowData').length).toEqual(0);
+      expect(component.find(Table).prop('rowData')).toHaveLength(0);
 
       await addNewSet(component, newSetTime, newSetDistance);
 
-      expect(component.find(Table).prop('rowData').length).toEqual(1);
+      expect(component.find(Table).prop('rowData')).toHaveLength(1);
       expect(component.find(Table).prop('rowData')[0]).toEqual(newSet);
       expect(component.text()).not.toContain(ADD_SET_LOADING_MESSAGE);
       expect(component.text()).not.toContain(ADD_SET_ERROR_MESSAGE);
@@ -252,13 +253,13 @@ describe('adding a set', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(Table).prop('rowData').length).toEqual(0);
+      expect(component.find(Table).prop('rowData')).toHaveLength(0);
 
       await addNewSet(component, newSetTime, newSetDistance);
 
       expect(component.text()).toContain(ADD_SET_ERROR_MESSAGE);
       expect(component.text()).not.toContain(ADD_SET_LOADING_MESSAGE);
-      expect(component.find(Table).prop('rowData').length).toEqual(0);
+      expect(component.find(Table).prop('rowData')).toHaveLength(0);
     });
   });
 });
@@ -305,7 +306,7 @@ describe('deleting a set', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(Table).length).toEqual(1);
+      expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);
 
       act(() => {
@@ -362,7 +363,7 @@ describe('deleting a set', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(Table).length).toEqual(1);
+      expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);
 
       act(() => {
@@ -371,7 +372,7 @@ describe('deleting a set', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(Table).length).toEqual(1);
+      expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);
       expect(component.text()).not.toContain(DELETE_SET_LOADING_MESSAGE);
       expect(component.text()).toContain(DELETE_SET_ERROR_MESSAGE);
@@ -423,7 +424,7 @@ describe('editing a set', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(Table).length).toEqual(1);
+      expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);
 
       act(() => {
@@ -434,7 +435,7 @@ describe('editing a set', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(Table).length).toEqual(1);
+      expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([updatedSet]);
       expect(component.text()).not.toContain(UPDATE_SET_LOADING_MESSAGE);
       expect(component.text()).not.toContain(UPDATE_SET_ERROR_MESSAGE);
@@ -481,7 +482,7 @@ describe('editing a set', () => {
       );
 
       await updateWrapper(component);
-      expect(component.find(Table).length).toEqual(1);
+      expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);
 
       act(() => {
@@ -494,7 +495,7 @@ describe('editing a set', () => {
 
       expect(component.text()).toContain(UPDATE_SET_ERROR_MESSAGE);
 
-      expect(component.find(Table).length).toEqual(1);
+      expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);
       expect(component.text()).not.toContain(UPDATE_SET_LOADING_MESSAGE);
     });

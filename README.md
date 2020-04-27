@@ -15,3 +15,12 @@ remove heroku endpoint
 Display loading indicator
 Lint
 more useful log in errors
+react datepicker
+reduce latency with mutations - https://blog.apollographql.com/tutorial-graphql-mutations-optimistic-ui-and-store-updates-f7b6b66bf0e2
+order sessions by date
+add back in exercise summary
+Tidy up _app file
+
+lint
+
+reusable way to add dif set types

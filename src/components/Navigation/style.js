@@ -8,7 +8,7 @@ export const StyledIcon = styled(FontAwesomeIcon)`
 
 export const Nav = styled.nav`
   width: 100%;
-  `;
+`;
 
 export const Anchor = styled.a`
   text-decoration: none;

@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading */
 // move apollo hooks logic into authClient
 // handle returning error
 
 import React from 'react';
-import authClient from '../api/auth-client';
 import Cookies from 'js-cookie';
+import authClient from '../api/auth-client';
 // import {FullPageSpinner} from '../components/lib'
 const AuthContext = React.createContext();
 function AuthProvider(props) {
@@ -12,18 +13,18 @@ function AuthProvider(props) {
     const name = Cookies.get('name');
     return {
       token,
-      name
+      name,
     };
   };
-  const [user, setUser] = React.useState(defaultUser()); //TODO: fetch user token on server and pass down app
+  const [user, setUser] = React.useState(defaultUser()); // TODO: fetch user token on server and pass down app
 
-  const login = (token, name, email) => {
+  const login = (token, name) => {
     authClient.register(token, name);
-    console.log('log in action');
+    // console.log('log in action');
     return setUser({ token, name });
   };
 
-  const register = (token, name, email) => {
+  const register = (token, name) => {
     authClient.register(token, name);
     return setUser({ token, name });
   };
@@ -36,7 +37,12 @@ function AuthProvider(props) {
   };
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, register }}
+      value={{
+        user,
+        login,
+        logout,
+        register,
+      }}
       {...props}
     />
   );

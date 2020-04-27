@@ -2,14 +2,12 @@ import styled from 'styled-components';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-
-import {
-  Button,
-  ExercisesList,
-  ExerciseSelect,
-  InformationText,
-  ErrorText,
-} from '..';
+import { string } from 'prop-types';
+import Button from '../Button';
+import ExercisesList from '../ExercisesList';
+import ExerciseSelect from '../ExerciseSelect';
+import InformationText from '../InformationText';
+import ErrorText from '../ErrorText';
 
 export const LOADING_MESSAGE = 'loading exercises';
 export const ERROR_MESSAGE = 'error fetching exercises';
@@ -67,7 +65,7 @@ const exerciseOptions = [
 
 const ExercisePage = ({ sessionID }) => {
   const { loading, error, data } = useQuery(GET_EXERCISES, {
-    variables: { sessionID: sessionID },
+    variables: { sessionID },
   });
 
   const [addExercise, addExerciseResponse] = useMutation(CREATE_EXERCISE);
@@ -77,33 +75,31 @@ const ExercisePage = ({ sessionID }) => {
     exerciseOptions[0].value
   );
 
-  const handleDeleteExercise = (id) => {
-    return deleteExercise({
+  const handleDeleteExercise = (id) =>
+    deleteExercise({
       variables: {
-        id: id,
+        id,
       },
       refetchQueries: [
         {
           query: GET_EXERCISES,
-          variables: { sessionID: sessionID },
+          variables: { sessionID },
         },
       ],
     });
-  };
 
-  const handleAddExercise = () => {
-    return addExercise({
+  const handleAddExercise = () =>
+    addExercise({
       variables: {
         data: { session: sessionID.toString(), name: exerciseOption },
       },
       refetchQueries: [
         {
           query: GET_EXERCISES,
-          variables: { sessionID: sessionID },
+          variables: { sessionID },
         },
       ],
     });
-  };
 
   if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
   if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;
@@ -137,6 +133,10 @@ const ExercisePage = ({ sessionID }) => {
       </ButtonWrapper>
     </>
   );
+};
+
+ExercisePage.propTypes = {
+  sessionID: string.isRequired,
 };
 
 export default ExercisePage;

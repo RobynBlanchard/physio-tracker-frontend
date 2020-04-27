@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { arrayOf, string, shape } from 'prop-types';
+import { arrayOf, string, shape, func, bool } from 'prop-types';
 import { TableStyle, TableRow, TableHeader, TableData } from './style';
 import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
 const Table = ({
   handleEdit,
   handleDelete,
-  editSets = false,
-  tableHeadings = [],
-  rowData = [],
+  editSets,
+  tableHeadings,
+  rowData,
 }) => {
   const [curEdittedSet, setCurEdittedSet] = useState(null);
   const shouldRenderEdit = editSets && rowData.length > 0;
@@ -87,6 +87,14 @@ const Table = ({
   );
 };
 
+Table.defaultProps = {
+  tableHeadings: [],
+  rowData: [],
+  handleEdit: () => {},
+  handleDelete: () => {},
+  editSets: false,
+};
+
 Table.propTypes = {
   tableHeadings: arrayOf(
     shape({
@@ -95,6 +103,9 @@ Table.propTypes = {
     })
   ),
   rowData: arrayOf(shape({})),
+  handleEdit: func,
+  handleDelete: func,
+  editSets: bool,
 };
 
 export default Table;

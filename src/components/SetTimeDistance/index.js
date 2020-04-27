@@ -1,13 +1,12 @@
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
-import {
-  InputBlock,
-  Table,
-  Button,
-  InformationText,
-  ErrorText,
-} from '../index';
+import { string } from 'prop-types';
+import InputBlock from '../InputBlock';
+import Table from '../Table';
+import Button from '../Button';
+import InformationText from '../InformationText';
+import ErrorText from '../ErrorText';
 
 export const LOADING_MESSAGE = 'loading sets';
 export const ERROR_MESSAGE = 'error fetching sets';
@@ -68,13 +67,13 @@ const Sets = ({ exerciseID }) => {
   const [inputDistance, setInputDistance] = useState();
   const [addSet, addSetResponse] = useMutation(CREATE_SET);
   const { loading, error, data } = useQuery(GET_SETS, {
-    variables: { exerciseID: exerciseID },
+    variables: { exerciseID },
   });
   const [updateSet, updateSetResponse] = useMutation(UPDATE_SET);
   const [deleteSet, deleteSetResponse] = useMutation(DELETE_SET);
 
-  const handleAddSet = () => {
-    return addSet({
+  const handleAddSet = () =>
+    addSet({
       variables: {
         data: {
           exercise: exerciseID,
@@ -85,11 +84,10 @@ const Sets = ({ exerciseID }) => {
       refetchQueries: [
         {
           query: GET_SETS,
-          variables: { exerciseID: exerciseID },
+          variables: { exerciseID },
         },
       ],
     });
-  };
 
   const handleEdit = (row) => {
     const { id, time, distance } = row;
@@ -99,23 +97,22 @@ const Sets = ({ exerciseID }) => {
       refetchQueries: [
         {
           query: GET_SETS,
-          variables: { exerciseID: exerciseID },
+          variables: { exerciseID },
         },
       ],
     });
   };
 
-  const handleDelete = (id) => {
-    return deleteSet({
+  const handleDelete = (id) =>
+    deleteSet({
       variables: { id },
       refetchQueries: [
         {
           query: GET_SETS,
-          variables: { exerciseID: exerciseID },
+          variables: { exerciseID },
         },
       ],
     });
-  };
 
   const tableHeadings = [
     { colID: 'time', name: 'Time (mins)' },
@@ -128,7 +125,9 @@ const Sets = ({ exerciseID }) => {
   return (
     <div>
       {data && data.sets.length > 0 && (
-        <button onClick={() => setEditSets((prev) => !prev)}>Edit</button>
+        <button type="button" onClick={() => setEditSets((prev) => !prev)}>
+          Edit
+        </button>
       )}
       <Table
         handleEdit={handleEdit}
@@ -171,20 +170,26 @@ const Sets = ({ exerciseID }) => {
       {updateSetResponse.loading && (
         <InformationText>{UPDATE_SET_LOADING_MESSAGE}</InformationText>
       )}
-      <style jsx>{`
-        .button-align {
-          width: 100%;
-          text-align: center;
-        }
+      <style jsx>
+        {`
+          .button-align {
+            width: 100%;
+            text-align: center;
+          }
 
-        .input-align {
-          display: flex;
-          justify-content: space-around;
-          padding: 16px;
-        }
-      `}</style>
+          .input-align {
+            display: flex;
+            justify-content: space-around;
+            padding: 16px;
+          }
+        `}
+      </style>
     </div>
   );
+};
+
+Sets.propTypes = {
+  exerciseID: string.isRequired,
 };
 
 export default Sets;

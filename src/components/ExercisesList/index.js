@@ -1,27 +1,29 @@
-import {
-  IconButton,
-  StyledIcon,
-  ExerciseItemWrapper,
-} from './style';
-import TitleLink from './TitleLink';
 import { arrayOf, string, shape, func } from 'prop-types';
-import { DeleteButton } from  '../CRUDButtons';
+import { ExerciseItemWrapper } from './style';
+import TitleLink from './TitleLink';
+import { DeleteButton } from '../CRUDButtons';
 
-const ExercisesList = ({ deleteExercise, exercises = [] }) => {
-  return (
-    <>
-      {exercises.map((exercise) => {
-        const { name, id } = exercise;
+const ExercisesList = ({ deleteExercise, exercises }) => (
+  <>
+    {exercises.map((exercise) => {
+      const { name, id } = exercise;
 
-        return (
-          <ExerciseItemWrapper key={`${name}_${id}`}>
-            <TitleLink title={name} exerciseId={id} />
-            <DeleteButton onClick={() => deleteExercise(id)}  title="Delete this exercise?"/>
-          </ExerciseItemWrapper>
-        );
-      })}
-    </>
-  );
+      return (
+        <ExerciseItemWrapper key={`${name}_${id}`}>
+          <TitleLink title={name} exerciseId={id} />
+          <DeleteButton
+            onClick={() => deleteExercise(id)}
+            title="Delete this exercise?"
+          />
+        </ExerciseItemWrapper>
+      );
+    })}
+  </>
+);
+
+ExercisesList.defaultProps = {
+  exercises: [],
+  deleteExercise: () => {},
 };
 
 ExercisesList.propTypes = {
@@ -30,7 +32,7 @@ ExercisesList.propTypes = {
       name: string,
     })
   ),
-  deleteExercise: func.isRequired,
+  deleteExercise: func,
 };
 
 export default ExercisesList;

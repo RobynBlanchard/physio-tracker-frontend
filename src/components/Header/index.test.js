@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import { mount } from 'enzyme';
-import Header from './';
+import Header from '.';
 import { Heading, Anchor, StyledIcon } from './style';
 
 const mockedRouter = {};
@@ -11,27 +11,27 @@ describe('Header', () => {
 
   describe('when not on the homepage', () => {
     const router = {
-      pathname: '/sessions'
+      pathname: '/sessions',
     };
     const component = mount(<Header router={router} title={title} />);
     it('renders a title', () => {
       const heading = component.find(Heading);
 
-      expect(heading.length).toEqual(1);
+      expect(heading).toHaveLength(1);
       expect(heading.text()).toEqual(title);
     });
 
     it('renders an icon', () => {
       const icon = component.find(StyledIcon);
 
-      expect(icon.length).toEqual(1);
+      expect(icon).toHaveLength(1);
       expect(icon.prop('icon')).toEqual('arrow-left');
     });
 
     it('renders a link', () => {
       const link = component.find(Anchor);
 
-      expect(link.length).toEqual(1);
+      expect(link).toHaveLength(1);
     });
 
     it('calls back function on click of the link', () => {
@@ -47,21 +47,21 @@ describe('Header', () => {
 
   describe('when on the homepage', () => {
     const router = {
-      pathname: '/'
+      pathname: '/',
     };
     const component = mount(<Header router={router} title={title} />);
 
     it('renders a title ', () => {
       const heading = component.find(Heading);
 
-      expect(heading.length).toEqual(1);
+      expect(heading).toHaveLength(1);
       expect(heading.text()).toEqual(title);
     });
 
     it('does not render a link', () => {
       const link = component.find(Anchor);
 
-      expect(link.length).toEqual(0);
+      expect(link).toHaveLength(0);
     });
   });
 });

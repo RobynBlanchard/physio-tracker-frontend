@@ -6,7 +6,6 @@ import Header from './Header';
 import Layout from './Layout';
 import SessionsList from './SessionsList';
 import Navigation from './Navigation';
-import NavigationTab from './NavigationTab';
 import Table from './Table';
 import ToggleSwitch from './ToggleSwitch';
 import SetRepWeights from './SetRepWeights';
@@ -25,7 +24,6 @@ export {
   Layout,
   SessionsList,
   Navigation,
-  NavigationTab,
   Table,
   ToggleSwitch,
   FormInput,
@@ -35,5 +33,5 @@ export {
   ExercisePage,
   PageBackground,
   InformationText,
-  ErrorText
+  ErrorText,
 };

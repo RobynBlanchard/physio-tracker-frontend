@@ -11,7 +11,7 @@ const mapping = {
   HAMSTRING_CURL_LEFT_LEG: SetRepWeights,
   HAMSTRING_CURL_BOTH_LEGS: SetRepWeights,
   SQUAT: SetRepWeights,
-  DEADLIFT: SetRepWeights
+  DEADLIFT: SetRepWeights,
 };
 
 export default mapping;

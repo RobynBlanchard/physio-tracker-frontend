@@ -1,8 +1,8 @@
 import Router from 'next/router';
-import { Layout, Button } from '../components';
-import { useAuth } from '../context/authentication';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { Layout, Button } from '../components';
+import { useAuth } from '../context/authentication';
 
 const Text = styled.h2`
   color: ${({ theme }) => theme.colors.darkestGrey};
@@ -34,15 +34,18 @@ function Account() {
   };
 
   return (
-    <Layout title={'Account'}>
+    <Layout title="Account">
       <ProfileWrapper>
-        <img src="/images/account.png" />
+        <img src="/images/account.png" alt="profile" />
       </ProfileWrapper>
       <Wrapper>
-        <Text>Hello {user && user.name}</Text>
+        <Text>
+          Hello
+          {user && user.name}
+        </Text>
         <Button onClick={handleLogOut}>sign out</Button>
       </Wrapper>
-      <style jsx>{``}</style>
+      <style jsx />
     </Layout>
   );
 }

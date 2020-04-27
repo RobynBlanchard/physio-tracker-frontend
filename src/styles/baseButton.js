@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const BaseButton = styled.button`
+export default styled.button`
   background: none;
   margin: 0;
   padding: 0;

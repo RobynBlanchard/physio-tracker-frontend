@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { BaseButton } from '../../styles/utils';
+import BaseButton from '../../styles/baseButton';
 
 // extract into component -> icon ?
 export const IconButton = styled(BaseButton)`
@@ -8,7 +8,7 @@ export const IconButton = styled(BaseButton)`
 `;
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: ${({ theme, fill }) => (fill ? fill : theme.colors.white)};
+  color: ${({ theme, fill }) => fill || theme.colors.white};
   width: 20px;
   pointer-events: none;
 `;
@@ -17,7 +17,7 @@ export const TableStyle = styled.table`
   width: 100%;
   background: ${({ theme }) => theme.colors.lightestGrey};
   border-collapse: collapse;
-  color:  ${({ theme }) => theme.colors.darkestGrey};
+  color: ${({ theme }) => theme.colors.darkestGrey};
   border-collapse: collapse;
   border-radius: 8px;
   overflow: hidden;

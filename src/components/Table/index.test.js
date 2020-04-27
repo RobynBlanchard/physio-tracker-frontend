@@ -68,7 +68,7 @@ describe('editting table data', () => {
         <Table
           tableHeadings={mockTableHeadings}
           rowData={mockTableData}
-          editSets={true}
+          editSets
         />
       );
 
@@ -79,17 +79,15 @@ describe('editting table data', () => {
       });
 
       it('renders an edit icon next to the row data', () => {
-        expect(component.find(TableRow).find(EditButton).length).toEqual(1);
+        expect(component.find(TableRow).find(EditButton)).toHaveLength(1);
       });
 
       it('does not render a save icon next to the row data', () => {
-        expect(component.find(TableRow).find(SaveButton).length).toEqual(0);
+        expect(component.find(TableRow).find(SaveButton)).toHaveLength(0);
       });
 
       it('renders a delete icon next to the row data', () => {
-        expect(component.find(TableRow).find(DeleteButton).length).toEqual(
-          1
-        );
+        expect(component.find(TableRow).find(DeleteButton)).toHaveLength(1);
       });
     });
 
@@ -101,7 +99,7 @@ describe('editting table data', () => {
           <Table
             tableHeadings={mockTableHeadings}
             rowData={mockTableData}
-            editSets={true}
+            editSets
             handleEdit={handleEdit}
           />
         );
@@ -109,14 +107,12 @@ describe('editting table data', () => {
       });
 
       it('renders an input for each row data', () => {
-        expect(component.find('input').length).toEqual(
-          mockTableHeadings.length
-        );
+        expect(component.find('input')).toHaveLength(mockTableHeadings.length);
       });
 
       it('replaces the edit icon with a save icon', () => {
-        expect(component.find(TableRow).find(EditButton).length).toEqual(0);
-        expect(component.find(TableRow).find(SaveButton).length).toEqual(1);
+        expect(component.find(TableRow).find(EditButton)).toHaveLength(0);
+        expect(component.find(TableRow).find(SaveButton)).toHaveLength(1);
       });
 
       describe('submitting updated data', () => {
@@ -137,7 +133,7 @@ describe('editting table data', () => {
           await component.update();
 
           expect(handleEdit).toHaveBeenCalledTimes(1);
-          expect(handleEdit).toBeCalledWith(
+          expect(handleEdit).toHaveBeenCalledWith(
             expect.objectContaining({
               ...mockTableData[0],
               weight: newWeight,
@@ -155,7 +151,7 @@ describe('editting table data', () => {
           <Table
             tableHeadings={mockTableHeadings}
             rowData={mockTableData}
-            editSets={true}
+            editSets
             handleDelete={handleDelete}
           />
         );

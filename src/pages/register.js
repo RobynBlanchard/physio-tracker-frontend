@@ -39,8 +39,9 @@ const CREATE_USER = gql`
 function Account() {
   const [addUser, addUserResponse] = useMutation(CREATE_USER);
   const { register, user } = useAuth();
-  const createAccount = () => {
-    return addUser({
+
+  const createAccount = (inputs) =>
+    addUser({
       variables: {
         data: {
           name: inputs.name,
@@ -49,7 +50,6 @@ function Account() {
         },
       },
     });
-  };
   const { inputs, handleInputChange, handleSubmit } = useForm(
     { name: '', email: '', password: '' },
     createAccount
@@ -58,10 +58,10 @@ function Account() {
   // move to component did mount ???
   // without !user || !user.token - get max depth exceeded error
   if (addUserResponse.data && (!user || !user.token)) {
-    const token = addUserResponse.data.createUser.token;
+    const { token } = addUserResponse.data.createUser;
     if (token) {
-      const email = null; //TODO
-      const name = addUserResponse.data.createUser.user.name;
+      const email = null; // TODO
+      const { name } = addUserResponse.data.createUser.user;
 
       register(token, name, email);
     }
@@ -72,9 +72,9 @@ function Account() {
   }
 
   return (
-    <Layout title={'Register'}>
+    <Layout title="Register">
       <ProfileWrapper>
-        <img src="/images/new-user-icon.png" />
+        <img src="/images/new-user-icon.png" alt="profile" />
       </ProfileWrapper>
       <Form onSubmit={handleSubmit}>
         <InputContainer>
@@ -120,7 +120,7 @@ function Account() {
           Create account
         </Button>
       </Form>
-      <style jsx>{``}</style>
+      <style jsx />
     </Layout>
   );
 }

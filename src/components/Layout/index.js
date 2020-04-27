@@ -1,24 +1,24 @@
 import { ThemeProvider } from 'styled-components';
-import { string, node, number } from 'prop-types';
+import { string, node } from 'prop-types';
 import Header from '../Header';
 import Navigation from '../Navigation';
 import theme from '../../styles/theme';
 import '../Icons';
 import { ContentContainer, NavContainer, LayoutContainer } from './style';
 
-const Layout = ({ title, children }) => {
-  return (
-    <LayoutContainer>
-      <ThemeProvider theme={theme}>
-        <ContentContainer>
-          <Header title={title} />
-          {children}
-        </ContentContainer>
-        <NavContainer>
-          <Navigation />
-        </NavContainer>
-      </ThemeProvider>
-      <style jsx global>{`
+const Layout = ({ title, children }) => (
+  <LayoutContainer>
+    <ThemeProvider theme={theme}>
+      <ContentContainer>
+        <Header title={title} />
+        {children}
+      </ContentContainer>
+      <NavContainer>
+        <Navigation />
+      </NavContainer>
+    </ThemeProvider>
+    <style jsx global>
+      {`
         * {
           margin: 0;
           padding: 0;
@@ -33,20 +33,29 @@ const Layout = ({ title, children }) => {
         body {
           height: 100%;
         }
-        
+
         body {
           font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
-          Helvetica, sans-serif;
-          background: linear-gradient(${theme.colors.primary}, ${theme.colors.secondary}, ${theme.colors.teritary});
+            Helvetica, sans-serif;
+          background: linear-gradient(
+            ${theme.colors.primary},
+            ${theme.colors.secondary},
+            ${theme.colors.teritary}
+          );
         }
-      `}</style>
-    </LayoutContainer>
-  );
+      `}
+    </style>
+  </LayoutContainer>
+);
+
+Layout.defaultProps = {
+  title: '',
+  children: false,
 };
 
 Layout.propTypes = {
   title: string,
-  children: node
+  children: node,
 };
 
 export default Layout;
