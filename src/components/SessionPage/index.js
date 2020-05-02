@@ -16,6 +16,8 @@ export const DELETE_SESSION_ERROR_MESSAGE = 'sorry could not delete session';
 export const UPDATE_SESSION_LOADING_MESSAGE = 'updating session';
 export const UPDATE_SESSION_ERROR_MESSAGE = 'sorry could not update session';
 
+export const INVALID_DATE_SUBMITTED = 'please enter a valid date';
+
 export const GET_SESSIONS = gql`
   query getSessions {
     sessions {
@@ -59,9 +61,15 @@ function Sessions() {
   const [updateSession, updateSessionResponse] = useMutation(UPDATE_SESSION);
 
   const { loading, error, data } = useQuery(GET_SESSIONS);
+  const [dateError, displayDateError] = useState(false);
 
-  const handleAddSession = (date) =>
-    addSession({
+  const handleAddSession = (date) => {
+    const isValidDate = moment(date).isValid();
+
+    if (!isValidDate) {
+      return displayDateError(true);
+    }
+    return addSession({
       variables: { data: { date } },
       refetchQueries: [
         {
@@ -69,6 +77,7 @@ function Sessions() {
         },
       ],
     });
+  };
 
   const handleDeleteSession = (id) =>
     deleteSession({
@@ -118,12 +127,14 @@ function Sessions() {
       {updateSessionResponse.loading && (
         <InformationText>{UPDATE_SESSION_LOADING_MESSAGE}</InformationText>
       )}
+      {dateError && <ErrorText>{INVALID_DATE_SUBMITTED}</ErrorText>}
 
       <div className="input-align">
         <input
           id="input-new-session-date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
+          onClick={() => displayDateError(false)}
           maxLength="10"
         />
       </div>

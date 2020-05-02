@@ -20,7 +20,7 @@ reduce latency with mutations - https://blog.apollographql.com/tutorial-graphql-
 order sessions by date
 add back in exercise summary
 Tidy up _app file
-
+sort
 lint
 
 reusable way to add dif set types

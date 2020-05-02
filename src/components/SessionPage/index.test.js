@@ -1,6 +1,7 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { MockedProvider } from '@apollo/react-testing';
+import moment from 'moment';
 import { mountWithTheme } from '../../util/testing/theme';
 import { updateWrapper, actWait } from '../../util/testing/act';
 import Sessions, {
@@ -16,8 +17,16 @@ import Sessions, {
   DELETE_SESSION_ERROR_MESSAGE,
   UPDATE_SESSION_LOADING_MESSAGE,
   UPDATE_SESSION_ERROR_MESSAGE,
+  INVALID_DATE_SUBMITTED,
 } from '.';
 import { SessionsList } from '../index';
+
+jest.mock('moment', () =>
+  jest.fn(() => ({
+    isValid: () => true,
+    format: () => '2020-01-01',
+  }))
+);
 
 // eslint-disable-next-line jest/expect-expect
 it('renders without error', async () => {
@@ -111,11 +120,13 @@ describe('fetching sessions', () => {
 });
 
 describe('adding a session', () => {
-  describe('when the mutation is successful', () => {
-    it('calls create session mutation and displays refetched sessions', async () => {
-      Date.now = jest.fn(() => new Date(Date.UTC(2020, 1, 1)).valueOf());
-
-      const newSession = { id: '3', date: '2020-02-01' };
+  describe('when the input date is invalid', () => {
+    let component;
+    beforeEach(async () => {
+      moment.mockImplementation(() => ({
+        isValid: () => false,
+        format: () => {},
+      }));
 
       const mockGetSessions = {
         request: {
@@ -126,30 +137,9 @@ describe('adding a session', () => {
         },
       };
 
-      const mockCreateSession = {
-        request: {
-          query: CREATE_SESSION,
-          variables: { data: { date: '2020-02-01' } },
-        },
-        result: { data: newSession },
-      };
+      const mocks = [mockGetSessions];
 
-      const mockRefreshedGetSessions = {
-        request: {
-          query: GET_SESSIONS,
-        },
-        result: {
-          data: { sessions: [newSession] },
-        },
-      };
-
-      const mocks = [
-        mockGetSessions,
-        mockCreateSession,
-        mockRefreshedGetSessions,
-      ];
-
-      const component = mountWithTheme(
+      component = mountWithTheme(
         <MockedProvider mocks={mocks} addTypename={false}>
           <Sessions />
         </MockedProvider>
@@ -157,12 +147,10 @@ describe('adding a session', () => {
 
       await updateWrapper(component);
 
-      expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
-
       act(() => {
         component
           .find('#input-new-session-date')
-          .simulate('change', { target: { value: '2020-02-01' } });
+          .simulate('change', { target: { value: '2020-02-99' } });
       });
 
       await updateWrapper(component);
@@ -170,79 +158,161 @@ describe('adding a session', () => {
       act(() => {
         component.find('button').find('#add-new-session').prop('onClick')();
       });
+    });
 
-      expect(component.text()).toContain(ADD_SESSION_LOADING_MESSAGE);
+    it('displays an error message', () => {
+      expect(component.text()).toContain(INVALID_DATE_SUBMITTED);
+    });
 
-      await updateWrapper(component);
+    it('clears the error message when the input is clicked again', () => {
+      act(() => {
+        component.find('#input-new-session-date').simulate('click');
+      });
 
-      expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
-      expect(component.find(SessionsList).prop('sessions')[0]).toEqual(
-        newSession
-      );
-
-      expect(component.text()).not.toContain(ADD_SESSION_LOADING_MESSAGE);
-      expect(component.text()).not.toContain(ADD_SESSION_ERROR_MESSAGE);
+      expect(component.text()).not.toContain(INVALID_DATE_SUBMITTED);
     });
   });
 
-  describe('when the mutation is unsuccessful', () => {
-    it('calls create session mutation and displays error', async () => {
-      Date.now = jest.fn(() => new Date(Date.UTC(2020, 1, 1)).valueOf());
+  describe('when the input date is valid', () => {
+    beforeEach(() => {
+      moment.mockImplementation(() => ({
+        isValid: () => true,
+        format: () => {},
+      }));
+    });
 
-      const mockGetSessions = {
-        request: {
-          query: GET_SESSIONS,
-        },
-        result: {
-          data: { sessions: [] },
-        },
-      };
-      const mockError = {
-        request: {
-          query: CREATE_SESSION,
-          variables: { data: { date: '2020-02-01' } },
-        },
-        result: { errors: [{ message: 'Could not create session' }] },
-      };
+    describe('when the mutation is successful', () => {
+      it('calls create session mutation and displays refetched sessions', async () => {
+        const newSessionDate = '2020-02-01';
+        const newSession = { id: '3', date: newSessionDate };
 
-      const mocks = [mockGetSessions, mockError, mockGetSessions];
+        const mockGetSessions = {
+          request: {
+            query: GET_SESSIONS,
+          },
+          result: {
+            data: { sessions: [] },
+          },
+        };
 
-      const component = mountWithTheme(
-        <MockedProvider
-          mocks={mocks}
-          addTypename={false}
-          defaultOptions={{
-            mutate: {
-              errorPolicy: 'all',
-            },
-          }}
-        >
-          <Sessions />
-        </MockedProvider>
-      );
+        const mockCreateSession = {
+          request: {
+            query: CREATE_SESSION,
+            variables: { data: { date: newSessionDate } },
+          },
+          result: { data: newSession },
+        };
 
-      await updateWrapper(component);
+        const mockRefreshedGetSessions = {
+          request: {
+            query: GET_SESSIONS,
+          },
+          result: {
+            data: { sessions: [newSession] },
+          },
+        };
 
-      expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
+        const mocks = [
+          mockGetSessions,
+          mockCreateSession,
+          mockRefreshedGetSessions,
+        ];
 
-      act(() => {
-        component
-          .find('#input-new-session-date')
-          .simulate('change', { target: { value: '2020-02-01' } });
+        const component = mountWithTheme(
+          <MockedProvider mocks={mocks} addTypename={false}>
+            <Sessions />
+          </MockedProvider>
+        );
+
+        await updateWrapper(component);
+
+        expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
+
+        act(() => {
+          component
+            .find('#input-new-session-date')
+            .simulate('change', { target: { value: newSessionDate } });
+        });
+
+        await updateWrapper(component);
+
+        act(() => {
+          component.find('button').find('#add-new-session').prop('onClick')();
+        });
+
+        expect(component.text()).toContain(ADD_SESSION_LOADING_MESSAGE);
+
+        await updateWrapper(component);
+
+        expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
+        expect(component.find(SessionsList).prop('sessions')[0]).toEqual(
+          newSession
+        );
+
+        expect(component.text()).not.toContain(ADD_SESSION_LOADING_MESSAGE);
+        expect(component.text()).not.toContain(ADD_SESSION_ERROR_MESSAGE);
       });
+    });
 
-      await updateWrapper(component);
+    describe('when the mutation is unsuccessful', () => {
+      it('calls create session mutation and displays error', async () => {
+        const newSessionDate = '2020-02-01';
 
-      act(() => {
-        component.find('button').find('#add-new-session').prop('onClick')();
+        const mockGetSessions = {
+          request: {
+            query: GET_SESSIONS,
+          },
+          result: {
+            data: { sessions: [] },
+          },
+        };
+        const mockError = {
+          request: {
+            query: CREATE_SESSION,
+            variables: { data: { date: newSessionDate } },
+          },
+          result: { errors: [{ message: 'Could not create session' }] },
+        };
+
+        const mocks = [mockGetSessions, mockError, mockGetSessions];
+
+        const component = mountWithTheme(
+          <MockedProvider
+            mocks={mocks}
+            addTypename={false}
+            defaultOptions={{
+              mutate: {
+                errorPolicy: 'all',
+              },
+            }}
+          >
+            <Sessions />
+          </MockedProvider>
+        );
+
+        await updateWrapper(component);
+
+        expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
+
+        act(() => {
+          component
+            .find('#input-new-session-date')
+            .simulate('change', { target: { value: newSessionDate } });
+        });
+
+        await updateWrapper(component);
+
+        act(() => {
+          component.find('button').find('#add-new-session').prop('onClick')();
+        });
+
+        await actWait();
+
+        expect(component.text()).toContain(ADD_SESSION_ERROR_MESSAGE);
+
+        expect(component.text()).not.toContain(ADD_SESSION_LOADING_MESSAGE);
+        expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
       });
-
-      await actWait();
-
-      expect(component.text()).toContain(ADD_SESSION_ERROR_MESSAGE);
-
-      expect(component.text()).not.toContain(ADD_SESSION_LOADING_MESSAGE);
-      expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
     });
   });
 });
@@ -250,12 +320,14 @@ describe('adding a session', () => {
 describe('deleting a session', () => {
   describe('when the mutation is successful', () => {
     it('removes the session from the list', async () => {
+      const session = { id: '1', date: '2020-02-01' };
+
       const mockGetSessions = {
         request: {
           query: GET_SESSIONS,
         },
         result: {
-          data: { sessions: [{ id: '1', date: '2020-02-01' }] },
+          data: { sessions: [session] },
         },
       };
 
@@ -264,7 +336,7 @@ describe('deleting a session', () => {
           query: DELETE_SESSION,
           variables: { id: '1' },
         },
-        result: { data: { id: '1', date: '2020-02-01' } },
+        result: { data: session },
       };
 
       const mockRefreshGetSessions = {
