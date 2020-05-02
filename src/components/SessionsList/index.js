@@ -10,10 +10,8 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions }) => {
   const saveRef = useRef(null);
   const [edittedSession, updatedEdittedSession] = useState(null);
 
-  const formatDate = (date) => {
-    const m = moment(date, 'YYYY-MM-DD');
-    return m.format('dddd Do MMMM');
-  };
+  const formatDate = (date) =>
+    moment(date, 'YYYY-MM-DD').format('dddd MMMM Do YYYY');
 
   const handleDeleteSession = (id) => {
     deleteSession(id);

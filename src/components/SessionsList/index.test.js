@@ -1,11 +1,18 @@
 import Link from 'next/link';
 import { act } from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
+import moment from 'moment';
 import SessionsList from '.';
 import { ListItem, Text } from './style';
 import { updateWrapper } from '../../util/testing/act';
 import { mountWithTheme } from '../../util/testing/theme';
 import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
+
+jest.mock('moment', () =>
+  jest.fn((date) => ({
+    format: () => date,
+  }))
+);
 
 describe('SessionsList', () => {
   const firstSessionID = '1';
@@ -46,10 +53,8 @@ describe('SessionsList', () => {
     });
 
     describe('List item', () => {
-      it('formats the date', () => {
-        expect(firstSession.find(Text).at(0).text()).toEqual(
-          'Tuesday 1st January'
-        );
+      it('renders the date', () => {
+        expect(firstSession.find(Text).at(0).text()).toEqual('2019-01-01');
       });
 
       it('renders an edit button', () => {
