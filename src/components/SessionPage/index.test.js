@@ -34,6 +34,7 @@ it('renders without error', async () => {
     {
       request: {
         query: GET_SESSIONS,
+        variables: { orderBy: 'date_ASC' },
       },
       result: {
         data: {
@@ -76,6 +77,7 @@ describe('fetching sessions', () => {
     const mock = {
       request: {
         query: GET_SESSIONS,
+        variables: { orderBy: 'date_ASC' },
       },
       result: {
         data: { sessions: sessionsData },
@@ -101,6 +103,7 @@ describe('fetching sessions', () => {
     const mock = {
       request: {
         query: GET_SESSIONS,
+        variables: { orderBy: 'date_ASC' },
       },
       error: new Error('Could not fetch sessions'),
     };
@@ -131,6 +134,7 @@ describe('adding a session', () => {
       const mockGetSessions = {
         request: {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
         result: {
           data: { sessions: [] },
@@ -189,6 +193,7 @@ describe('adding a session', () => {
         const mockGetSessions = {
           request: {
             query: GET_SESSIONS,
+            variables: { orderBy: 'date_ASC' },
           },
           result: {
             data: { sessions: [] },
@@ -206,6 +211,7 @@ describe('adding a session', () => {
         const mockRefreshedGetSessions = {
           request: {
             query: GET_SESSIONS,
+            variables: { orderBy: 'date_ASC' },
           },
           result: {
             data: { sessions: [newSession] },
@@ -261,6 +267,7 @@ describe('adding a session', () => {
         const mockGetSessions = {
           request: {
             query: GET_SESSIONS,
+            variables: { orderBy: 'date_ASC' },
           },
           result: {
             data: { sessions: [] },
@@ -325,6 +332,7 @@ describe('deleting a session', () => {
       const mockGetSessions = {
         request: {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
         result: {
           data: { sessions: [session] },
@@ -342,6 +350,7 @@ describe('deleting a session', () => {
       const mockRefreshGetSessions = {
         request: {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
         result: {
           data: { sessions: [] },
@@ -382,6 +391,7 @@ describe('deleting a session', () => {
       const mockGetSessions = {
         request: {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
         result: {
           data: { sessions: [{ id: '1', date: '2020-02-01' }] },
@@ -437,6 +447,7 @@ describe('editing a session', () => {
       const mockGetSessions = {
         request: {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
         result: {
           data: { sessions: [originalSession] },
@@ -454,6 +465,7 @@ describe('editing a session', () => {
       const mockRefreshGetSessions = {
         request: {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
         result: {
           data: { sessions: [updatedSession] },
@@ -501,6 +513,7 @@ describe('editing a session', () => {
       const mockGetSessions = {
         request: {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
         result: {
           data: { sessions: [originalSession] },

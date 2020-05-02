@@ -19,8 +19,8 @@ export const UPDATE_SESSION_ERROR_MESSAGE = 'sorry could not update session';
 export const INVALID_DATE_SUBMITTED = 'please enter a valid date';
 
 export const GET_SESSIONS = gql`
-  query getSessions {
-    sessions {
+  query getSessions($orderBy: SessionOrderByInput) {
+    sessions(orderBy: $orderBy) {
       id
       date
     }
@@ -60,7 +60,9 @@ function Sessions() {
   const [deleteSession, deleteSessionResponse] = useMutation(DELETE_SESSION);
   const [updateSession, updateSessionResponse] = useMutation(UPDATE_SESSION);
 
-  const { loading, error, data } = useQuery(GET_SESSIONS);
+  const { loading, error, data } = useQuery(GET_SESSIONS, {
+    variables: { orderBy: 'date_ASC' },
+  });
   const [dateError, displayDateError] = useState(false);
 
   const handleAddSession = (date) => {
@@ -74,6 +76,7 @@ function Sessions() {
       refetchQueries: [
         {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
       ],
     });
@@ -85,6 +88,7 @@ function Sessions() {
       refetchQueries: [
         {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
       ],
     });
@@ -95,6 +99,7 @@ function Sessions() {
       refetchQueries: [
         {
           query: GET_SESSIONS,
+          variables: { orderBy: 'date_ASC' },
         },
       ],
     });

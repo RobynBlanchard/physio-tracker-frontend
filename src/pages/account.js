@@ -45,7 +45,6 @@ function Account() {
         </Text>
         <Button onClick={handleLogOut}>sign out</Button>
       </Wrapper>
-      <style jsx />
     </Layout>
   );
 }
