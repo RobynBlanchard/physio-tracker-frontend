@@ -1,6 +1,9 @@
 import Router from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import { gql } from 'apollo-boost';
+import { useQuery } from '@apollo/react-hooks';
+import { func } from 'prop-types';
 import { Layout, Button } from '../components';
 import { useAuth } from '../context/authentication';
 
@@ -19,18 +22,30 @@ const ProfileWrapper = styled.div`
   margin: 50px;
 `;
 
-function Account() {
-  const { user, logout } = useAuth();
+export const GET_USER = gql`
+  query me {
+    me {
+      name
+    }
+  }
+`;
+
+const Account = ({ resetStore }) => {
+  const { data, logout } = useAuth();
 
   useEffect(() => {
-    if (!user || !user.token) {
-      Router.push('/signIn');
+    console.log(data)
+    if (!data) {
+      console.log('here')
+      Router.push('/');
     }
   }, []);
 
   const handleLogOut = () => {
+    resetStore();
+    // TODO:// resetStore().then(res => console.log(res)); // can this be done in context/authentication ?
     logout();
-    Router.push('/signIn');
+    Router.push('/');
   };
 
   return (
@@ -40,13 +55,17 @@ function Account() {
       </ProfileWrapper>
       <Wrapper>
         <Text>
-          Hello
-          {user && user.name}
+          Hello&nbsp;
+          {data && data.me.name}
         </Text>
         <Button onClick={handleLogOut}>sign out</Button>
       </Wrapper>
     </Layout>
   );
-}
+};
+
+Account.propTypes = {
+  resetStore: func.isRequired,
+};
 
 export default Account;

@@ -1,7 +1,6 @@
 import Router from 'next/router';
 import Link from 'next/link';
-import { useMutation } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Layout, Button, FormInput, ErrorText } from '../components';
 import { useAuth } from '../context/authentication';
@@ -40,51 +39,21 @@ const ProfileWrapper = styled.div`
   margin: 50px;
 `;
 
-const SIGN_IN = gql`
-  mutation login($data: LoginUserInput!) {
-    login(data: $data) {
-      user {
-        id
-        name
-      }
-      token
-    }
-  }
-`;
-
 function SignIn() {
-  const [signIn, signInResponse] = useMutation(SIGN_IN);
-  const { login, user } = useAuth();
+  const { signin } = useAuth();
+  const [signInError, displaySignInError] = useState(false);
 
   const signInUser = (inputs) =>
-    signIn({
-      variables: {
-        data: {
-          email: inputs.email,
-          password: inputs.password,
-        },
-      },
-    });
+    signin(inputs.email, inputs.password)
+      .then(() => {
+        Router.push('/account');
+      })
+      .catch(() => displaySignInError(true));
 
   const { inputs, handleInputChange, handleSubmit } = useForm(
     { email: '', password: '' },
     signInUser
   );
-
-  // without !user || !user.token - get max depth exceeded error
-  if (signInResponse.data && (!user || !user.token)) {
-    const { token } = signInResponse.data.login;
-    if (token) {
-      const email = null;
-      const { name } = signInResponse.data.login.user;
-
-      login(token, name, email);
-    }
-  }
-
-  if (signInResponse.data && user && user.token) {
-    Router.push('/account');
-  }
 
   return (
     <Layout title="Sign in">
@@ -114,9 +83,7 @@ function SignIn() {
             minLength="8"
           />
         </InputContainer>
-        <ErrorText>
-          {signInResponse.error && signInResponse.error.message}
-        </ErrorText>
+        <ErrorText>{signInError && 'Sorry could not sign in'}</ErrorText>
 
         <Button type="submit" value="Sign in">
           Sign in

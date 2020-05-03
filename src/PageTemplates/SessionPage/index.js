@@ -11,6 +11,7 @@ import {
 
 export const LOADING_MESSAGE = 'loading sessions';
 export const ERROR_MESSAGE = 'error fetching sessions';
+export const UNAUTHORIZED_MESSAGE = 'please log in';
 
 export const ADD_SESSION_LOADING_MESSAGE = 'adding session';
 export const ADD_SESSION_ERROR_MESSAGE = 'sorry could not add session';
@@ -110,7 +111,13 @@ function Sessions() {
     });
 
   if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
-  if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;
+  if (error) {
+    return error.message.includes('Authentication required') ? (
+      <ErrorText>{UNAUTHORIZED_MESSAGE}</ErrorText>
+    ) : (
+      <ErrorText>{ERROR_MESSAGE}</ErrorText>
+    );
+  }
 
   return (
     <div>

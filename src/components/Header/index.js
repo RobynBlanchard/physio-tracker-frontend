@@ -1,19 +1,22 @@
+import { memo } from 'react';
 import Router, { withRouter } from 'next/router';
 import { string, shape } from 'prop-types';
 import { Heading, Anchor, StyledIcon } from './style';
 
-const Header = ({ router, title }) => (
-  <div>
-    <Heading>
-      {router.pathname !== '/' && (
-        <Anchor onClick={() => Router.back()}>
-          <StyledIcon icon="arrow-left" />
-        </Anchor>
-      )}
-      {title}
-    </Heading>
-  </div>
-);
+const Header = ({ router, title }) => {
+  return (
+    <div>
+      <Heading>
+        {router && router.pathname !== '/' && (
+          <Anchor onClick={() => Router.back()}>
+            <StyledIcon icon="arrow-left" />
+          </Anchor>
+        )}
+        {title}
+      </Heading>
+    </div>
+  );
+};
 
 Header.defaultProps = {
   title: '',
@@ -24,4 +27,4 @@ Header.propTypes = {
   title: string,
 };
 
-export default withRouter(Header);
+export default withRouter(memo(Header));

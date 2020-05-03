@@ -1,41 +1,96 @@
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import withApollo from 'next-with-apollo';
-import { createHttpLink } from 'apollo-link-http';
-import { setContext } from 'apollo-link-context';
-import fetch from 'isomorphic-unfetch';
-import Cookies from 'js-cookie';
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
+import cookie from 'cookie';
+import { getDataFromTree } from '@apollo/react-ssr';
+import { object } from 'prop-types';
+import Head from 'next/head';
+import initApollo from './initApollo';
 
-// const GRAPHQL_URL = 'https://lit-inlet-86349.herokuapp.com/';
+function parseCookies(req, options = {}) {
+  return cookie.parse(
+    req ? req.headers.cookie || '' : document.cookie,
+    options
+  );
+}
 
-const GRAPHQL_URL = 'http://localhost:4000/';
+export default (App) => {
+  return class WithData extends React.Component {
+    static propTypes = {
+      apolloState: object.isRequired,
+    };
+    static async getInitialProps(ctx) {
+      const {
+        Component,
+        router,
+        ctx: { req, res },
+      } = ctx;
 
-const httpLink = createHttpLink({
-  fetch,
-  uri: GRAPHQL_URL,
-});
+      const { authToken } = parseCookies(req);
+      const apollo = initApollo(
+        {},
+        {
+          authToken,
+        }
+      );
+      ctx.ctx.apolloClient = apollo;
+      let appProps = {};
 
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = Cookies.get('authToken');
-  // return the headers to the context so httpLink can read them
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
+      if (App.getInitialProps) {
+        appProps = await App.getInitialProps(ctx);
+      }
+
+      if (res && res.finished) {
+        // When redirecting, the response is finished.
+        // No point in continuing to render
+        return {};
+      }
+
+      if (typeof window === 'undefined') {
+        // Run all graphql queries in the component tree
+        // and extract the resulting data
+        try {
+          // Run all GraphQL queries
+          await getDataFromTree(
+            <App
+              {...appProps}
+              Component={Component}
+              router={router}
+              apolloClient={apollo}
+            />
+          );
+        } catch (error) {
+          // Prevent Apollo Client GraphQL errors from crashing SSR.
+          // Handle them in components via the data.error prop:
+          // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
+          console.error('Error while running `getDataFromTree`', error);
+        }
+        // getDataFromTree does not call componentWillUnmount
+        // head side effect therefore need to be cleared manually
+        Head.rewind();
+      }
+      console.log('apollo client')
+
+      // Extract query data from the Apollo's store
+      const apolloState = apollo.cache.extract();
+      return {
+        ...appProps,
+        apolloState,
+      };
+    }
+
+    constructor(props) {
+      super(props);
+      // `getDataFromTree` renders the component first, the client is passed off as a property.
+      // After that rendering is done using Next's normal rendering pipeline
+      this.apolloClient = initApollo(props.apolloState, {
+        getToken: () => {
+          return parseCookies().token;
+        },
+      });
+    }
+
+    render() {
+      return <App {...this.props} apolloClient={this.apolloClient} />;
+    }
   };
-});
-
-// Export a HOC from next-with-apollo
-// Docs: https://www.npmjs.com/package/next-with-apollo
-
-// const GRAPHQL_URL = 'https://radiant-harbor-05701.herokuapp.com/';
-
-export default withApollo(
-  ({ initialState }) =>
-    new ApolloClient({
-      link: authLink.concat(httpLink),
-      cache: new InMemoryCache().restore(initialState || {}),
-    })
-);
+};

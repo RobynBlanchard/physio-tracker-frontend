@@ -4,72 +4,14 @@ import React from 'react';
 import App from 'next/app';
 import { ApolloProvider } from '@apollo/react-hooks';
 import Head from 'next/head';
-
-import Cookies from 'js-cookie';
 import withData from '../api/apollo-client';
 import { AuthProvider } from '../context/authentication';
 
-function MyComponent({ children }) {
-  // const { login, user, logout } = useAuth();
-  // if (!user || !user.token) {
-  //   const token = Cookies.get('authToken');
-  //   if (token) {
-  //     const name = Cookies.get('name');
-
-  //     console.log('_app, log in');
-  //     login(token, name);
-  //   }
-  // }
-  // or pass user prop
-  // You can use hooks here
-  return <>{children}</>; // The fragment is just illustrational
-}
-
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let userAuthenticated = false;
-    // console.log('_app', userAuthenticated);
-    const token = Cookies.get('authToken');
-    // console.log('_app token', token)
-    // console.log('_app token', req)
-    // console.log('_app token', ctx.req.cookies)
-    // const cookiee = ctx.req ? { cookie: ctx.req.headers.cookie } : undefined;
-    // console.log('cookie', cookiee);
-
-    // const { AppToken } = nextCookie(ctx);
-    if (token) {
-      // TODO: expire token
-      // const decodedToken = jwt_decode(AppToken);
-      // const isExpired = () => {
-      //     if (decodedToken.exp < Date.now() / 1000) {
-      //         return true;
-      //     } else {
-      //         return false;
-      //     }
-      // };
-
-      // if (ctx.isServer) {
-      //     if (!isExpired()) {
-      //         userAuthenticated = true;
-      //     }
-      // }
-
-      // if (!isExpired()) {
-      //     userAuthenticated = true;
-      // }
-      userAuthenticated = true;
-    }
-
-    return {
-      pageProps: Component.getInitialProps
-        ? await Component.getInitialProps(ctx)
-        : {},
-      userAuthenticated,
-    };
-  }
-
   render() {
-    const { Component, pageProps, apollo, userAuthenticated } = this.props;
+    const { Component, pageProps, apolloClient } = this.props;
+    const { resetStore } = apolloClient;
+
     return (
       <>
         <Head>
@@ -79,11 +21,9 @@ class MyApp extends App {
             content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
           />
         </Head>
-        <ApolloProvider client={apollo}>
+        <ApolloProvider client={apolloClient}>
           <AuthProvider>
-            <MyComponent>
-              <Component {...pageProps} userAuthenticated={userAuthenticated} />
-            </MyComponent>
+            <Component {...pageProps} resetStore={resetStore} />
           </AuthProvider>
         </ApolloProvider>
       </>

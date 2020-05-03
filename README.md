@@ -22,5 +22,7 @@ Tidy up _app file
 sort
 lint
 extract out mocks reused in tests
+feature tests
 
 reusable way to add dif set types
+https://github.com/brunocrosier/next-with-apollo-auth

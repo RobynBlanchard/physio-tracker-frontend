@@ -3,23 +3,26 @@ import { ExerciseItemWrapper } from './style';
 import TitleLink from './TitleLink';
 import { DeleteButton } from '../CRUDButtons';
 
-const ExercisesList = ({ deleteExercise, exercises }) => (
-  <>
-    {exercises.map((exercise) => {
-      const { name, id } = exercise;
+const ExercisesList = ({ deleteExercise, exercises }) => {
 
-      return (
-        <ExerciseItemWrapper key={`${name}_${id}`}>
-          <TitleLink title={name} exerciseId={id} />
-          <DeleteButton
-            onClick={() => deleteExercise(id)}
-            title="Delete this exercise?"
-          />
-        </ExerciseItemWrapper>
-      );
-    })}
-  </>
-);
+  return (
+    <>
+      {exercises.map((exercise) => {
+        const { name, id } = exercise;
+
+        return (
+          <ExerciseItemWrapper key={`${name}_${id}`}>
+            <TitleLink title={name} exerciseId={id} />
+            <DeleteButton
+              onClick={() => deleteExercise(id)}
+              title="Delete this exercise?"
+            />
+          </ExerciseItemWrapper>
+        );
+      })}
+    </>
+  );
+};
 
 ExercisesList.defaultProps = {
   exercises: [],

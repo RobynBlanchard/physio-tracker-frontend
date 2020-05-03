@@ -1,10 +1,13 @@
 import Link from 'next/link';
+import { memo } from 'react';
 import { Anchor, ListItem, List, Nav, StyledIcon } from './style';
 import { useAuth } from '../../context/authentication';
 
 const Navigation = () => {
-  const { user } = useAuth();
-  const accountLink = user && user.token ? '/account' : '/signIn';
+  const { data } = useAuth();
+
+  const isSignedIn = data && data.me;
+  const accountLink = isSignedIn ? '/account' : '/signIn';
 
   return (
     <Nav>
@@ -45,4 +48,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default memo(Navigation);
