@@ -3,11 +3,13 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
 import { string } from 'prop-types';
-import Button from '../Button';
-import ExercisesList from '../ExercisesList';
-import ExerciseSelect from '../ExerciseSelect';
-import InformationText from '../InformationText';
-import ErrorText from '../ErrorText';
+import {
+  Button,
+  ExercisesList,
+  ExerciseSelect,
+  InformationText,
+  ErrorText,
+} from '../../components';
 
 export const LOADING_MESSAGE = 'loading exercises';
 export const ERROR_MESSAGE = 'error fetching exercises';

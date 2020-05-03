@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { Layout, ExercisePage } from '../../components';
+import ExercisePage from '../../PageTemplates/ExercisePage';
+import { Layout } from '../../components';
 
 const Exercises = () => {
   const router = useRouter();

@@ -2,11 +2,13 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useState } from 'react';
 import { string } from 'prop-types';
-import InputBlock from '../InputBlock';
-import Table from '../Table';
-import Button from '../Button';
-import InformationText from '../InformationText';
-import ErrorText from '../ErrorText';
+import {
+  InputBlock,
+  Table,
+  Button,
+  InformationText,
+  ErrorText,
+} from '../../components';
 
 export const LOADING_MESSAGE = 'loading sets';
 export const ERROR_MESSAGE = 'error fetching sets';

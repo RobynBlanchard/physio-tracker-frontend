@@ -1,5 +1,5 @@
 import { Layout } from '../components';
-import SessionPage from '../components/SessionPage';
+import SessionPage from '../PageTemplates/SessionPage';
 
 function Sessions() {
   return (

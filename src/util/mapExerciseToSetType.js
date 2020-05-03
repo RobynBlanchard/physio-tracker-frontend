@@ -1,5 +1,5 @@
-import SetTimeDistance from '../components/SetTimeDistance';
-import SetRepWeights from '../components/SetRepWeights';
+import SetTimeDistance from '../PageTemplates/SetTimeDistance';
+import SetRepWeights from '../PageTemplates/SetRepWeights';
 
 const mapping = {
   TREADMILL: SetTimeDistance,

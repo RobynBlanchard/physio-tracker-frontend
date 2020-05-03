@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { gql } from 'apollo-boost';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
-import { SessionsList, Button, InformationText, ErrorText } from '../index';
+import {
+  SessionsList,
+  Button,
+  InformationText,
+  ErrorText,
+} from '../../components';
 
 export const LOADING_MESSAGE = 'loading sessions';
 export const ERROR_MESSAGE = 'error fetching sessions';

@@ -22,6 +22,5 @@ Tidy up _app file
 sort
 lint
 extract out mocks reused in tests
-add year into session date
 
 reusable way to add dif set types

@@ -19,7 +19,7 @@ import Sessions, {
   UPDATE_SESSION_ERROR_MESSAGE,
   INVALID_DATE_SUBMITTED,
 } from '.';
-import { SessionsList } from '../index';
+import { SessionsList } from '../../components';
 
 jest.mock('moment', () =>
   jest.fn(() => ({

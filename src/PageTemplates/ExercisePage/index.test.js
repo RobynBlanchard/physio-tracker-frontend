@@ -12,8 +12,12 @@ import ExercisePage, {
   DELETE_EXERCISE_ERROR_MESSAGE,
 } from '.';
 import { updateWrapper } from '../../util/testing/act';
-
-import { ExercisesList, ExerciseSelect, InformationText, ErrorText } from '..';
+import {
+  ExercisesList,
+  ExerciseSelect,
+  InformationText,
+  ErrorText,
+} from '../../components';
 
 const sessionID = '1';
 // eslint-disable-next-line jest/expect-expect

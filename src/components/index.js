@@ -8,10 +8,7 @@ import SessionsList from './SessionsList';
 import Navigation from './Navigation';
 import Table from './Table';
 import ToggleSwitch from './ToggleSwitch';
-import SetRepWeights from './SetRepWeights';
-import SetTimeDistance from './SetTimeDistance';
 import InputBlock from './InputBlock';
-import ExercisePage from './ExercisePage';
 import PageBackground from './PageBackground';
 import InformationText from './InformationText';
 import ErrorText from './ErrorText';
@@ -27,10 +24,7 @@ export {
   Table,
   ToggleSwitch,
   FormInput,
-  SetRepWeights,
-  SetTimeDistance,
   InputBlock,
-  ExercisePage,
   PageBackground,
   InformationText,
   ErrorText,

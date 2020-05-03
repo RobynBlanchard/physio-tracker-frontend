@@ -17,7 +17,7 @@ import Sets, {
   UPDATE_SET_LOADING_MESSAGE,
   UPDATE_SET_ERROR_MESSAGE,
 } from '.';
-import Table from '../Table';
+import Table from '../../components';
 
 const exerciseID = '1';
 
