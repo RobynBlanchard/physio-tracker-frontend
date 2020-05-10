@@ -5,6 +5,24 @@ import { Layout, FormInput, Button, ErrorText } from '../components';
 // import { register } from '../api/auth-client';
 import useForm from '../customHooks/useForm';
 import { useAuth } from '../context/authentication';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+export const StyledIcon = styled(FontAwesomeIcon)`
+  color: ${({ theme }) => theme.colors.white};
+  width: auto !important;
+  height: 80px; /* todo - use fa sizes */
+  /* position: relative; */
+`;
+
+export const StyledIconSmall = styled(FontAwesomeIcon)`
+  color: ${({ theme }) => theme.colors.white};
+  width: auto !important;
+  height: 20px;
+  position: absolute;
+  bottom: 0;
+`;
 
 const Form = styled.form`
   display: flex;
@@ -22,11 +40,20 @@ const InputContainer = styled.div`
 const ProfileWrapper = styled.div`
   text-align: center;
   margin: 50px;
+  position: relative;
+`;
+
+const Loading = styled(FontAwesomeIcon)`
+  position: absolute;
+  left: 50%;
+  top: 40%;
+
+  color: white;
 `;
 
 function Account() {
   // const [addUser, addUserResponse] = useMutation(CREATE_USER);
-  const { register, data } = useAuth();
+  const { register, data, registerResponse } = useAuth();
   const [registerError, displayRegisterError] = useState(false);
 
   const createAccount = (inputs) =>
@@ -36,7 +63,6 @@ function Account() {
         Router.push('/account');
       })
       .catch(() => displayRegisterError(true));
-
 
   const { inputs, handleInputChange, handleSubmit } = useForm(
     { name: '', email: '', password: '' },
@@ -57,9 +83,24 @@ function Account() {
   // }
 
   return (
-    <Layout title="Register">
+    <Layout
+      title="Register"
+      isLoading={registerResponse && registerResponse.loading}
+    >
+      {/* <Loading
+          className="spinner"
+          // aria-hidden="true"
+          // aria-label="Edit"
+          icon="spinner"
+          size="lg"
+          pulse
+          // title={title}
+          // fill={fill}
+        /> */}
       <ProfileWrapper>
-        <img src="/images/new-user-icon.png" alt="profile" />
+        {/* <img src="/images/new-user-icon.png" alt="profile" /> */}
+        <StyledIcon icon="user-circle" />
+        <StyledIconSmall icon="plus-circle" />
       </ProfileWrapper>
       <Form onSubmit={handleSubmit}>
         <InputContainer>

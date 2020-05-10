@@ -15,9 +15,11 @@ export const StyledIcon = styled(FontAwesomeIcon)`
 
 export const TableStyle = styled.table`
   width: 100%;
-  background: ${({ theme }) => theme.colors.lightestGrey};
+  /* background: ${({ theme }) => theme.colors.lightestGrey}; */
+  background: rgba(0, 0, 0, 0.12);
   border-collapse: collapse;
-  color: ${({ theme }) => theme.colors.darkestGrey};
+  /* color: ${({ theme }) => theme.colors.darkestGrey}; */
+  color: white;
   border-collapse: collapse;
   border-radius: 8px;
   overflow: hidden;
@@ -25,7 +27,8 @@ export const TableStyle = styled.table`
 
 export const TableHeader = styled.th`
   padding: ${({ theme }) => theme.spacing.M};
-  background: ${({ theme }) => theme.colors.grey};
+  /* background: ${({ theme }) => theme.colors.grey}; */
+  background: #054ab3;
   /* width: calc(100% / 3); */
   font-weight: 500;
 `;

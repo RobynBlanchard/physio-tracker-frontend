@@ -14,10 +14,10 @@ if (typeof window === 'undefined') {
 
 function create(initialState, { authToken, fetchOptions }) {
   const httpLink = createHttpLink({
-    uri:
-      process.env.NODE_ENV === 'production'
-        ? prodGraphQlEndpoint
-        : devGraphQlEndpoint,
+    uri: 'https://radiant-harbor-05701.herokuapp.com/',
+      // process.env.NODE_ENV === 'production'
+      //   ? prodGraphQlEndpoint
+      //   : devGraphQlEndpoint,
     fetchOptions,
   });
 

@@ -5,6 +5,13 @@ import styled from 'styled-components';
 import { Layout, Button, FormInput, ErrorText } from '../components';
 import { useAuth } from '../context/authentication';
 import useForm from '../customHooks/useForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+export const StyledIcon = styled(FontAwesomeIcon)`
+  color: ${({ theme }) => theme.colors.white};
+  width: auto !important;
+  height: 80px;
+`;
 
 const Form = styled.form`
   display: flex;
@@ -19,11 +26,13 @@ const SecondaryLinkWrapper = styled.div`
 `;
 
 const SecondaryLinkText = styled.p`
-  color: ${({ theme }) => theme.colors.darkGrey};
+  /* color: ${({ theme }) => theme.colors.darkGrey}; */
+  color: white;
 `;
 
 const SecondaryLink = styled.a`
-  color: ${({ theme }) => theme.colors.secondary};
+  /* color: ${({ theme }) => theme.colors.secondary}; */
+  color: white;
   text-decoration: underline;
   cursor: pointer;
 `;
@@ -40,7 +49,7 @@ const ProfileWrapper = styled.div`
 `;
 
 function SignIn() {
-  const { signin } = useAuth();
+  const { signin, signInResponse } = useAuth();
   const [signInError, displaySignInError] = useState(false);
 
   const signInUser = (inputs) =>
@@ -56,9 +65,13 @@ function SignIn() {
   );
 
   return (
-    <Layout title="Sign in">
+    <Layout
+      title="Sign in"
+      isLoading={signInResponse && signInResponse.loading}
+    >
       <ProfileWrapper>
-        <img src="/images/account.png" alt="profile" />
+        {/* <img src="/images/account.png" alt="profile" /> */}
+        <StyledIcon icon="user-circle" />
       </ProfileWrapper>
       <Form onSubmit={handleSubmit}>
         <InputContainer>
@@ -91,7 +104,7 @@ function SignIn() {
       </Form>
       <SecondaryLinkWrapper>
         <SecondaryLinkText>
-          Don&apos;t have an account?
+          Don&apos;t have an account?&nbsp;
           <Link href="/register">
             <SecondaryLink>Register now</SecondaryLink>
           </Link>

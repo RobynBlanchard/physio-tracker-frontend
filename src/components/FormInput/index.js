@@ -27,7 +27,7 @@ const FormInput = ({
       onChange={onChange}
       value={value}
       className={className}
-      hasDarkBackground={hasDarkBackground}
+      hasDarkBackground={hasDarkBackground} // to remove
       required
       style={error && { border: 'solid 1px red' }}
       // eslint-disable-next-line react/jsx-props-no-spreading

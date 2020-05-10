@@ -6,11 +6,19 @@ import { useQuery } from '@apollo/react-hooks';
 import { func } from 'prop-types';
 import { Layout, Button } from '../components';
 import { useAuth } from '../context/authentication';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Text = styled.h2`
-  color: ${({ theme }) => theme.colors.darkestGrey};
+  color: ${({ theme }) => theme.colors.lightestGrey};
+  color: white;
   text-align: center;
   margin: 20px;
+`;
+
+export const StyledIcon = styled(FontAwesomeIcon)`
+  color: ${({ theme }) => theme.colors.white};
+  width: auto !important;
+  height: 80px;
 `;
 
 const Wrapper = styled.div`
@@ -33,13 +41,13 @@ export const GET_USER = gql`
 const Account = ({ resetStore }) => {
   const { data, logout } = useAuth();
 
-  useEffect(() => {
-    console.log(data)
-    if (!data) {
-      console.log('here')
-      Router.push('/');
-    }
-  }, []);
+  // useEffect(() => {
+  //   console.log(data)
+  //   if (!data) {
+  //     console.log('here')
+  //     Router.push('/');
+  //   }
+  // }, []);
 
   const handleLogOut = () => {
     resetStore();
@@ -51,7 +59,8 @@ const Account = ({ resetStore }) => {
   return (
     <Layout title="Account">
       <ProfileWrapper>
-        <img src="/images/account.png" alt="profile" />
+        {/* <img src="/images/account.png" alt="profile" /> */}
+        <StyledIcon icon="user-circle" />
       </ProfileWrapper>
       <Wrapper>
         <Text>

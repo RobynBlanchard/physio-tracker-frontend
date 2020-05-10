@@ -26,3 +26,19 @@ feature tests
 
 reusable way to add dif set types
 https://github.com/brunocrosier/next-with-apollo-auth
+https://kalm42.com/blog/how-to-handle-authentication-in-react-applications
+
+
+// TODO
+// import React from 'react'
+// import {useUser} from './context/auth'
+// const AuthenticatedApp = React.lazy(() => import('./authenticated-app'))
+// const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'))
+// function App() {
+//   const user = useUser()
+//   return user ? <AuthenticatedApp /> : <UnauthenticatedApp />
+// }
+// export App
+
+// https://github.com/howtographql/howtographql/blob/master/content/frontend/react-apollo/5-authentication.md
+// https://medium.com/the-ideal-system/user-accounts-with-next-js-an-extensive-tutorial-6831cdaed16b

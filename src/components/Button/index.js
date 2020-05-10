@@ -19,10 +19,11 @@ const Button = styled.button`
   border: 3px solid #fff;
   color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.primaryDark};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryDark};
+    /* background: ${({ theme }) => theme.colors.primary}; */
+    background: #054ab3;
   }
 
   &:active {

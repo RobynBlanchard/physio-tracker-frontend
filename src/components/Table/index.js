@@ -64,19 +64,19 @@ const Table = ({
                   <EditButton
                     onClick={() => handleEditSet(row)}
                     title="Edit Set"
-                    fill="black"
+                    // fill="black"
                   />
                 ) : (
                   <SaveButton
                     onClick={handleSaveEdittedSet}
                     title="Save set"
-                    fill="black"
+                    // fill="black"
                   />
                 )}
                 <DeleteButton
                   onClick={() => handleDelete(row.id)}
                   title="Delete this set?"
-                  fill="black"
+                  // fill="black"
                 />
               </TableData>
             )}

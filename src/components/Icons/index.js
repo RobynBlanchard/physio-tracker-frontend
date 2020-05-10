@@ -11,6 +11,9 @@ import {
   faEdit,
   faTrashAlt,
   faSave,
+  faSpinner,
+  faUserCircle,
+  faPlusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -24,5 +27,8 @@ library.add(
   faDumbbell,
   faEdit,
   faTrashAlt,
-  faSave
+  faSave,
+  faSpinner,
+  faUserCircle,
+  faPlusCircle,
 );
