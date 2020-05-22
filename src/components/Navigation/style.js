@@ -23,5 +23,5 @@ export const List = styled.ul`
   display: flex;
   justify-content: space-around;
   padding: 0;
-  margin: 20px;
+  margin: 16px;
 `;
