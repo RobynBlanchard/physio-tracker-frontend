@@ -3,6 +3,8 @@ import { memo } from 'react';
 import { Anchor, ListItem, List, Nav, StyledIcon } from './style';
 import { useAuth } from '../../context/authentication';
 
+// TODO: fis content scrolling below nac
+
 const Navigation = () => {
   const { data } = useAuth();
 

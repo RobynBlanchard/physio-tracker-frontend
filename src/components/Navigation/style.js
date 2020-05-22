@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.white};
-  width: 20px;
+  /* width: 20px; */
 `;
 
 export const Nav = styled.nav`
-  width: 100%;
+  /* width: 100%; */
 `;
 
 export const Anchor = styled.a`
@@ -23,4 +23,5 @@ export const List = styled.ul`
   display: flex;
   justify-content: space-around;
   padding: 0;
+  margin: 25px;
 `;
