@@ -76,12 +76,16 @@ const Layout = ({ title, isLoading, children }) => (
         }
 
         #__next {
+         //  height: 100%;
+        }
+
+        html {
           height: 100%;
         }
 
         html,
         body {
-          height: 100%;
+        //  height: 100%;
   // font-family: varela round, sans-serif;
 
         }
@@ -114,14 +118,20 @@ const Layout = ({ title, isLoading, children }) => (
 
     // background-image: linear-gradient(to bottom,rgb(5,117,230,0.9),rgb(2,27,121,0.9)), url(images/runn2.webp);
 
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    height: 100vh;
+    //background-size: 100% 100%;
+   // background-repeat: no-repeat;
+   // height: 100vh;
     font-family: -apple-system,BlinkMacSystemFont,Avenir Next,Avenir, Helvetica,sans-serif;
-    height: 200px;
+  //  height: 200px;
     /* background-size: cover; */
-
-   
+    background-attachment: fixed;
+  
+  
+  
+  
+  
+    background-size: cover;
+    background-repeat: no-repeat;
           }
         }
       `}
