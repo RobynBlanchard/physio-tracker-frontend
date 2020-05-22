@@ -25,4 +25,5 @@ export const LayoutContainer = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  margin-bottom: 45px; /* nav size */
 `;
