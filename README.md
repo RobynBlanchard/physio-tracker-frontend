@@ -3,6 +3,7 @@ https://physio-tracker.now.sh/
 Credit for style guide and theme: https://www.invisionapp.com/inside-design/design-resources/fitgoal-ui-kit/
 
 TODO:
+nicer error styling
 handle auth errors
 edit and delete data
 handle authentication on server instead to persist between page refresh and expire cookie
@@ -42,3 +43,6 @@ https://kalm42.com/blog/how-to-handle-authentication-in-react-applications
 
 // https://github.com/howtographql/howtographql/blob/master/content/frontend/react-apollo/5-authentication.md
 // https://medium.com/the-ideal-system/user-accounts-with-next-js-an-extensive-tutorial-6831cdaed16b
+
+
+// css grid?

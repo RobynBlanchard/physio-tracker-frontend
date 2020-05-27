@@ -4,13 +4,12 @@ import React from 'react';
 import App from 'next/app';
 import { ApolloProvider } from '@apollo/react-hooks';
 import Head from 'next/head';
-import withData from '../api/apollo-client';
 import { AuthProvider } from '../context/authentication';
+import withData from '../api/apollo-client';
 
 class MyApp extends App {
   render() {
     const { Component, pageProps, apolloClient } = this.props;
-    const { resetStore } = apolloClient;
 
     return (
       <>
@@ -23,7 +22,7 @@ class MyApp extends App {
         </Head>
         <ApolloProvider client={apolloClient}>
           <AuthProvider>
-            <Component {...pageProps} resetStore={resetStore} />
+            <Component {...pageProps} />
           </AuthProvider>
         </ApolloProvider>
       </>

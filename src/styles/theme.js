@@ -1,9 +1,5 @@
 export default {
   colors: {
-    // primary: '#7433dd',
-    // primaryDark: '#9013fe',
-    // secondary: '#576cdf',
-    // teritary: '#36a8e3',
     white: '#fff',
     darkestGrey: '#323337',
     darkGrey: '#858891',

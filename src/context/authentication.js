@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import Router from 'next/router';
 import Cookies from 'js-cookie';
 import { gql } from 'apollo-boost';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ME_QUERY = gql`
   query me {
@@ -40,7 +40,7 @@ const AuthContext = React.createContext();
 
 const AUTH_TOKEN = 'authToken';
 function AuthProvider(props) {
-  const { loading, data, refetch } = useQuery(ME_QUERY);
+  const { loading, data, refetch, client } = useQuery(ME_QUERY);
   const [signIn, signInResponse] = useMutation(SIGN_IN);
   const [addUser, registerResponse] = useMutation(CREATE_USER);
 
@@ -77,31 +77,23 @@ function AuthProvider(props) {
   };
 
   const logout = () => {
+    client.resetStore();
     Cookies.remove(AUTH_TOKEN);
-    // resetStore(). todo
-    // refetch();
+    Router.push('/');
   };
-
-  // if (loading || (signInResponse && signInResponse.loading)) {
-  //   console.log('loading');
-  //   // return <h1>Loading</h1>;
-  //   return (
-  //     <FontAwesomeIcon
-  //       // aria-hidden="true"
-  //       // aria-label="Edit"
-  //       icon="spinner"
-  //       size="lg"
-  //       pulse
-  //       // title={title}
-  //       // fill={fill}
-  //     />
-  //   );
-  //   // <i class="fas fa-spinner fa-spin"></i>
-  // }
 
   return (
     <AuthContext.Provider
-      value={{ data, signin, signInResponse, logout, register, registerResponse }}
+      value={{
+        data,
+        signin,
+        signInResponse,
+        logout,
+        register,
+        registerResponse,
+        refetch,
+        client,
+      }}
       {...props}
     />
   );

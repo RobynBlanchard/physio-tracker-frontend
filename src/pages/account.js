@@ -1,16 +1,12 @@
-import Router from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { gql } from 'apollo-boost';
-import { useQuery } from '@apollo/react-hooks';
-import { func } from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Layout, Button } from '../components';
 import { useAuth } from '../context/authentication';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Text = styled.h2`
   color: ${({ theme }) => theme.colors.lightestGrey};
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
   text-align: center;
   margin: 20px;
 `;
@@ -30,36 +26,16 @@ const ProfileWrapper = styled.div`
   margin: 50px;
 `;
 
-export const GET_USER = gql`
-  query me {
-    me {
-      name
-    }
-  }
-`;
+const Account = () => {
+  const { data, logout, refetch } = useAuth();
 
-const Account = ({ resetStore }) => {
-  const { data, logout } = useAuth();
-
-  // useEffect(() => {
-  //   console.log(data)
-  //   if (!data) {
-  //     console.log('here')
-  //     Router.push('/');
-  //   }
-  // }, []);
-
-  const handleLogOut = () => {
-    resetStore();
-    // TODO:// resetStore().then(res => console.log(res)); // can this be done in context/authentication ?
-    logout();
-    Router.push('/');
-  };
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <Layout title="Account">
       <ProfileWrapper>
-        {/* <img src="/images/account.png" alt="profile" /> */}
         <StyledIcon icon="user-circle" />
       </ProfileWrapper>
       <Wrapper>
@@ -67,14 +43,10 @@ const Account = ({ resetStore }) => {
           Hello&nbsp;
           {data && data.me.name}
         </Text>
-        <Button onClick={handleLogOut}>sign out</Button>
+        <Button onClick={logout}>sign out</Button>
       </Wrapper>
     </Layout>
   );
-};
-
-Account.propTypes = {
-  resetStore: func.isRequired,
 };
 
 export default Account;

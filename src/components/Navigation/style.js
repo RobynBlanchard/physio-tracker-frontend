@@ -1,13 +1,20 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import breakpoints from '../../styles/breakpoints';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.white};
-  /* width: 20px; */
 `;
 
 export const Nav = styled.nav`
-  /* width: 100%; */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: ${breakpoints.tablet}px;
+  padding-bottom: ${({ theme }) => theme.spacing.XS};
+  text-align: center;
+  background: ${({ theme }) => theme.colors.primaryDark};
+  border-top: 1px solid ${({ theme }) => theme.colors.primary};
 `;
 
 export const Anchor = styled.a`
@@ -23,5 +30,5 @@ export const List = styled.ul`
   display: flex;
   justify-content: space-around;
   padding: 0;
-  margin: 16px;
+  margin: ${({ theme }) => theme.spacing.L} 0;
 `;
