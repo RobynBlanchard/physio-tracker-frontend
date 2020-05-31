@@ -4,7 +4,7 @@ import React from 'react';
 import App from 'next/app';
 import { ApolloProvider } from '@apollo/react-hooks';
 import Head from 'next/head';
-import { AuthProvider } from '../context/authentication';
+import { AuthProvider } from '../customHooks/useAuth';
 import withData from '../api/apollo-client';
 
 class MyApp extends App {

@@ -1,11 +1,11 @@
 import Router from 'next/router';
 import styled from 'styled-components';
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Layout, FormInput, Button, ErrorText } from '../components';
 // import { register } from '../api/auth-client';
 import useForm from '../customHooks/useForm';
-import { useAuth } from '../context/authentication';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuth } from '../customHooks/useAuth';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

@@ -80,6 +80,7 @@ function AuthProvider(props) {
     client.resetStore();
     Cookies.remove(AUTH_TOKEN);
     Router.push('/');
+    // TODO fix error thrown after redirect
   };
 
   return (

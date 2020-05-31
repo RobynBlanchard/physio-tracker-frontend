@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { memo } from 'react';
 import { Anchor, ListItem, List, Nav, StyledIcon } from './style';
-import { useAuth } from '../../context/authentication';
+import { useAuth } from '../../customHooks/useAuth';
 
 const Navigation = () => {
   const { data } = useAuth();

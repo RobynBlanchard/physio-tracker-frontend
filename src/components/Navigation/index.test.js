@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useAuth } from '../../context/authentication';
+import { useAuth } from '../../customHooks/useAuth';
 import Navigation from '.';
 
-jest.mock('../../context/authentication');
+jest.mock('../../customHooks/useAuth');
 
 useAuth.mockReturnValue({
   user: {

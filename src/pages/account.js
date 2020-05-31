@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Layout, Button } from '../components';
-import { useAuth } from '../context/authentication';
+import { useAuth } from '../customHooks/useAuth';
 
 const Text = styled.h2`
   color: ${({ theme }) => theme.colors.lightestGrey};

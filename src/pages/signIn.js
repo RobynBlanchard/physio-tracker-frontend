@@ -2,10 +2,10 @@ import Router from 'next/router';
 import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Layout, Button, FormInput, ErrorText } from '../components';
-import { useAuth } from '../context/authentication';
-import useForm from '../customHooks/useForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Layout, Button, FormInput, ErrorText } from '../components';
+import { useAuth } from '../customHooks/useAuth';
+import useForm from '../customHooks/useForm';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.white};

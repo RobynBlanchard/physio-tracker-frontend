@@ -4,7 +4,6 @@ import TitleLink from './TitleLink';
 import { DeleteButton } from '../CRUDButtons';
 
 const ExercisesList = ({ deleteExercise, exercises }) => {
-
   return (
     <>
       {exercises.map((exercise) => {

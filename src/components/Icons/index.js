@@ -30,5 +30,5 @@ library.add(
   faSave,
   faSpinner,
   faUserCircle,
-  faPlusCircle,
+  faPlusCircle
 );

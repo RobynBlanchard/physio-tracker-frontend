@@ -3,7 +3,13 @@ https://physio-tracker.now.sh/
 Credit for style guide and theme: https://www.invisionapp.com/inside-design/design-resources/fitgoal-ui-kit/
 
 TODO:
-nicer error styling
+update readme (tidy)
+move authentication hook into custom hooks
+add spsacing to useForm
+error styling
+fix background image jumping
+https://github.com/RobynBlanchard/physio-tracker-frontend/blob/master/src/context/authentication.js - dont export client etc
+
 handle auth errors
 edit and delete data
 handle authentication on server instead to persist between page refresh and expire cookie
