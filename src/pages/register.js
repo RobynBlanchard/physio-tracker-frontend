@@ -8,15 +8,10 @@ import { useAuth } from '../customHooks/useAuth';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.white};
-  width: auto !important;
-  height: 80px; /* todo - use fa sizes */
-  /* position: relative; */
 `;
 
 export const StyledIconSmall = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.white};
-  width: auto !important;
-  height: 20px;
   position: absolute;
   bottom: 0;
 `;
@@ -41,13 +36,12 @@ const ProfileWrapper = styled.div`
 `;
 
 function Account() {
-  const { register, data, registerResponse } = useAuth();
+  const { register, registerResponse } = useAuth();
   const [registerError, displayRegisterError] = useState(false);
 
   const createAccount = (inputs) =>
     register(inputs.name, inputs.email, inputs.password)
       .then(() => {
-        console.log('successfully logged in');
         Router.push('/account');
       })
       .catch(() => displayRegisterError(true));
@@ -57,38 +51,14 @@ function Account() {
     createAccount
   );
 
-  // move to component did mount ???
-  // without !user || !user.token - get max depth exceeded error
-  // if (addUserResponse.data && (!user || !user.token)) {
-  //   const { token } = addUserResponse.data.createUser;
-  //   if (token) {
-  //     register(token);
-  //   }
-  // }
-
-  // if (addUserResponse.data && user && user.token) {
-  //   Router.push('/account');
-  // }
-
   return (
     <Layout
       title="Register"
       isLoading={registerResponse && registerResponse.loading}
     >
-      {/* <Loading
-          className="spinner"
-          // aria-hidden="true"
-          // aria-label="Edit"
-          icon="spinner"
-          size="lg"
-          pulse
-          // title={title}
-          // fill={fill}
-        /> */}
       <ProfileWrapper>
-        {/* <img src="/images/new-user-icon.png" alt="profile" /> */}
-        <StyledIcon icon="user-circle" />
-        <StyledIconSmall icon="plus-circle" />
+        <StyledIcon icon="user-circle" className="fa-5x" />
+        <StyledIconSmall icon="plus-circle" size="lg" />
       </ProfileWrapper>
       <Form onSubmit={handleSubmit}>
         <InputContainer>
@@ -113,7 +83,6 @@ function Account() {
             required
           />
         </InputContainer>
-
         <InputContainer>
           <FormInput
             name="password"
