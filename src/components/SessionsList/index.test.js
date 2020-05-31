@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { act } from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
-import moment from 'moment';
 import SessionsList from '.';
 import { ListItem, Text } from './style';
 import { updateWrapper } from '../../util/testing/act';

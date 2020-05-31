@@ -22,6 +22,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
+  parser: 'babel-eslint',
   plugins: ['react', 'jest', 'prettier'],
   rules: {
     // NextJs does not require you to import React into each component. so suppress errors for missing 'import React' in files.

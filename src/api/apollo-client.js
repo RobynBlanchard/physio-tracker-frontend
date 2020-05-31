@@ -2,7 +2,7 @@
 import React from 'react';
 import cookie from 'cookie';
 import { getDataFromTree } from '@apollo/react-ssr';
-import { object } from 'prop-types';
+import { shape } from 'prop-types';
 import Head from 'next/head';
 import initApollo from './initApollo';
 
@@ -14,10 +14,7 @@ function parseCookies(req, options = {}) {
 }
 
 export default (App) => {
-  return class WithData extends React.Component {
-    static propTypes = {
-      apolloState: object.isRequired,
-    };
+  class WithData extends React.Component {
     static async getInitialProps(ctx) {
       const {
         Component,
@@ -68,7 +65,7 @@ export default (App) => {
         // head side effect therefore need to be cleared manually
         Head.rewind();
       }
-      console.log('apollo client')
+      console.log('apollo client');
 
       // Extract query data from the Apollo's store
       const apolloState = apollo.cache.extract();
@@ -92,5 +89,11 @@ export default (App) => {
     render() {
       return <App {...this.props} apolloClient={this.apolloClient} />;
     }
+  }
+
+  WithData.propTypes = {
+    apolloState: shape({}).isRequired,
   };
+
+  return WithData;
 };

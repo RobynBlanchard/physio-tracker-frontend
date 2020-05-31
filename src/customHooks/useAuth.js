@@ -40,7 +40,7 @@ const AuthContext = React.createContext();
 
 const AUTH_TOKEN = 'authToken';
 function AuthProvider(props) {
-  const { loading, data, refetch, client } = useQuery(ME_QUERY);
+  const { data, refetch, client } = useQuery(ME_QUERY);
   const [signIn, signInResponse] = useMutation(SIGN_IN);
   const [addUser, registerResponse] = useMutation(CREATE_USER);
 
@@ -93,7 +93,6 @@ function AuthProvider(props) {
         register,
         registerResponse,
         refetch,
-        client,
       }}
       {...props}
     />

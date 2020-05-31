@@ -3,11 +3,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Layout, FormInput, Button, ErrorText } from '../components';
-// import { register } from '../api/auth-client';
 import useForm from '../customHooks/useForm';
 import { useAuth } from '../customHooks/useAuth';
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.white};
@@ -43,16 +40,7 @@ const ProfileWrapper = styled.div`
   position: relative;
 `;
 
-const Loading = styled(FontAwesomeIcon)`
-  position: absolute;
-  left: 50%;
-  top: 40%;
-
-  color: white;
-`;
-
 function Account() {
-  // const [addUser, addUserResponse] = useMutation(CREATE_USER);
   const { register, data, registerResponse } = useAuth();
   const [registerError, displayRegisterError] = useState(false);
 

@@ -3,9 +3,6 @@ import Router, { withRouter } from 'next/router';
 import { string, shape } from 'prop-types';
 import { Heading, Anchor, StyledIcon } from './style';
 
-{
-  /* <a href="https://www.freepik.com/free-photos-vectors/background">Background vector created by starline - www.freepik.com</a> */
-}
 const Header = ({ router, title }) => {
   return (
     <div>

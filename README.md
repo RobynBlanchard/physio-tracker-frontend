@@ -4,8 +4,6 @@ Credit for style guide and theme: https://www.invisionapp.com/inside-design/desi
 
 TODO:
 update readme (tidy)
-move authentication hook into custom hooks
-add spsacing to useForm
 error styling
 fix background image jumping
 https://github.com/RobynBlanchard/physio-tracker-frontend/blob/master/src/context/authentication.js - dont export client etc
