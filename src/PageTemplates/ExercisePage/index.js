@@ -11,6 +11,8 @@ import {
   ErrorText,
 } from '../../components';
 
+import mapExerciseToSets from '../../util/mapExerciseToSetType';
+
 export const LOADING_MESSAGE = 'loading exercises';
 export const ERROR_MESSAGE = 'error fetching exercises';
 
@@ -29,6 +31,7 @@ export const GET_EXERCISES = gql`
     exercises(sessionID: $sessionID) {
       id
       name
+      metrics
     }
   }
 `;
@@ -38,6 +41,7 @@ export const CREATE_EXERCISE = gql`
     createExercise(data: $data) {
       id
       name
+      metrics
     }
   }
 `;
@@ -51,6 +55,7 @@ export const DELETE_EXERCISE = gql`
   }
 `;
 
+// TODO- change exercise name to take any name
 // TODO: populate from API
 const exerciseOptions = [
   { name: 'Treadmill', value: 'TREADMILL' },
@@ -65,6 +70,7 @@ const exerciseOptions = [
   { name: 'Deadlift', value: 'DEADLIFT' },
 ];
 
+// set columns attached to exercise?
 const ExercisePage = ({ sessionID }) => {
   const { loading, error, data } = useQuery(GET_EXERCISES, {
     variables: { sessionID },
@@ -90,10 +96,33 @@ const ExercisePage = ({ sessionID }) => {
       ],
     });
 
-  const handleAddExercise = () =>
+  const handleAddExercise = () => {
+    // console.log(exerciseOption)
+    // console.log(mapExerciseToSets)
+
+    // console.log({
+    //   variables: {
+    //     data: {
+    //       session: sessionID.toString(),
+    //       name: exerciseOption,
+    //       metrics: mapExerciseToSets[exerciseOption],
+    //     },
+    //   },
+    //   refetchQueries: [
+    //     {
+    //       query: GET_EXERCISES,
+    //       variables: { sessionID },
+    //     },
+    //   ],
+    // })
+    console.log('add!')
     addExercise({
       variables: {
-        data: { session: sessionID.toString(), name: exerciseOption },
+        data: {
+          session: sessionID.toString(),
+          name: exerciseOption,
+          metrics: mapExerciseToSets[exerciseOption],
+        },
       },
       refetchQueries: [
         {
@@ -102,6 +131,9 @@ const ExercisePage = ({ sessionID }) => {
         },
       ],
     });
+    console.log('added!')
+
+  };
 
   if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
   if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;

@@ -1,14 +1,15 @@
+import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { useState } from 'react';
 import { string } from 'prop-types';
-import {
-  InputBlock,
-  Table,
-  Button,
-  InformationText,
-  ErrorText,
-} from '../../components';
+
+import styled from 'styled-components';
+import Table from '../Table';
+import Button from '../Button';
+import InformationText from '../InformationText';
+import ErrorText from '../ErrorText';
+
+import useForm from '../../customHooks/useForm';
 
 export const LOADING_MESSAGE = 'loading sets';
 export const ERROR_MESSAGE = 'error fetching sets';
@@ -22,11 +23,30 @@ export const DELETE_SET_ERROR_MESSAGE = 'sorry could not delete set';
 export const UPDATE_SET_LOADING_MESSAGE = 'updating set';
 export const UPDATE_SET_ERROR_MESSAGE = 'sorry could not update set';
 
+export const Label = styled.label`
+  display: block;
+  margin: 4px 0;
+  color: ${({ theme }) => theme.colors.white};
+`;
+
+export const Input = styled.input`
+  display: block;
+  height: 34px;
+  width: 60px;
+  border: 2px solid ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.darkestGrey};
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+`;
+
 export const GET_SETS = gql`
   query($exerciseID: ID!) {
     sets(exerciseID: $exerciseID) {
       time
       distance
+      reps
+      weight
       id
     }
   }
@@ -35,7 +55,23 @@ export const GET_SETS = gql`
 export const CREATE_SET = gql`
   mutation createSet($data: CreateSetInput!) {
     createSet(data: $data) {
+      time
+      distance
+      reps
+      weight
       id
+    }
+  }
+`;
+
+export const DELETE_SET = gql`
+  mutation deleteSet($id: ID!) {
+    deleteSet(id: $id) {
+      id
+      time
+      distance
+      reps
+      weight
     }
   }
 `;
@@ -50,52 +86,28 @@ export const UPDATE_SET = gql`
   }
 `;
 
-export const DELETE_SET = gql`
-  mutation deleteSet($id: ID!) {
-    deleteSet(id: $id) {
-      id
-      time
-      distance
-    }
-  }
-`;
-
-// TODO: merge with set rep weights!
-
-const Sets = ({ exerciseID }) => {
-  const [inputTime, setInputTime] = useState();
+const Sets = ({ exerciseID, metrics }) => {
+  const formattedHeadings = metrics.toLowerCase().split(',');
   const [editSets, setEditSets] = useState(false);
 
-  const [inputDistance, setInputDistance] = useState();
-  const [addSet, addSetResponse] = useMutation(CREATE_SET);
   const { loading, error, data } = useQuery(GET_SETS, {
     variables: { exerciseID },
   });
-  const [updateSet, updateSetResponse] = useMutation(UPDATE_SET);
   const [deleteSet, deleteSetResponse] = useMutation(DELETE_SET);
+  const [updateSet, updateSetResponse] = useMutation(UPDATE_SET);
 
-  const handleAddSet = () =>
+  const [addSet, addSetResponse] = useMutation(CREATE_SET);
+  const handleAddSet = (inputs) => {
     addSet({
       variables: {
         data: {
           exercise: exerciseID,
-          time: inputTime,
-          distance: inputDistance,
+          time: parseFloat(inputs.inputtime),
+          distance: parseFloat(inputs.inputdistance),
+          weight: parseFloat(inputs.inputweight),
+          reps: parseFloat(inputs.inputreps),
         },
       },
-      refetchQueries: [
-        {
-          query: GET_SETS,
-          variables: { exerciseID },
-        },
-      ],
-    });
-
-  const handleEdit = (row) => {
-    const { id, time, distance } = row;
-
-    return updateSet({
-      variables: { id, data: { time, distance } },
       refetchQueries: [
         {
           query: GET_SETS,
@@ -116,10 +128,26 @@ const Sets = ({ exerciseID }) => {
       ],
     });
 
-  const tableHeadings = [
-    { colID: 'time', name: 'Time (mins)' },
-    { colID: 'distance', name: 'Distance (km)' },
-  ];
+  const handleEdit = (row) => {
+    const { id, __typename, ...rest } = row;
+
+    return updateSet({
+      variables: { id, data: rest },
+      refetchQueries: [
+        {
+          query: GET_SETS,
+          variables: { exerciseID },
+        },
+      ],
+    });
+  };
+
+  const { inputs, handleInputChange, handleSubmit } = useForm({}, handleAddSet);
+
+  const headings = formattedHeadings.map((metricName) => ({
+    colID: metricName,
+    name: metricName,
+  }));
 
   if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
   if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;
@@ -132,27 +160,28 @@ const Sets = ({ exerciseID }) => {
         </button>
       )}
       <Table
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-        editSets={editSets}
-        tableHeadings={tableHeadings}
         rowData={(data && data.sets) || []}
+        tableHeadings={headings}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        editSets={editSets}
       />
       <div className="input-align">
-        <InputBlock
-          id="input-new-time"
-          label="Time"
-          onChange={(e) => setInputTime(parseFloat(e.target.value))}
-        />
-        <InputBlock
-          id="input-new-distance"
-          label="Distance"
-          onChange={(e) => setInputDistance(parseFloat(e.target.value))}
-        />
+        {formattedHeadings.map((heading) => (
+          <React.Fragment key={`input${heading}`}>
+            <Label>{heading}</Label>
+            <Input
+              id={`input${heading}`}
+              label={heading}
+              name={`input${heading}`}
+              onChange={handleInputChange}
+              value={inputs[heading]}
+            />
+          </React.Fragment>
+        ))}
       </div>
-
       <div className="button-align">
-        <Button id="add-set" onClick={handleAddSet}>
+        <Button id="add-set" type="submit" onClick={handleSubmit}>
           Add Set +
         </Button>
       </div>
@@ -192,6 +221,6 @@ const Sets = ({ exerciseID }) => {
 
 Sets.propTypes = {
   exerciseID: string.isRequired,
+  metrics: string.isRequired,
 };
-
 export default Sets;

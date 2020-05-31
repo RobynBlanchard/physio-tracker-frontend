@@ -2,7 +2,7 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { MockedProvider } from '@apollo/react-testing';
 import { mountWithTheme } from '../../util/testing/theme';
-import { updateWrapper } from '../../util/testing/act';
+import { updateWrapper, actWait } from '../../util/testing/act';
 import Sets, {
   GET_SETS,
   CREATE_SET,
@@ -16,10 +16,14 @@ import Sets, {
   DELETE_SET_ERROR_MESSAGE,
   UPDATE_SET_LOADING_MESSAGE,
   UPDATE_SET_ERROR_MESSAGE,
+  Label,
+  Input,
 } from '.';
-import Table from '../../components';
+// import Table from '..';
+import Table from '../Table';
 
 const exerciseID = '1';
+const metrics = 'TIME,DISTANCE';
 
 // eslint-disable-next-line jest/expect-expect
 it('renders without error', async () => {
@@ -40,7 +44,7 @@ it('renders without error', async () => {
   await act(async () => {
     mountWithTheme(
       <MockedProvider mocks={mocks} addTypename={false}>
-        <Sets exerciseID={exerciseID} />
+        <Sets exerciseID={exerciseID} metrics={metrics} />
       </MockedProvider>
     );
   });
@@ -51,7 +55,7 @@ it('renders loading state initially', async () => {
   await act(async () => {
     component = mountWithTheme(
       <MockedProvider mocks={[]}>
-        <Sets exerciseID={exerciseID} />
+        <Sets exerciseID={exerciseID} metrics={metrics} />
       </MockedProvider>
     );
   });
@@ -62,73 +66,111 @@ it('renders loading state initially', async () => {
 });
 
 describe('fetching sets', () => {
-  it('renders a Sets Table when the get Sets query is successful', async () => {
+  describe('when the get sets query is successful', () => {
+    let component;
     const setsData = [
-      { id: '1', time: 28, distance: 5 },
-      { id: '2', time: 33, distance: 5.6 },
+      { id: '1', time: 28, distance: 5, reps: null, weight: null },
+      { id: '2', time: 33, distance: 5.6, reps: null, weight: null },
     ];
+    beforeEach(async () => {
+      const mock = {
+        request: {
+          query: GET_SETS,
+          variables: { exerciseID },
+        },
+        result: {
+          data: { sets: setsData },
+        },
+      };
 
-    const mock = {
-      request: {
-        query: GET_SETS,
-        variables: { exerciseID },
-      },
-      result: {
-        data: { sets: setsData },
-      },
-    };
+      component = mountWithTheme(
+        <MockedProvider mocks={[mock]} addTypename={false}>
+          <Sets exerciseID={exerciseID} metrics={metrics} />
+        </MockedProvider>
+      );
 
-    const component = mountWithTheme(
-      <MockedProvider mocks={[mock]} addTypename={false}>
-        <Sets exerciseID={exerciseID} />
-      </MockedProvider>
-    );
+      await updateWrapper(component);
+    });
 
-    await updateWrapper(component);
+    it('does not render an error or loading message', () => {
+      expect(component.text()).not.toContain(LOADING_MESSAGE);
+      expect(component.text()).not.toContain(ERROR_MESSAGE);
+    });
 
-    expect(component.text()).not.toContain(LOADING_MESSAGE);
-    expect(component.text()).not.toContain(ERROR_MESSAGE);
-    const setsTable = component.find(Table);
-    expect(setsTable).toHaveLength(1);
-    expect(setsTable.prop('rowData')).toEqual(setsData);
+    it('renders a table with the correct headings', () => {
+      const setsTable = component.find(Table);
+      expect(setsTable).toHaveLength(1);
+      const expectedHeadings = [
+        {
+          colID: 'time',
+          name: 'time',
+        },
+        {
+          colID: 'distance',
+          name: 'distance',
+        },
+      ];
+      expect(setsTable.prop('tableHeadings')).toEqual(expectedHeadings);
+    });
+
+    it('renders a table with the correct data', () => {
+      const setsTable = component.find(Table);
+      expect(setsTable).toHaveLength(1);
+      expect(setsTable.prop('rowData')).toEqual(setsData);
+    });
+
+    it('renders inputs with labels for each set metric', () => {
+      const label = component.find(Label);
+      const input = component.find(Input);
+      expect(label).toHaveLength(2);
+      expect(input).toHaveLength(2);
+
+      expect(label.at(0).text()).toEqual('time');
+      expect(input.at(0).prop('name')).toEqual('inputtime');
+    });
   });
 
-  it('displays an error message when the query is unsuccessful', async () => {
-    const mock = {
-      request: {
-        query: GET_SETS,
-        variables: { exerciseID },
-      },
-      error: new Error('Could not fetch sets'),
-    };
+  describe('when the gets sets query is unsuccessful', () => {
+    it('displays an error message', async () => {
+      const mock = {
+        request: {
+          query: GET_SETS,
+          variables: { exerciseID },
+        },
+        error: new Error('Could not fetch sets'),
+      };
 
-    const component = mountWithTheme(
-      <MockedProvider mocks={[mock]} addTypename={false}>
-        <Sets exerciseID={exerciseID} />
-      </MockedProvider>
-    );
+      const component = mountWithTheme(
+        <MockedProvider mocks={[mock]} addTypename={false}>
+          <Sets exerciseID={exerciseID} metrics={metrics} />
+        </MockedProvider>
+      );
 
-    await updateWrapper(component);
+      await updateWrapper(component);
 
-    expect(component.text()).not.toContain(LOADING_MESSAGE);
-    expect(component.text()).toContain(ERROR_MESSAGE);
-    expect(component.find(Table)).toHaveLength(0);
+      expect(component.text()).not.toContain(LOADING_MESSAGE);
+      expect(component.text()).toContain(ERROR_MESSAGE);
+      expect(component.find(Table)).toHaveLength(0);
+    });
   });
 });
 
 describe('adding a set', () => {
   const addNewSet = async (component, newSetTime, newSetDistance) => {
     act(() => {
-      component.find('#input-new-time').prop('onChange')({
-        target: { value: newSetTime },
+      component.find('input').find('#inputtime').prop('onChange')({
+        target: { value: newSetTime, name: 'inputtime' },
+
+        persist: jest.fn(),
       });
     });
 
     await updateWrapper(component);
 
     act(() => {
-      component.find('#input-new-distance').prop('onChange')({
-        target: { value: newSetDistance },
+      component.find('input').find('#inputdistance').prop('onChange')({
+        target: { value: newSetDistance, name: 'inputdistance' },
+        persist: jest.fn(),
       });
     });
 
@@ -151,6 +193,8 @@ describe('adding a set', () => {
         id: newSetID,
         time: newSetTime,
         distance: newSetDistance,
+        reps: null,
+        weight: null,
       };
 
       const mockGetSets = {
@@ -171,6 +215,8 @@ describe('adding a set', () => {
               exercise: exerciseID,
               time: newSetTime,
               distance: newSetDistance,
+              reps: null,
+              weight: null,
             },
           },
         },
@@ -191,7 +237,7 @@ describe('adding a set', () => {
 
       const component = mountWithTheme(
         <MockedProvider mocks={mocks} addTypename={false}>
-          <Sets exerciseID={exerciseID} />
+          <Sets exerciseID={exerciseID} metrics={metrics} />
         </MockedProvider>
       );
 
@@ -199,6 +245,7 @@ describe('adding a set', () => {
       expect(component.find(Table).prop('rowData')).toHaveLength(0);
 
       await addNewSet(component, newSetTime, newSetDistance);
+      await updateWrapper(component);
 
       expect(component.find(Table).prop('rowData')).toHaveLength(1);
       expect(component.find(Table).prop('rowData')[0]).toEqual(newSet);
@@ -229,6 +276,8 @@ describe('adding a set', () => {
               exercise: exerciseID,
               time: newSetTime,
               distance: newSetDistance,
+              reps: null,
+              weight: null,
             },
           },
         },
@@ -247,7 +296,7 @@ describe('adding a set', () => {
             },
           }}
         >
-          <Sets exerciseID={exerciseID} />
+          <Sets exerciseID={exerciseID} metrics={metrics} />
         </MockedProvider>
       );
 
@@ -267,7 +316,13 @@ describe('adding a set', () => {
 describe('deleting a set', () => {
   describe('when the mutation is successful', () => {
     it('removes the set from the row data', async () => {
-      const originalSet = { id: '1', time: 28, distance: 5 };
+      const originalSet = {
+        id: '1',
+        time: 28,
+        distance: 5,
+        weight: null,
+        reps: null,
+      };
 
       const mockGetSets = {
         request: {
@@ -301,7 +356,7 @@ describe('deleting a set', () => {
 
       const component = mountWithTheme(
         <MockedProvider mocks={mocks} addTypename={false}>
-          <Sets exerciseID={exerciseID} />
+          <Sets exerciseID={exerciseID} metrics={metrics} />
         </MockedProvider>
       );
 
@@ -316,6 +371,8 @@ describe('deleting a set', () => {
       expect(component.text()).toContain(DELETE_SET_LOADING_MESSAGE);
 
       await updateWrapper(component);
+      //  ??
+      await updateWrapper(component);
 
       expect(component.find(Table).prop('rowData')).toEqual([]);
       expect(component.text()).not.toContain(DELETE_SET_LOADING_MESSAGE);
@@ -325,7 +382,13 @@ describe('deleting a set', () => {
 
   describe('when the mutation is unsuccessful', () => {
     it('renders an error and does not remove any sets', async () => {
-      const originalSet = { id: '1', time: 28, distance: 5 };
+      const originalSet = {
+        id: '1',
+        time: 28,
+        distance: 5,
+        reps: null,
+        weight: null,
+      };
 
       const mockGetSets = {
         request: {
@@ -358,7 +421,7 @@ describe('deleting a set', () => {
             },
           }}
         >
-          <Sets exerciseID={exerciseID} />
+          <Sets exerciseID={exerciseID} metrics={metrics} />
         </MockedProvider>
       );
 
@@ -383,8 +446,19 @@ describe('deleting a set', () => {
 describe('editing a set', () => {
   describe('when the mutation is successful', () => {
     it('updates the edited set', async () => {
-      const originalSet = { id: '1', time: 28, distance: 5 };
-      const updatedDetails = { time: 30.5, distance: 5 };
+      const originalSet = {
+        id: '1',
+        time: 28,
+        distance: 5,
+        weight: null,
+        reps: null,
+      };
+      const updatedDetails = {
+        time: 30.5,
+        distance: 5,
+        weight: null,
+        reps: null,
+      };
       const updatedSet = { id: '1', ...updatedDetails };
 
       const mockGetSets = {
@@ -419,7 +493,7 @@ describe('editing a set', () => {
 
       const component = mountWithTheme(
         <MockedProvider mocks={mocks} addTypename={false}>
-          <Sets exerciseID={exerciseID} />
+          <Sets exerciseID={exerciseID} metrics={metrics} />
         </MockedProvider>
       );
 
@@ -428,11 +502,21 @@ describe('editing a set', () => {
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);
 
       act(() => {
-        component.find(Table).prop('handleEdit')('1', 30.5, 5);
+        const row = {
+          distance: 5,
+          id: '1',
+          reps: null,
+          time: 30.5,
+          weight: null,
+          __typename: 'Set',
+        };
+        component.find(Table).prop('handleEdit')(row);
       });
 
       expect(component.text()).toContain(UPDATE_SET_LOADING_MESSAGE);
 
+      await updateWrapper(component);
+      // ??
       await updateWrapper(component);
 
       expect(component.find(Table)).toHaveLength(1);
@@ -444,8 +528,19 @@ describe('editing a set', () => {
 
   describe('when the mutation is unsuccessful', () => {
     it('renders an error and does not remove any sets', async () => {
-      const originalSet = { id: '1', time: 28, distance: 5 };
-      const updatedDetails = { time: 30.5, distance: 5 };
+      const originalSet = {
+        id: '1',
+        time: 28,
+        distance: 5,
+        weight: null,
+        reps: null,
+      };
+      const updatedDetails = {
+        time: 30.5,
+        distance: 5,
+        weight: null,
+        reps: null,
+      };
 
       const mockGetSets = {
         request: {
@@ -477,7 +572,7 @@ describe('editing a set', () => {
             },
           }}
         >
-          <Sets exerciseID={exerciseID} />
+          <Sets exerciseID={exerciseID} metrics={metrics} />
         </MockedProvider>
       );
 
@@ -486,7 +581,15 @@ describe('editing a set', () => {
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);
 
       act(() => {
-        component.find(Table).prop('handleEdit')('1', 30.5, 5);
+        const row = {
+          distance: 5,
+          id: '1',
+          reps: null,
+          time: 30.5,
+          weight: null,
+          __typename: 'Set',
+        };
+        component.find(Table).prop('handleEdit')(row);
       });
 
       expect(component.text()).toContain(UPDATE_SET_LOADING_MESSAGE);

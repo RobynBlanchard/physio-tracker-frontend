@@ -7,11 +7,12 @@ const ExercisesList = ({ deleteExercise, exercises }) => {
   return (
     <>
       {exercises.map((exercise) => {
-        const { name, id } = exercise;
+        console.log('exercise', exercise)
+        const { name, id, metrics } = exercise;
 
         return (
           <ExerciseItemWrapper key={`${name}_${id}`}>
-            <TitleLink title={name} exerciseId={id} />
+            <TitleLink title={name} exerciseId={id} metrics={metrics} />
             <DeleteButton
               onClick={() => deleteExercise(id)}
               title="Delete this exercise?"

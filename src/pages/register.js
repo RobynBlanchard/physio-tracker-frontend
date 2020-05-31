@@ -95,8 +95,7 @@ function Account() {
             minLength="8"
           />
         </InputContainer>
-        <ErrorText>{registerError && 'sorry could not register'}</ErrorText>
-
+        {registerError && <ErrorText>sorry could not register</ErrorText>}
         <Button type="submit" value="Sign in">
           Create account
         </Button>

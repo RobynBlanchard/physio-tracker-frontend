@@ -19,6 +19,12 @@ import {
   ErrorText,
 } from '../../components';
 
+import mapExerciseToSets from '../../util/mapExerciseToSetType';
+
+jest.mock('../../util/mapExerciseToSetType', () => ({
+  LEG_PRESS: ['REPS', 'WEIGHT'],
+}));
+
 const sessionID = '1';
 // eslint-disable-next-line jest/expect-expect
 it('renders without error', async () => {
@@ -59,8 +65,8 @@ it('renders loading state initially', async () => {
 describe('fetching exercises', () => {
   it('renders ExercisesList when the get exercises query is successful', async () => {
     const exercises = [
-      { id: '1', name: 'TREADMILL' },
-      { id: '2', name: 'HAMSTRING_CURLS' },
+      { id: '1', name: 'TREADMILL', metrics: ['TIME', 'DISTANCE'] },
+      { id: '2', name: 'HAMSTRING_CURLS', metrics: ['REPS', 'WEIGHT'] },
     ];
 
     const mock = {
@@ -115,7 +121,11 @@ describe('fetching exercises', () => {
 describe('adding an exercise', () => {
   describe('when the mutation is successful', () => {
     it('calls create exercise mutation and displays refetched exercises', async () => {
-      const newExercise = { id: '1', name: 'LEG_PRESS' };
+      const newExercise = {
+        id: '1',
+        name: 'LEG_PRESS',
+        metrics: ['REPS', 'WEIGHT'],
+      };
 
       const mockGetExercises = {
         request: {
@@ -130,7 +140,13 @@ describe('adding an exercise', () => {
       const mockCreateExercise = {
         request: {
           query: CREATE_EXERCISE,
-          variables: { data: { name: newExercise.name, session: sessionID } },
+          variables: {
+            data: {
+              name: newExercise.name,
+              session: sessionID,
+              metrics: newExercise.metrics,
+            },
+          },
         },
         result: { data: newExercise },
       };
@@ -178,6 +194,8 @@ describe('adding an exercise', () => {
       );
 
       await updateWrapper(component);
+      // ??
+      await updateWrapper(component);
 
       expect(component.find(ExercisesList).prop('exercises')).toHaveLength(1);
       expect(component.find(ExercisesList).prop('exercises')[0]).toEqual(
@@ -191,7 +209,11 @@ describe('adding an exercise', () => {
 
   describe('when the mutation is unsuccessful', () => {
     it('calls create session mutation and displays error', async () => {
-      const newExercise = { id: '1', name: 'LEG_PRESS' };
+      const newExercise = {
+        id: '1',
+        name: 'LEG_PRESS',
+        metrics: ['REPS', 'WEIGHT'],
+      };
 
       const mockGetExercises = {
         request: {
@@ -206,7 +228,13 @@ describe('adding an exercise', () => {
       const mockCreateExercise = {
         request: {
           query: CREATE_EXERCISE,
-          variables: { data: { name: newExercise.name, session: sessionID } },
+          variables: {
+            data: {
+              name: newExercise.name,
+              session: sessionID,
+              metrics: newExercise.metrics,
+            },
+          },
         },
         result: { errors: [{ message: 'Could not create exercise' }] },
       };
@@ -261,7 +289,11 @@ describe('adding an exercise', () => {
 describe('deleting an exercise', () => {
   describe('when the mutation is successful', () => {
     it('removes the exercise from the list', async () => {
-      const exercise = { id: '1', name: 'LEG_PRESS' };
+      const exercise = {
+        id: '1',
+        name: 'LEG_PRESS',
+        metrics: ['REPS', 'WEIGHT'],
+      };
 
       const mockGetExercises = {
         request: {
@@ -316,6 +348,7 @@ describe('deleting an exercise', () => {
       //   DELETE_EXERCISE_LOADING_MESSAGE
       // );
       await updateWrapper(component);
+      await updateWrapper(component);
 
       expect(component.find(ExercisesList).prop('exercises')).toHaveLength(0);
       expect(component.find(ErrorText)).toHaveLength(0);
@@ -326,7 +359,11 @@ describe('deleting an exercise', () => {
 
   describe('when the mutation is unsuccessful', () => {
     it('renders an error and does not remove any exercises', async () => {
-      const exercise = { id: '1', name: 'LEG_PRESS' };
+      const exercise = {
+        id: '1',
+        name: 'LEG_PRESS',
+        metrics: ['REPS', 'WEIGHT'],
+      };
 
       const mockGetExercises = {
         request: {
