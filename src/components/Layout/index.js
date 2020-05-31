@@ -38,7 +38,7 @@ const Layout = ({ title, isLoading, children }) => (
                 rgb(5, 117, 230, 0.9),
                 rgb(2, 27, 121, 0.9)
               ),
-              url(images/runnJpg.jpg);
+              url(images/page-background-desktop.jpg);
           }
         }
 
@@ -49,7 +49,7 @@ const Layout = ({ title, isLoading, children }) => (
                 rgb(5, 117, 230, 0.9),
                 rgb(2, 27, 121, 0.9)
               ),
-              url(images/runnmobjpg.jpg);
+              url(images/page-background-mobile.jpg);
           }
         }
 
