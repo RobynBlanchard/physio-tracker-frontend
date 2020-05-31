@@ -14,6 +14,7 @@ import {
   faSpinner,
   faUserCircle,
   faPlusCircle,
+  faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -30,5 +31,6 @@ library.add(
   faSave,
   faSpinner,
   faUserCircle,
-  faPlusCircle
+  faPlusCircle,
+  faExclamationCircle
 );

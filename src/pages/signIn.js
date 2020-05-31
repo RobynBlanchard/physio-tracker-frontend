@@ -84,7 +84,6 @@ function SignIn() {
             required
           />
         </InputContainer>
-
         <InputContainer>
           <FormInput
             name="password"
@@ -96,8 +95,7 @@ function SignIn() {
             minLength="8"
           />
         </InputContainer>
-        <ErrorText>{signInError && 'Sorry could not sign in'}</ErrorText>
-
+        {signInError && <ErrorText>Sorry could not sign in</ErrorText>}
         <Button type="submit" value="Sign in">
           Sign in
         </Button>
