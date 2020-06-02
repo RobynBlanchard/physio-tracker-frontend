@@ -16,7 +16,7 @@ const Button = styled.button`
   position: relative;
   transition: all 0.3s;
   border-radius: 50px;
-  border: 3px solid #fff;
+  border: 3px solid ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
   background: ${({ theme }) => theme.colors.primaryDark};

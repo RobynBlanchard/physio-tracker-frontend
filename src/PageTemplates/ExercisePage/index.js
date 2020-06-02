@@ -1,16 +1,17 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { useState } from 'react';
 import { string } from 'prop-types';
+import AriaModal from 'react-aria-modal';
 import {
   Button,
   ExercisesList,
   ExerciseSelect,
   InformationText,
   ErrorText,
+  CreateExercise,
 } from '../../components';
-
 import mapExerciseToSets from '../../util/mapExerciseToSetType';
 
 export const LOADING_MESSAGE = 'loading exercises';
@@ -72,6 +73,7 @@ const exerciseOptions = [
 
 // set columns attached to exercise?
 const ExercisePage = ({ sessionID }) => {
+  const [displayModal, setDisplayModal] = useState(false);
   const { loading, error, data } = useQuery(GET_EXERCISES, {
     variables: { sessionID },
   });
@@ -96,32 +98,14 @@ const ExercisePage = ({ sessionID }) => {
       ],
     });
 
-  const handleAddExercise = () => {
-    // console.log(exerciseOption)
-    // console.log(mapExerciseToSets)
-
-    // console.log({
-    //   variables: {
-    //     data: {
-    //       session: sessionID.toString(),
-    //       name: exerciseOption,
-    //       metrics: mapExerciseToSets[exerciseOption],
-    //     },
-    //   },
-    //   refetchQueries: [
-    //     {
-    //       query: GET_EXERCISES,
-    //       variables: { sessionID },
-    //     },
-    //   ],
-    // })
-    console.log('add!')
+  const handleAddExercise = (exerciseName, allMetrics) => {
+    debugger
     addExercise({
       variables: {
         data: {
           session: sessionID.toString(),
-          name: exerciseOption,
-          metrics: mapExerciseToSets[exerciseOption],
+          name: exerciseName,
+          metrics: allMetrics,
         },
       },
       refetchQueries: [
@@ -131,19 +115,33 @@ const ExercisePage = ({ sessionID }) => {
         },
       ],
     });
-    console.log('added!')
+  };
 
+  const getApplicationNode = () => {
+    return document.getElementById('__next');
   };
 
   if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
   if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;
-
+  console.log(data && data.exercises)
   return (
     <>
       <ExercisesList
         exercises={data && data.exercises}
         deleteExercise={handleDeleteExercise}
       />
+      {displayModal && (
+        <AriaModal
+          titleText="demo one"
+          onExit={() => setDisplayModal(false)}
+          initialFocus="#thing"
+          getApplicationNode={getApplicationNode}
+          underlayStyle={{ paddingTop: '2em' }}
+        >
+          <CreateExercise handleAddCustomExercise={handleAddExercise} />
+        </AriaModal>
+      )}
+
       {addExerciseResponse.error && (
         <ErrorText>{ADD_EXERCISE_ERROR_MESSAGE}</ErrorText>
       )}
@@ -161,8 +159,18 @@ const ExercisePage = ({ sessionID }) => {
         exerciseOptions={exerciseOptions}
       />
       <ButtonWrapper>
-        <Button id="add-new-exercise" onClick={() => handleAddExercise()}>
+        <Button
+          id="add-new-exercise"
+          onClick={() =>
+            handleAddExercise(exerciseOption, mapExerciseToSets[exerciseOption])
+          }
+        >
           Add exercise +
+        </Button>
+      </ButtonWrapper>
+      <ButtonWrapper>
+        <Button onClick={() => setDisplayModal(true)}>
+          Add custom exercise
         </Button>
       </ButtonWrapper>
     </>

@@ -12,6 +12,7 @@ import InputBlock from './InputBlock';
 import PageBackground from './PageBackground';
 import InformationText from './InformationText';
 import ErrorText from './ErrorText';
+import CreateExercise from './CreateExercise';
 
 export {
   Button,
@@ -28,4 +29,5 @@ export {
   PageBackground,
   InformationText,
   ErrorText,
+  CreateExercise,
 };

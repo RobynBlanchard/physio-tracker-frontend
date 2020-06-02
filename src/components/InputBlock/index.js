@@ -9,12 +9,13 @@ const Label = styled.label`
 
 const Input = styled.input`
   display: block;
-  height: 34px;
-  width: 60px;
+  height: 30px;
+  /* width: 60px; */
   border: 2px solid ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.darkestGrey};
   border-radius: 8px;
-  text-align: center;
+  /* text-align: center; */
+  padding: 4px 8px;
   font-size: 16px;
 `;
 

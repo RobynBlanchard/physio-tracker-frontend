@@ -87,6 +87,9 @@ export const UPDATE_SET = gql`
 `;
 
 const Sets = ({ exerciseID, metrics }) => {
+  console.log('exerciseID', exerciseID)
+  console.log('metrics', metrics)
+
   const formattedHeadings = metrics.toLowerCase().split(',');
   const [editSets, setEditSets] = useState(false);
 
