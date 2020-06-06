@@ -2,24 +2,17 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { MockedProvider } from '@apollo/react-testing';
 import { mountWithTheme } from '../../util/testing/theme';
-import { updateWrapper, actWait } from '../../util/testing/act';
+import { updateWrapper } from '../../util/testing/act';
 import Sets, {
-  GET_SETS,
-  CREATE_SET,
-  DELETE_SET,
-  UPDATE_SET,
   LOADING_MESSAGE,
-  ERROR_MESSAGE,
   ADD_SET_LOADING_MESSAGE,
-  ADD_SET_ERROR_MESSAGE,
   DELETE_SET_LOADING_MESSAGE,
-  DELETE_SET_ERROR_MESSAGE,
   UPDATE_SET_LOADING_MESSAGE,
-  UPDATE_SET_ERROR_MESSAGE,
-  Label,
-  Input,
 } from '.';
-// import Table from '..';
+import { GET_SETS, CREATE_SET, DELETE_SET, UPDATE_SET } from './hooks';
+import { Label, Input, ValidationErrorWrapper } from './style';
+import errorMessages from '../../errors';
+
 import Table from '../Table';
 
 const exerciseID = '1';
@@ -62,7 +55,7 @@ it('renders loading state initially', async () => {
 
   expect(component.find(Table)).toHaveLength(0);
   expect(component.text()).toContain(LOADING_MESSAGE);
-  expect(component.text()).not.toContain(ERROR_MESSAGE);
+  expect(component.text()).not.toContain(errorMessages.sets.fetchError);
 });
 
 describe('fetching sets', () => {
@@ -94,7 +87,7 @@ describe('fetching sets', () => {
 
     it('does not render an error or loading message', () => {
       expect(component.text()).not.toContain(LOADING_MESSAGE);
-      expect(component.text()).not.toContain(ERROR_MESSAGE);
+      expect(component.text()).not.toContain(errorMessages.sets.fetchError);
     });
 
     it('renders a table with the correct headings', () => {
@@ -149,7 +142,7 @@ describe('fetching sets', () => {
       await updateWrapper(component);
 
       expect(component.text()).not.toContain(LOADING_MESSAGE);
-      expect(component.text()).toContain(ERROR_MESSAGE);
+      expect(component.text()).toContain(errorMessages.sets.fetchError);
       expect(component.find(Table)).toHaveLength(0);
     });
   });
@@ -250,7 +243,7 @@ describe('adding a set', () => {
       expect(component.find(Table).prop('rowData')).toHaveLength(1);
       expect(component.find(Table).prop('rowData')[0]).toEqual(newSet);
       expect(component.text()).not.toContain(ADD_SET_LOADING_MESSAGE);
-      expect(component.text()).not.toContain(ADD_SET_ERROR_MESSAGE);
+      expect(component.text()).not.toContain(errorMessages.sets.createError);
     });
   });
 
@@ -306,7 +299,7 @@ describe('adding a set', () => {
 
       await addNewSet(component, newSetTime, newSetDistance);
 
-      expect(component.text()).toContain(ADD_SET_ERROR_MESSAGE);
+      expect(component.text()).toContain(errorMessages.sets.createError);
       expect(component.text()).not.toContain(ADD_SET_LOADING_MESSAGE);
       expect(component.find(Table).prop('rowData')).toHaveLength(0);
     });
@@ -376,7 +369,7 @@ describe('deleting a set', () => {
 
       expect(component.find(Table).prop('rowData')).toEqual([]);
       expect(component.text()).not.toContain(DELETE_SET_LOADING_MESSAGE);
-      expect(component.text()).not.toContain(DELETE_SET_ERROR_MESSAGE);
+      expect(component.text()).not.toContain(errorMessages.sets.deleteError);
     });
   });
 
@@ -438,12 +431,75 @@ describe('deleting a set', () => {
       expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);
       expect(component.text()).not.toContain(DELETE_SET_LOADING_MESSAGE);
-      expect(component.text()).toContain(DELETE_SET_ERROR_MESSAGE);
+      expect(component.text()).toContain(errorMessages.sets.deleteError);
     });
   });
 });
 
 describe('editing a set', () => {
+  describe('validating editted set input', () => {
+    let component;
+    const setsData = [
+      { id: '1', time: 28, distance: 5, reps: null, weight: null },
+    ];
+
+    beforeEach(async () => {
+      const mock = {
+        request: {
+          query: GET_SETS,
+          variables: { exerciseID },
+        },
+        result: {
+          data: { sets: setsData },
+        },
+      };
+
+      component = mountWithTheme(
+        <MockedProvider mocks={[mock]} addTypename={false}>
+          <Sets exerciseID={exerciseID} metrics={metrics} />
+        </MockedProvider>
+      );
+
+      await updateWrapper(component);
+    });
+
+    it('does not render a validation error message by default', () => {
+      expect(component.find(ValidationErrorWrapper).prop('hasError')).toEqual(
+        false
+      );
+    });
+
+    it('renders an error when the new value contains non number characters', async () => {
+      component.find(Table).prop('validateCellOnChange')('12a');
+      await updateWrapper(component);
+
+      expect(component.find(ValidationErrorWrapper).prop('hasError')).toEqual(
+        true
+      );
+      expect(component.find(ValidationErrorWrapper).text()).toContain(
+        errorMessages.sets.failedValidationError
+      );
+    });
+
+    it('does not render an error when the value is a number as a string', async () => {
+      component.find(Table).prop('validateCellOnChange')('12');
+      await updateWrapper(component);
+
+      expect(component.find(ValidationErrorWrapper).prop('hasError')).toEqual(
+        false
+      );
+    });
+
+    it('does not render an error when the value is a number', async () => {
+      component.find(Table).prop('validateCellOnChange')(12);
+      await updateWrapper(component);
+
+      expect(component.find(ValidationErrorWrapper).prop('hasError')).toEqual(
+        false
+      );
+    });
+  });
+
   describe('when the mutation is successful', () => {
     it('updates the edited set', async () => {
       const originalSet = {
@@ -456,10 +512,8 @@ describe('editing a set', () => {
       const updatedDetails = {
         time: 30.5,
         distance: 5,
-        weight: null,
-        reps: null,
       };
-      const updatedSet = { id: '1', ...updatedDetails };
+      const updatedSet = { ...originalSet, ...updatedDetails };
 
       const mockGetSets = {
         request: {
@@ -474,7 +528,10 @@ describe('editing a set', () => {
       const mockEditSet = {
         request: {
           query: UPDATE_SET,
-          variables: { id: originalSet.id, data: updatedDetails },
+          variables: {
+            id: originalSet.id,
+            data: updatedDetails,
+          },
         },
         result: { data: updatedSet },
       };
@@ -522,7 +579,7 @@ describe('editing a set', () => {
       expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([updatedSet]);
       expect(component.text()).not.toContain(UPDATE_SET_LOADING_MESSAGE);
-      expect(component.text()).not.toContain(UPDATE_SET_ERROR_MESSAGE);
+      expect(component.text()).not.toContain(errorMessages.sets.updateError);
     });
   });
 
@@ -538,8 +595,6 @@ describe('editing a set', () => {
       const updatedDetails = {
         time: 30.5,
         distance: 5,
-        weight: null,
-        reps: null,
       };
 
       const mockGetSets = {
@@ -596,7 +651,7 @@ describe('editing a set', () => {
 
       await updateWrapper(component);
 
-      expect(component.text()).toContain(UPDATE_SET_ERROR_MESSAGE);
+      expect(component.text()).toContain(errorMessages.sets.updateError);
 
       expect(component.find(Table)).toHaveLength(1);
       expect(component.find(Table).prop('rowData')).toEqual([originalSet]);

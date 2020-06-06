@@ -1,97 +1,29 @@
+/* eslint-disable react/jsx-no-undef */
+/* eslint-disable no-restricted-globals */
 import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import { string } from 'prop-types';
 
-import styled from 'styled-components';
 import Table from '../Table';
 import Button from '../Button';
 import InformationText from '../InformationText';
 import ErrorText from '../ErrorText';
 
 import useForm from '../../customHooks/useForm';
+import errorMessages from '../../errors';
+
+import { Label, Input, ValidationErrorWrapper } from './style';
+import { GET_SETS, CREATE_SET, UPDATE_SET, DELETE_SET } from './hooks';
 
 export const LOADING_MESSAGE = 'loading sets';
-export const ERROR_MESSAGE = 'error fetching sets';
-
 export const ADD_SET_LOADING_MESSAGE = 'adding set';
-export const ADD_SET_ERROR_MESSAGE = 'sorry could not add set';
-
 export const DELETE_SET_LOADING_MESSAGE = 'deleting set';
-export const DELETE_SET_ERROR_MESSAGE = 'sorry could not delete set';
-
 export const UPDATE_SET_LOADING_MESSAGE = 'updating set';
-export const UPDATE_SET_ERROR_MESSAGE = 'sorry could not update set';
-
-export const Label = styled.label`
-  display: block;
-  margin: 4px 0;
-  color: ${({ theme }) => theme.colors.white};
-`;
-
-export const Input = styled.input`
-  display: block;
-  height: 34px;
-  width: 60px;
-  border: 2px solid ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.darkestGrey};
-  border-radius: 8px;
-  text-align: center;
-  font-size: 16px;
-`;
-
-export const GET_SETS = gql`
-  query($exerciseID: ID!) {
-    sets(exerciseID: $exerciseID) {
-      time
-      distance
-      reps
-      weight
-      id
-    }
-  }
-`;
-
-export const CREATE_SET = gql`
-  mutation createSet($data: CreateSetInput!) {
-    createSet(data: $data) {
-      time
-      distance
-      reps
-      weight
-      id
-    }
-  }
-`;
-
-export const DELETE_SET = gql`
-  mutation deleteSet($id: ID!) {
-    deleteSet(id: $id) {
-      id
-      time
-      distance
-      reps
-      weight
-    }
-  }
-`;
-
-export const UPDATE_SET = gql`
-  mutation updateSet($id: ID!, $data: updateSetInput) {
-    updateSet(id: $id, data: $data) {
-      id
-      time
-      distance
-    }
-  }
-`;
 
 const Sets = ({ exerciseID, metrics }) => {
-  console.log('exerciseID', exerciseID)
-  console.log('metrics', metrics)
-
   const formattedHeadings = metrics.toLowerCase().split(',');
   const [editSets, setEditSets] = useState(false);
+  const [validationError, setValidationError] = useState(null);
 
   const { loading, error, data } = useQuery(GET_SETS, {
     variables: { exerciseID },
@@ -134,8 +66,20 @@ const Sets = ({ exerciseID, metrics }) => {
   const handleEdit = (row) => {
     const { id, __typename, ...rest } = row;
 
+    const formattedSetsAsFloats = Object.entries(rest).reduce(
+      (acc, [key, val]) => {
+        if (val !== null) {
+          const formatted = parseFloat(val);
+          acc[key] = formatted;
+          return acc;
+        }
+        return acc;
+      },
+      {}
+    );
+
     return updateSet({
-      variables: { id, data: rest },
+      variables: { id, data: formattedSetsAsFloats },
       refetchQueries: [
         {
           query: GET_SETS,
@@ -145,7 +89,22 @@ const Sets = ({ exerciseID, metrics }) => {
     });
   };
 
+  const validateCellOnChange = (value) => {
+    const formatted = Number(value);
+    if (isNaN(formatted)) {
+      setValidationError(new Error(errorMessages.sets.failedValidationError));
+      return false;
+    }
+    setValidationError(null);
+    return true;
+  };
+
   const { inputs, handleInputChange, handleSubmit } = useForm({}, handleAddSet);
+
+  const handleInputChangeAddSet = (e) => {
+    validateCellOnChange(e.target.value);
+    handleInputChange(e);
+  };
 
   const headings = formattedHeadings.map((metricName) => ({
     colID: metricName,
@@ -153,7 +112,7 @@ const Sets = ({ exerciseID, metrics }) => {
   }));
 
   if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
-  if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;
+  if (error) return <ErrorText>{errorMessages.sets.fetchError}</ErrorText>;
 
   return (
     <div>
@@ -167,6 +126,7 @@ const Sets = ({ exerciseID, metrics }) => {
         tableHeadings={headings}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
+        validateCellOnChange={validateCellOnChange}
         editSets={editSets}
       />
       <div className="input-align">
@@ -177,29 +137,37 @@ const Sets = ({ exerciseID, metrics }) => {
               id={`input${heading}`}
               label={heading}
               name={`input${heading}`}
-              onChange={handleInputChange}
+              onChange={(e) => handleInputChangeAddSet(e)}
               value={inputs[heading]}
             />
           </React.Fragment>
         ))}
       </div>
+      <ValidationErrorWrapper
+        hasError={!!(validationError && validationError.message)}
+      >
+        <ErrorText>{validationError && validationError.message}</ErrorText>
+      </ValidationErrorWrapper>
+
       <div className="button-align">
         <Button id="add-set" type="submit" onClick={handleSubmit}>
           Add Set +
         </Button>
       </div>
-      {addSetResponse.error && <ErrorText>{ADD_SET_ERROR_MESSAGE}</ErrorText>}
+      {addSetResponse.error && (
+        <ErrorText>{errorMessages.sets.createError}</ErrorText>
+      )}
       {addSetResponse.loading && (
         <InformationText>{ADD_SET_LOADING_MESSAGE}</InformationText>
       )}
       {deleteSetResponse.error && (
-        <ErrorText>{DELETE_SET_ERROR_MESSAGE}</ErrorText>
+        <ErrorText>{errorMessages.sets.deleteError}</ErrorText>
       )}
       {deleteSetResponse.loading && (
         <InformationText>{DELETE_SET_LOADING_MESSAGE}</InformationText>
       )}
       {updateSetResponse.error && (
-        <ErrorText>{UPDATE_SET_ERROR_MESSAGE}</ErrorText>
+        <ErrorText>{errorMessages.sets.updateError}</ErrorText>
       )}
       {updateSetResponse.loading && (
         <InformationText>{UPDATE_SET_LOADING_MESSAGE}</InformationText>

@@ -3,8 +3,8 @@ import { string, func } from 'prop-types';
 import { StyledIcon, IconButton } from './style';
 
 export const SaveButton = forwardRef(
-  ({ onClick, title = 'save', fill = 'white' }, ref) => (
-    <IconButton onClick={onClick} ref={ref}>
+  ({ onClick, disabled = false, title = 'save', fill = 'white' }, ref) => (
+    <IconButton onClick={onClick} ref={ref} disabled={disabled}>
       <StyledIcon
         aria-hidden="true"
         aria-label="Save"

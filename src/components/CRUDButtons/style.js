@@ -4,6 +4,7 @@ import BaseButton from '../../styles/baseButton';
 
 export const IconButton = styled(BaseButton)`
   margin: 0 4px;
+  cursor: ${({ disabled }) => (disabled ? 'auto' : 'pointer')};
 `;
 
 export const StyledIcon = styled(FontAwesomeIcon)`

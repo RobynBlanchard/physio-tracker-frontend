@@ -1,7 +1,13 @@
 import { shallow } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import Table from './index';
-import { TableStyle, TableRow, TableHeader, TableData } from './style';
+import {
+  TableStyle,
+  TableRow,
+  TableHeader,
+  TableData,
+  StyledInput,
+} from './style';
 import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
 describe('Table', () => {
@@ -107,7 +113,9 @@ describe('editting table data', () => {
       });
 
       it('renders an input for each row data', () => {
-        expect(component.find('input')).toHaveLength(mockTableHeadings.length);
+        expect(component.find(StyledInput)).toHaveLength(
+          mockTableHeadings.length
+        );
       });
 
       it('replaces the edit icon with a save icon', () => {
@@ -120,7 +128,7 @@ describe('editting table data', () => {
           const newWeight = 20;
           act(() => {
             component
-              .find('input')
+              .find(StyledInput)
               .at(0)
               .simulate('change', {
                 target: { value: newWeight },

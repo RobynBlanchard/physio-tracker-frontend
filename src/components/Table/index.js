@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { arrayOf, string, shape, func, bool } from 'prop-types';
-import { TableStyle, TableRow, TableHeader, TableData } from './style';
+import {
+  TableStyle,
+  TableRow,
+  TableHeader,
+  TableData,
+  StyledInput,
+} from './style';
 import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
 const Table = ({
@@ -9,8 +15,11 @@ const Table = ({
   editSets,
   tableHeadings,
   rowData,
+  validateCellOnChange,
 }) => {
   const [curEdittedSet, setCurEdittedSet] = useState(null);
+  const [validationError, setValidationError] = useState({});
+
   const shouldRenderEdit = editSets && rowData.length > 0;
 
   const handleEditSet = (row) => {
@@ -22,11 +31,13 @@ const Table = ({
     setCurEdittedSet(null);
   };
 
-  const handleChange = (e, metric) => {
+  const handleChange = (e, metric, rowId) => {
     e.persist();
+    const isValidCell = validateCellOnChange(e.target.value, metric, rowId);
+    setValidationError({ [rowId]: !isValidCell });
     setCurEdittedSet((prev) => ({
       ...prev,
-      [metric]: parseInt(e.target.value, 10),
+      [metric]: e.target.value,
     }));
   };
   const isSetUnderEdit = (id) => (!!curEdittedSet && curEdittedSet.id) === id;
@@ -46,9 +57,9 @@ const Table = ({
           <TableRow key={row.id}>
             {tableHeadings.map((heading) => {
               const renderInput = () => (
-                <input
+                <StyledInput
                   value={curEdittedSet[heading.colID]}
-                  onChange={(e) => handleChange(e, heading.colID)}
+                  onChange={(e) => handleChange(e, heading.colID, row.id)}
                 />
               );
 
@@ -64,19 +75,18 @@ const Table = ({
                   <EditButton
                     onClick={() => handleEditSet(row)}
                     title="Edit Set"
-                    // fill="black"
                   />
                 ) : (
                   <SaveButton
                     onClick={handleSaveEdittedSet}
                     title="Save set"
-                    // fill="black"
+                    fill={validationError[row.id] ? 'grey' : 'white'}
+                    disabled={validationError[row.id]}
                   />
                 )}
                 <DeleteButton
                   onClick={() => handleDelete(row.id)}
                   title="Delete this set?"
-                  // fill="black"
                 />
               </TableData>
             )}
@@ -92,6 +102,7 @@ Table.defaultProps = {
   rowData: [],
   handleEdit: () => {},
   handleDelete: () => {},
+  validateCellOnChange: () => true,
   editSets: false,
 };
 
@@ -105,6 +116,7 @@ Table.propTypes = {
   rowData: arrayOf(shape({})),
   handleEdit: func,
   handleDelete: func,
+  validateCellOnChange: func,
   editSets: bool,
 };
 
