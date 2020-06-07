@@ -1,6 +1,6 @@
-Production endpoint: https://physio-tracker.now.sh/
+A PWA for tracking exercise built using React, Nextjs and Apollo Client.
 
-PWA for tracking exercise built using React, Nextjs and Apollo Client.
+Production endpoint: https://physio-tracker.now.sh/
 
 Graohql API backend: https://github.com/RobynBlanchard/prisma-physio-tracker-api
 
