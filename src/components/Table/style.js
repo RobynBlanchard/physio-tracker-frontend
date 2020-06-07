@@ -4,11 +4,11 @@ import BaseButton from '../../styles/baseButton';
 import { media } from '../../styles/breakpoints';
 
 export const StyledInput = styled.input`
+  width: 60%;
   padding: 4px;
   border-radius: 4px;
 `;
 
-// extract into component -> icon ?
 export const IconButton = styled(BaseButton)`
   margin: 0 4px;
 `;
@@ -21,10 +21,8 @@ export const StyledIcon = styled(FontAwesomeIcon)`
 
 export const TableStyle = styled.table`
   width: 100%;
-  /* background: ${({ theme }) => theme.colors.lightestGrey}; */
   background: rgba(0, 0, 0, 0.12);
   border-collapse: collapse;
-  /* color: ${({ theme }) => theme.colors.darkestGrey}; */
   color: white;
   border-collapse: collapse;
   border-radius: 8px;
@@ -36,18 +34,24 @@ export const TableHeader = styled.th`
   ${media.tablet`
     padding: ${({ theme }) => theme.spacing.M};
   `}
-
-  /* background: ${({ theme }) => theme.colors.grey}; */
-  background: #054ab3;
-  /* width: calc(100% / 3); */
+  box-sizing: border-box;
+  background: ${({ theme }) => theme.colors.primaryLight};
+  width: ${({ columns }) => `calc(100% / ${columns})`};
   font-weight: 500;
   text-transform: capitalize;
 `;
 
 export const TableData = styled.td`
-  padding: ${({ theme }) => theme.spacing.M};
-  /* width: calc(100% / 3); */
+  width: ${({ columns }) => `calc(100% / ${columns})`};
+  box-sizing: border-box;
+  padding: ${({ theme }) => theme.spacing.XS};
   text-align: center;
+`;
+
+export const EditActions = styled(TableData)`
+  display: flex;
+  width: 100%;
+  justify-content: center;
 `;
 
 export const TableRow = styled.tr`

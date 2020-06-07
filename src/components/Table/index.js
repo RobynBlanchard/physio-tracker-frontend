@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableData,
   StyledInput,
+  EditActions,
 } from './style';
 import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
@@ -42,12 +43,15 @@ const Table = ({
   };
   const isSetUnderEdit = (id) => (!!curEdittedSet && curEdittedSet.id) === id;
 
+  const tableColumns = tableHeadings.length + 1;
   return (
     <TableStyle>
       <thead>
         <TableRow>
           {tableHeadings.map((heading) => (
-            <TableHeader key={heading.colID}>{heading.name}</TableHeader>
+            <TableHeader columns={tableColumns} key={heading.colID}>
+              {heading.name}
+            </TableHeader>
           ))}
           {shouldRenderEdit && <TableHeader>edit</TableHeader>}
         </TableRow>
@@ -64,13 +68,13 @@ const Table = ({
               );
 
               return (
-                <TableData key={heading.colID}>
+                <TableData columns={tableColumns} key={heading.colID}>
                   {isSetUnderEdit(row.id) ? renderInput() : row[heading.colID]}
                 </TableData>
               );
             })}
             {shouldRenderEdit && (
-              <TableData>
+              <EditActions columns={tableColumns}>
                 {!isSetUnderEdit(row.id) ? (
                   <EditButton
                     onClick={() => handleEditSet(row)}
@@ -88,7 +92,7 @@ const Table = ({
                   onClick={() => handleDelete(row.id)}
                   title="Delete this set?"
                 />
-              </TableData>
+              </EditActions>
             )}
           </TableRow>
         ))}
