@@ -3,6 +3,8 @@ import { memo } from 'react';
 import { Anchor, ListItem, List, Nav, StyledIcon } from './style';
 import { useAuth } from '../../customHooks/useAuth';
 
+// TODO: on desktop full width and add text
+
 const Navigation = () => {
   const { data } = useAuth();
 

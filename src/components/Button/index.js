@@ -1,29 +1,26 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-  width: 80%;
-  height: 100%;
-  margin: 15px 30px;
+  padding: ${({ theme }) => theme.spacing.L};
+  width: 100%;
   display: inline-block;
-  padding: 20px 40px;
   outline: none;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: ${({ theme }) => theme.font.weight.L};
   font-family: inherit;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.font.size.M};
   cursor: pointer;
   position: relative;
   transition: all 0.3s;
-  border-radius: 50px;
+  border-radius: 12px;
   border: 3px solid ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.white};
   overflow: hidden;
   background: ${({ theme }) => theme.colors.primaryDark};
 
   &:hover {
-    /* background: ${({ theme }) => theme.colors.primary}; */
-    background: #054ab3;
+    background: ${({ theme }) => theme.colors.primaryLight};
   }
 
   &:active {

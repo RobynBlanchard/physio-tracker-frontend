@@ -9,4 +9,9 @@ export default {
     deleteError: genericError('delete', 'set'),
     failedValidationError: 'updated set expects a number',
   },
+  exercises: {
+    fetchError: genericError('fetch', 'exercises'),
+    createError: genericError('create', 'exercise'),
+    deleteError: genericError('delete', 'exercise'),
+  },
 };

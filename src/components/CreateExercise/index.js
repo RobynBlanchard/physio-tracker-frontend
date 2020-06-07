@@ -1,47 +1,15 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import baseButton from '../../styles/baseButton';
+import { func } from 'prop-types';
 import InputBlock from '../InputBlock';
 import Button from '../Button';
-
-const Wrapper = styled.div`
-  background: ${({ theme }) => theme.colors.primaryDark};
-  min-width: 270px;
-  color: ${({ theme }) => theme.colors.white};
-  border: 2px solid ${({ theme }) => theme.colors.white};
-  border-radius: 12px;
-  padding: ${({ theme }) => theme.spacing.XL};
-  margin: ${({ theme }) => theme.spacing.XL};
-`;
-
-// TODO secondary button
-const ButtonOption = styled(baseButton)`
-  padding: 8px;
-  color: ${({ theme }) => theme.colors.white};
-  border: 2px solid ${({ theme }) => theme.colors.white};
-  border-radius: 12px;
-  background: ${({ theme, isSelected }) =>
-    isSelected ? theme.colors.teritary : theme.colors.primary};
-  margin: 8px;
-
-  &:active {
-    background: ${({ theme }) => theme.colors.teritary};
-  }
-
-  /* cursor: pointer; */
-
-  width: calc(50% - 16px);
-`;
-
-const MainHeading = styled.h2`
-  margin: ${({ theme }) => theme.spacing.XL} 0;
-`;
-
-const SubHeading = styled.h3`
-  margin: ${({ theme }) => theme.spacing.M} 0;
-`;
-
-const ButtonAlign = styled.div``;
+import {
+  Wrapper,
+  CloseButton,
+  ButtonOption,
+  MainHeading,
+  SubHeading,
+  ButtonAlign,
+} from './style';
 
 const defaultState = {
   DISTANCE: false,
@@ -50,16 +18,18 @@ const defaultState = {
   WEIGHT: false,
 };
 
-const metrics = ['TIME', 'DISTANCE', 'WEIGHT', 'REPS'];
+export const MAIN_HEADING = 'Custom Exercise';
+export const INPUT_NAME_HEADING = 'Exercise name:';
+export const SELECT_METRICS_HEADING = 'What do you want to measure?';
 
-const CreateExercise = ({ handleAddCustomExercise }) => {
+export const metrics = ['TIME', 'DISTANCE', 'WEIGHT', 'REPS'];
+
+const CreateExercise = ({ closeModal, handleAddCustomExercise }) => {
   const [selectedExercises, setSelectedExercises] = useState(defaultState);
-  const [exerciseName, setExerciseName] = useState(''); // tODO use use form hook?
+  const [exerciseName, setExerciseName] = useState('');
 
   const handleButtonSelect = (metric) => {
-    // console.log(metric)
     setSelectedExercises((prevState) => {
-      // debugger;
       return {
         ...prevState,
         [metric]: !prevState[metric],
@@ -79,15 +49,15 @@ const CreateExercise = ({ handleAddCustomExercise }) => {
   };
 
   return (
-    <Wrapper id="thing">
-      <MainHeading>Custom Exercise</MainHeading>
-      <SubHeading>Name:</SubHeading>
-      {/* <input /> */}
+    <Wrapper id="create-exercise">
+      <CloseButton aria-label="close" onClick={closeModal} />
+      <MainHeading>{MAIN_HEADING}</MainHeading>
+      <SubHeading>{INPUT_NAME_HEADING}</SubHeading>
       <InputBlock
         value={exerciseName}
         onChange={(e) => setExerciseName(e.target.value)}
       />
-      <SubHeading>Metrics:</SubHeading>
+      <SubHeading>{SELECT_METRICS_HEADING}</SubHeading>
       {metrics.map((metric) => (
         <ButtonOption
           onClick={() => handleButtonSelect(metric)}
@@ -101,6 +71,11 @@ const CreateExercise = ({ handleAddCustomExercise }) => {
       </ButtonAlign>
     </Wrapper>
   );
+};
+
+CreateExercise.propTypes = {
+  closeModal: func.isRequired,
+  handleAddCustomExercise: func.isRequired,
 };
 
 export default CreateExercise;

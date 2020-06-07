@@ -3,10 +3,12 @@ https://physio-tracker.now.sh/
 Credit for style guide and theme: https://www.invisionapp.com/inside-design/design-resources/fitgoal-ui-kit/
 
 TODO:
-custom exercise
 work out why need two awaits
 fix session page tests
 add outline when tabbing - accessibility
+// if added exercise before then add to drop down
+// in settings ability to pre configure exercises in dropdown
+
 
 update readme (tidy)
 error styling

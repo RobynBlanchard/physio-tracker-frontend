@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Layout, Button, FormInput, ErrorText } from '../components';
 import { useAuth } from '../customHooks/useAuth';
 import useForm from '../customHooks/useForm';
+import { media } from '../styles/breakpoints';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.white};
@@ -19,6 +20,12 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  ${media.tablet`
+  margin: 40px;
+  `}
+
+  margin: 20px;
 `;
 
 const SecondaryLinkWrapper = styled.div`
@@ -38,7 +45,7 @@ const SecondaryLink = styled.a`
 `;
 
 const InputContainer = styled.div`
-  width: 80%;
+  width: 100%;
   text-align: left;
   margin-bottom: 10px;
 `;

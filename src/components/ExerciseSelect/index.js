@@ -1,21 +1,14 @@
-import styled from 'styled-components';
 import { arrayOf, shape, string, func } from 'prop-types';
-
-const Wrapper = styled.div`
-  padding: 8px;
-  text-align: center;
-`;
+import { Select } from './style';
 
 const ExerciseSelect = ({ exerciseOptions, onChange }) => (
-  <Wrapper>
-    <select onChange={onChange}>
-      {exerciseOptions.map((exercise) => (
-        <option value={exercise.value} key={exercise.value}>
-          {exercise.name}
-        </option>
-      ))}
-    </select>
-  </Wrapper>
+  <Select onChange={onChange}>
+    {exerciseOptions.map((exercise) => (
+      <option value={exercise.value} key={exercise.value}>
+        {exercise.name}
+      </option>
+    ))}
+  </Select>
 );
 
 ExerciseSelect.defaultProps = {

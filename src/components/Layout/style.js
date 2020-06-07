@@ -6,6 +6,7 @@ export const ContentContainer = styled.div`
   max-width: ${breakpoints.tablet}px;
   padding: 20px;
   width: 100%;
+  box-sizing: border-box;
 `;
 
 export const LayoutContainer = styled.div`

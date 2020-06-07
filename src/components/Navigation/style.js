@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import breakpoints from '../../styles/breakpoints';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.white};
@@ -10,7 +9,6 @@ export const Nav = styled.nav`
   position: fixed;
   bottom: 0;
   width: 100%;
-  max-width: ${breakpoints.tablet}px;
   padding-bottom: ${({ theme }) => theme.spacing.XS};
   text-align: center;
   background: ${({ theme }) => theme.colors.primaryDark};

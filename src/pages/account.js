@@ -21,6 +21,11 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
+const ButtonWrapper = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
+
 const ProfileWrapper = styled.div`
   text-align: center;
   margin: 50px;
@@ -43,7 +48,9 @@ const Account = () => {
           Hello&nbsp;
           {data && data.me.name}
         </Text>
-        <Button onClick={logout}>sign out</Button>
+        <ButtonWrapper>
+          <Button onClick={logout}>sign out</Button>
+        </ButtonWrapper>
       </Wrapper>
     </Layout>
   );

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Layout, FormInput, Button, ErrorText } from '../components';
 import useForm from '../customHooks/useForm';
 import { useAuth } from '../customHooks/useAuth';
+import { media } from '../styles/breakpoints';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.white};
@@ -22,11 +23,21 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: ${({ theme }) => theme.spacing.XL};
+
+  ${media.tablet`
+    margin: 40px;
+  `}
 `;
 
 const InputContainer = styled.div`
-  width: 80%;
+  width: 100%;
   text-align: left;
+  margin: ${({ theme }) => `${theme.spacing.XS} 0`};
+
+  &:nth-child(3) {
+    margin-bottom: ${({ theme }) => theme.spacing.L};
+  }
 `;
 
 const ProfileWrapper = styled.div`

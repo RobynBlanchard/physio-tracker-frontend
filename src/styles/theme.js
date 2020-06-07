@@ -6,13 +6,14 @@ export default {
     grey: '#C3C4C3',
     lightestGrey: '#E9E9E9',
     red: '#F74444',
-
+    primaryLight: '#054ab3',
     primary: '#0575E6',
     primaryDark: '#021B79',
     secondary: '#576cdf',
     teritary: '#36a8e3',
   },
   spacing: {
+    XXS: '4px',
     XS: '8px',
     S: '12px',
     M: '14px',

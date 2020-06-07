@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import ExerciseSelect from '.';
+import { Select } from './style';
 
 describe('ExerciseSelect', () => {
   const exerciseOptions = [
@@ -14,7 +15,7 @@ describe('ExerciseSelect', () => {
   );
 
   it('passes an onChange to the select element', () => {
-    const select = component.find('select');
+    const select = component.find(Select);
 
     expect(select).toHaveLength(1);
     expect(select.prop('onChange')).toEqual(onChange);

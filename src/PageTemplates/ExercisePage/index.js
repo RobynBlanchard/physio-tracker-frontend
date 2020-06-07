@@ -1,7 +1,5 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import { string } from 'prop-types';
 import AriaModal from 'react-aria-modal';
 import {
@@ -13,51 +11,21 @@ import {
   CreateExercise,
 } from '../../components';
 import mapExerciseToSets from '../../util/mapExerciseToSetType';
+import { GET_EXERCISES, CREATE_EXERCISE, DELETE_EXERCISE } from './hooks';
+import {
+  ButtonWrapper,
+  ExerciseSelectWrapper,
+  AddExerciseFromListButtonWrapper,
+  AddExerciseFromListWrapper,
+  AddNewExerciseWrapper,
+  HeadingWithLine,
+} from './style';
+import errorMessages from '../../errors';
 
 export const LOADING_MESSAGE = 'loading exercises';
-export const ERROR_MESSAGE = 'error fetching exercises';
-
 export const ADD_EXERCISE_LOADING_MESSAGE = 'adding exercise';
-export const ADD_EXERCISE_ERROR_MESSAGE = 'error adding exercise';
-
 export const DELETE_EXERCISE_LOADING_MESSAGE = 'deleting exercise';
-export const DELETE_EXERCISE_ERROR_MESSAGE = 'error deleting exercise';
 
-const ButtonWrapper = styled.div`
-  text-align: center;
-`;
-
-export const GET_EXERCISES = gql`
-  query exercises($sessionID: ID!) {
-    exercises(sessionID: $sessionID) {
-      id
-      name
-      metrics
-    }
-  }
-`;
-
-export const CREATE_EXERCISE = gql`
-  mutation createExercise($data: CreateExerciseInput!) {
-    createExercise(data: $data) {
-      id
-      name
-      metrics
-    }
-  }
-`;
-
-export const DELETE_EXERCISE = gql`
-  mutation deleteExercise($id: ID!) {
-    deleteExercise(id: $id) {
-      id
-      name
-    }
-  }
-`;
-
-// TODO- change exercise name to take any name
-// TODO: populate from API
 const exerciseOptions = [
   { name: 'Treadmill', value: 'TREADMILL' },
   { name: 'Leg press left leg', value: 'LEG_PRESS_LEFT_LEG' },
@@ -71,7 +39,6 @@ const exerciseOptions = [
   { name: 'Deadlift', value: 'DEADLIFT' },
 ];
 
-// set columns attached to exercise?
 const ExercisePage = ({ sessionID }) => {
   const [displayModal, setDisplayModal] = useState(false);
   const { loading, error, data } = useQuery(GET_EXERCISES, {
@@ -99,7 +66,6 @@ const ExercisePage = ({ sessionID }) => {
     });
 
   const handleAddExercise = (exerciseName, allMetrics) => {
-    debugger
     addExercise({
       variables: {
         data: {
@@ -115,6 +81,7 @@ const ExercisePage = ({ sessionID }) => {
         },
       ],
     });
+    setDisplayModal(false);
   };
 
   const getApplicationNode = () => {
@@ -122,8 +89,8 @@ const ExercisePage = ({ sessionID }) => {
   };
 
   if (loading) return <InformationText>{LOADING_MESSAGE}</InformationText>;
-  if (error) return <ErrorText>{ERROR_MESSAGE}</ErrorText>;
-  console.log(data && data.exercises)
+  if (error) return <ErrorText>{errorMessages.exercises.fetchError}</ErrorText>;
+
   return (
     <>
       <ExercisesList
@@ -132,47 +99,63 @@ const ExercisePage = ({ sessionID }) => {
       />
       {displayModal && (
         <AriaModal
-          titleText="demo one"
+          titleText="Custom exercise"
           onExit={() => setDisplayModal(false)}
-          initialFocus="#thing"
+          initialFocus="#create-exercise"
           getApplicationNode={getApplicationNode}
           underlayStyle={{ paddingTop: '2em' }}
         >
-          <CreateExercise handleAddCustomExercise={handleAddExercise} />
+          <CreateExercise
+            closeModal={() => setDisplayModal(false)}
+            handleAddCustomExercise={handleAddExercise}
+          />
         </AriaModal>
       )}
 
       {addExerciseResponse.error && (
-        <ErrorText>{ADD_EXERCISE_ERROR_MESSAGE}</ErrorText>
+        <ErrorText>{errorMessages.exercises.createError}</ErrorText>
       )}
       {addExerciseResponse.loading && (
         <InformationText>{ADD_EXERCISE_LOADING_MESSAGE}</InformationText>
       )}
       {deleteExerciseResponse.error && (
-        <ErrorText>{DELETE_EXERCISE_ERROR_MESSAGE}</ErrorText>
+        <ErrorText>{errorMessages.exercises.deleteError}</ErrorText>
       )}
       {deleteExerciseResponse.loading && (
         <InformationText>{DELETE_EXERCISE_LOADING_MESSAGE}</InformationText>
       )}
-      <ExerciseSelect
-        onChange={(e) => setExerciseOption(e.target.value)}
-        exerciseOptions={exerciseOptions}
-      />
-      <ButtonWrapper>
-        <Button
-          id="add-new-exercise"
-          onClick={() =>
-            handleAddExercise(exerciseOption, mapExerciseToSets[exerciseOption])
-          }
-        >
-          Add exercise +
-        </Button>
-      </ButtonWrapper>
-      <ButtonWrapper>
-        <Button onClick={() => setDisplayModal(true)}>
-          Add custom exercise
-        </Button>
-      </ButtonWrapper>
+      <AddNewExerciseWrapper>
+        <AddExerciseFromListWrapper>
+          <ExerciseSelectWrapper>
+            <ExerciseSelect
+              onChange={(e) => setExerciseOption(e.target.value)}
+              exerciseOptions={exerciseOptions}
+            />
+          </ExerciseSelectWrapper>
+
+          <AddExerciseFromListButtonWrapper>
+            <Button
+              id="add-new-exercise"
+              onClick={
+                () =>
+                  handleAddExercise(
+                    exerciseOption,
+                    mapExerciseToSets[exerciseOption]
+                  )
+                // eslint-disable-next-line react/jsx-curly-newline
+              }
+            >
+              + Exercise from list
+            </Button>
+          </AddExerciseFromListButtonWrapper>
+        </AddExerciseFromListWrapper>
+        <HeadingWithLine>or</HeadingWithLine>
+        <ButtonWrapper>
+          <Button onClick={() => setDisplayModal(true)}>
+            + Custom exercise
+          </Button>
+        </ButtonWrapper>
+      </AddNewExerciseWrapper>
     </>
   );
 };
