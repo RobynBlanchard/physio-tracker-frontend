@@ -41,6 +41,7 @@ export const TableHeader = styled.th`
   background: #054ab3;
   /* width: calc(100% / 3); */
   font-weight: 500;
+  text-transform: capitalize;
 `;
 
 export const TableData = styled.td`

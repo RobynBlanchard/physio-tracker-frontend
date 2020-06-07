@@ -4,6 +4,7 @@ export const Label = styled.label`
   display: block;
   margin: 4px 0;
   color: ${({ theme }) => theme.colors.white};
+  padding: 0 4px;
 `;
 
 export const Input = styled.input`
@@ -31,4 +32,5 @@ export const EditButton = styled.button`
   border-radius: 12px;
   margin: ${({ theme }) => `${theme.spacing.XXS} 0`};
   border: 1px solid ${({ theme }) => theme.colors.white};
+  text-transform: uppercase;
 `;
