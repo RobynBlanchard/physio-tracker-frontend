@@ -49,7 +49,7 @@ const Table = ({
           {tableHeadings.map((heading) => (
             <TableHeader key={heading.colID}>{heading.name}</TableHeader>
           ))}
-          {shouldRenderEdit && <TableHeader>Edit</TableHeader>}
+          {shouldRenderEdit && <TableHeader>edit</TableHeader>}
         </TableRow>
       </thead>
       <tbody>

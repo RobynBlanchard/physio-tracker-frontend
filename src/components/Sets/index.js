@@ -12,7 +12,7 @@ import ErrorText from '../ErrorText';
 import useForm from '../../customHooks/useForm';
 import errorMessages from '../../errors';
 
-import { Label, Input, ValidationErrorWrapper } from './style';
+import { Label, Input, ValidationErrorWrapper, EditButton } from './style';
 import { GET_SETS, CREATE_SET, UPDATE_SET, DELETE_SET } from './hooks';
 
 export const LOADING_MESSAGE = 'loading sets';
@@ -117,9 +117,9 @@ const Sets = ({ exerciseID, metrics }) => {
   return (
     <div>
       {data && data.sets.length > 0 && (
-        <button type="button" onClick={() => setEditSets((prev) => !prev)}>
+        <EditButton type="button" onClick={() => setEditSets((prev) => !prev)}>
           Edit
-        </button>
+        </EditButton>
       )}
       <Table
         rowData={(data && data.sets) || []}

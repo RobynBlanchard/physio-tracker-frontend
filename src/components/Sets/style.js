@@ -23,3 +23,12 @@ export const ValidationErrorWrapper = styled.div`
 
   transition: opacity 0.2s;
 `;
+
+export const EditButton = styled.button`
+  background: ${({ theme }) => theme.colors.primaryLight};
+  padding: ${({ theme }) => theme.spacing.XS};
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: 12px;
+  margin: ${({ theme }) => `${theme.spacing.XXS} 0`};
+  border: 1px solid ${({ theme }) => theme.colors.white};
+`;
