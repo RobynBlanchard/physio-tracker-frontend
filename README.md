@@ -2,10 +2,10 @@ A PWA for tracking exercise built using React, Nextjs and Apollo Client.
 
 Production endpoint: https://physio-tracker.now.sh/
 
-Graohql API backend: https://github.com/RobynBlanchard/prisma-physio-tracker-api
+Graphql API backend: https://github.com/RobynBlanchard/prisma-physio-tracker-api
 
 Reasoning behind app:
-* As part of my physio program after recovering my a knee operation I needed to be able to track the left and right leg separately, eg leg press left leg, left leg right leg. With the applications I was using this functionality wasn't available so I built an app that alongside preset exercises allows the user to add a custom exercise and add the metrics they want to measure as part of that 
+* As part of my physio program I needed to be able to track exercise metrics for the left and right leg separately. Therefore I created an application to allows the user to create their own exercises and specify the metrics they want to measure.
 
 Home | Register | Account | Sessions
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
