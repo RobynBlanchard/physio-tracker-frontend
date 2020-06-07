@@ -131,7 +131,7 @@ const Sets = ({ exerciseID, metrics }) => {
       />
       <div className="input-align">
         {formattedHeadings.map((heading) => (
-          <React.Fragment key={`input${heading}`}>
+          <div key={`input${heading}`}>
             <Label>{heading}</Label>
             <Input
               id={`input${heading}`}
@@ -140,7 +140,7 @@ const Sets = ({ exerciseID, metrics }) => {
               onChange={(e) => handleInputChangeAddSet(e)}
               value={inputs[heading]}
             />
-          </React.Fragment>
+          </div>
         ))}
       </div>
       <ValidationErrorWrapper

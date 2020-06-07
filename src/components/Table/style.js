@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import BaseButton from '../../styles/baseButton';
+import { media } from '../../styles/breakpoints';
 
 export const StyledInput = styled.input`
   padding: 4px;
@@ -31,7 +32,11 @@ export const TableStyle = styled.table`
 `;
 
 export const TableHeader = styled.th`
-  padding: ${({ theme }) => theme.spacing.M};
+  padding: ${({ theme }) => theme.spacing.XS};
+  ${media.tablet`
+    padding: ${({ theme }) => theme.spacing.M};
+  `}
+
   /* background: ${({ theme }) => theme.colors.grey}; */
   background: #054ab3;
   /* width: calc(100% / 3); */
