@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { func } from 'prop-types';
-import InputBlock from '../InputBlock';
+import FormInput from '../FormInput';
+import Label from '../Label';
 import Button from '../Button';
 import {
   Wrapper,
   CloseButton,
   ButtonOption,
   MainHeading,
-  SubHeading,
   ButtonAlign,
 } from './style';
 
@@ -18,8 +18,8 @@ const defaultState = {
   WEIGHT: false,
 };
 
-export const MAIN_HEADING = 'Custom Exercise';
-export const INPUT_NAME_HEADING = 'Exercise name:';
+export const HEADING = 'Custom Exercise';
+export const INPUT_NAME_LABEL = 'Exercise name:';
 export const SELECT_METRICS_HEADING = 'What do you want to measure?';
 
 export const metrics = ['TIME', 'DISTANCE', 'WEIGHT', 'REPS'];
@@ -51,13 +51,13 @@ const CreateExercise = ({ closeModal, handleAddCustomExercise }) => {
   return (
     <Wrapper id="create-exercise">
       <CloseButton aria-label="close" onClick={closeModal} />
-      <MainHeading>{MAIN_HEADING}</MainHeading>
-      <SubHeading>{INPUT_NAME_HEADING}</SubHeading>
-      <InputBlock
+      <MainHeading>{HEADING}</MainHeading>
+      <FormInput
+        label={INPUT_NAME_LABEL}
         value={exerciseName}
         onChange={(e) => setExerciseName(e.target.value)}
       />
-      <SubHeading>{SELECT_METRICS_HEADING}</SubHeading>
+      <Label>{SELECT_METRICS_HEADING}</Label>
       {metrics.map((metric) => (
         <ButtonOption
           onClick={() => handleButtonSelect(metric)}

@@ -7,6 +7,7 @@ import {
   Button,
   InformationText,
   ErrorText,
+  FormInput,
 } from '../../components';
 
 export const LOADING_MESSAGE = 'loading sessions';
@@ -145,12 +146,12 @@ function Sessions() {
         <InformationText>{UPDATE_SESSION_LOADING_MESSAGE}</InformationText>
       )}
       {dateError && <ErrorText>{INVALID_DATE_SUBMITTED}</ErrorText>}
-
       <div className="input-align">
-        <input
-          id="input-new-session-date"
-          value={startDate}
+        <FormInput
+          label="Enter date:"
+          name="Enter date"
           onChange={(e) => setStartDate(e.target.value)}
+          value={startDate}
           onClick={() => displayDateError(false)}
           maxLength="10"
         />
@@ -176,7 +177,7 @@ function Sessions() {
 
           input {
             font-family: inherit;
-            padding: 4px 12px;
+            padding: 12px 0;
           }
 
           input:focus {

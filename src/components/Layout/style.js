@@ -6,6 +6,7 @@ export const ContentContainer = styled.div`
   max-width: ${breakpoints.tablet}px;
   padding: 20px;
   width: 100%;
+  height: 100%;
   box-sizing: border-box;
 `;
 
@@ -22,5 +23,5 @@ export const Loading = styled(FontAwesomeIcon)`
   position: absolute;
   left: 50%;
   top: 40%;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
 `;

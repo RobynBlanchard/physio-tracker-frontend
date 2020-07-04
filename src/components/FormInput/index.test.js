@@ -1,6 +1,7 @@
 import { shallow } from 'enzyme';
-import { StyledInput, StyledLabel } from './style';
+import StyledInput from './style';
 import FormInput from '.';
+import Label from '../Label';
 
 describe('FormInput', () => {
   const mockOnChange = jest.fn();
@@ -16,12 +17,12 @@ describe('FormInput', () => {
     />
   );
 
-  it('renders a Label with the correct props and text', () => {
-    const Label = wrapper.find(StyledLabel);
+  it('renders a Label with the correct htmlFor prop and text', () => {
+    const label = wrapper.find(Label);
 
-    expect(Label).toHaveLength(1);
-    expect(Label.prop('htmlFor')).toEqual('password');
-    expect(Label.text()).toEqual('Password');
+    expect(label).toHaveLength(1);
+    expect(label.prop('htmlFor')).toEqual('password');
+    expect(label.text()).toEqual('Password');
   });
 
   it('renders an Input with correct props', () => {

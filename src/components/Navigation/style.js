@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Nav = styled.nav`
@@ -11,8 +11,9 @@ export const Nav = styled.nav`
   width: 100%;
   padding-bottom: ${({ theme }) => theme.spacing.XS};
   text-align: center;
-  background: ${({ theme }) => theme.colors.primaryDark};
-  border-top: 1px solid ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.background};
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+
 `;
 
 export const Anchor = styled.a`

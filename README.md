@@ -1,3 +1,9 @@
+<!-- TODO
+tidy up
+run tests
+squash comit dark mode/light mode -->
+
+
 A PWA for tracking exercise built using React, Nextjs and Apollo Client.
 
 Production endpoint: https://physio-tracker.now.sh/

@@ -59,14 +59,14 @@ export const HeadingWithLine = styled.h3`
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
 
   &:after,
   &:before {
     content: '';
     width: 150px;
     height: 2px;
-    background: ${({ theme }) => theme.colors.white};
+    background: ${({ theme }) => theme.colors.border};
     margin: ${({ theme }) => `0 ${theme.spacing.S}`};
   }
 `;

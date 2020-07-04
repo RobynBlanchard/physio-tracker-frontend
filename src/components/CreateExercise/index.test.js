@@ -1,12 +1,12 @@
 import { shallow } from 'enzyme';
 import CreateExercise, {
-  MAIN_HEADING,
-  INPUT_NAME_HEADING,
+  HEADING,
+  INPUT_NAME_LABEL,
   SELECT_METRICS_HEADING,
   metrics,
 } from '.';
 import { CloseButton, ButtonOption, MainHeading, SubHeading } from './style';
-import InputBlock from '../InputBlock';
+import FormInput from '../FormInput';
 import Button from '../Button';
 
 describe('Create exercise', () => {
@@ -27,20 +27,15 @@ describe('Create exercise', () => {
     expect(component.find(CloseButton)).toHaveLength(1);
   });
 
-  it('renders a main heading', () => {
+  it('renders a heading', () => {
     expect(component.find(MainHeading)).toHaveLength(1);
-    expect(component.find(MainHeading).text()).toEqual(MAIN_HEADING);
-  });
-
-  it('renders a sub heading for the exercise name and select inputs', () => {
-    const subHeading = component.find(SubHeading);
-    expect(subHeading).toHaveLength(2);
-    expect(subHeading.at(0).text()).toEqual(INPUT_NAME_HEADING);
-    expect(subHeading.at(1).text()).toEqual(SELECT_METRICS_HEADING);
+    expect(component.find(MainHeading).text()).toEqual(HEADING);
   });
 
   it('renders an input for the exercise name', () => {
-    expect(component.find(InputBlock)).toHaveLength(1);
+    const input = component.find(FormInput);
+    expect(input).toHaveLength(1);
+    expect(input.prop('label')).toEqual(INPUT_NAME_LABEL);
   });
 
   it('renders a button for each metric', () => {
@@ -69,17 +64,17 @@ describe('Create exercise', () => {
   });
 
   it('updates the value of the InputBlock onChange', () => {
-    component.find(InputBlock).simulate('change', {
+    component.find(FormInput).simulate('change', {
       target: {
         value: 'Bosu',
       },
     });
 
-    expect(component.find(InputBlock).prop('value')).toEqual('Bosu');
+    expect(component.find(FormInput).prop('value')).toEqual('Bosu');
   });
 
   it('calls handleAddCustomExercise with the input exercise name and selected metric options on click of the submit button', () => {
-    component.find(InputBlock).simulate('change', {
+    component.find(FormInput).simulate('change', {
       target: {
         value: 'Bosu',
       },

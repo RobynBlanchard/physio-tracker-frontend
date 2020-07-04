@@ -8,11 +8,12 @@ import Table from '../Table';
 import Button from '../Button';
 import InformationText from '../InformationText';
 import ErrorText from '../ErrorText';
+import FormInput from '../FormInput';
 
 import useForm from '../../customHooks/useForm';
 import errorMessages from '../../errors';
 
-import { Label, Input, ValidationErrorWrapper, EditButton } from './style';
+import { ValidationErrorWrapper, EditButton } from './style';
 import { GET_SETS, CREATE_SET, UPDATE_SET, DELETE_SET } from './hooks';
 
 export const LOADING_MESSAGE = 'loading sets';
@@ -131,9 +132,8 @@ const Sets = ({ exerciseID, metrics }) => {
       />
       <div className="input-align">
         {formattedHeadings.map((heading) => (
-          <div key={`input${heading}`}>
-            <Label>{heading}</Label>
-            <Input
+          <div className="input" key={`input${heading}`}>
+            <FormInput
               id={`input${heading}`}
               label={heading}
               name={`input${heading}`}
@@ -183,6 +183,10 @@ const Sets = ({ exerciseID, metrics }) => {
             display: flex;
             justify-content: space-around;
             padding: 16px;
+          }
+
+          .input {
+            margin: 8px;
           }
         `}
       </style>

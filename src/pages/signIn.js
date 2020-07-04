@@ -9,7 +9,7 @@ import useForm from '../customHooks/useForm';
 import { media } from '../styles/breakpoints';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
   width: auto !important;
   height: 80px;
 `;
@@ -33,13 +33,13 @@ const SecondaryLinkWrapper = styled.div`
 `;
 
 const SecondaryLinkText = styled.p`
-  /* color: ${({ theme }) => theme.colors.darkGrey}; */
-  color: white;
+  color: ${({ theme }) => theme.colors.text};
+  /* color: white; */
 `;
 
 const SecondaryLink = styled.a`
-  /* color: ${({ theme }) => theme.colors.secondary}; */
-  color: white;
+  color: ${({ theme }) => theme.colors.text};
+  /* color: white; */
   text-decoration: underline;
   cursor: pointer;
 `;

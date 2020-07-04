@@ -7,7 +7,6 @@ const ExercisesList = ({ deleteExercise, exercises }) => {
   return (
     <>
       {exercises.map((exercise) => {
-        console.log('exercise', exercise)
         const { name, id, metrics } = exercise;
 
         return (

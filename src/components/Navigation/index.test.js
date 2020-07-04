@@ -1,8 +1,8 @@
 import { shallow } from 'enzyme';
 import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '../../customHooks/useAuth';
 import Navigation from '.';
+import { StyledIcon } from './style';
 
 jest.mock('../../customHooks/useAuth');
 
@@ -17,8 +17,8 @@ describe('Navigation', () => {
   const navItems = [
     { link: '/', icon: 'home' },
     { link: '/sessions', icon: 'dumbbell' },
-    { link: '/analysis', icon: 'chart-line' },
-    { link: '/account', icon: 'user' },
+    { link: '/#', icon: 'chart-line' },
+    { link: '/signIn', icon: 'user' },
   ];
 
   it('renders a link with the correct href and icon', () => {
@@ -27,7 +27,7 @@ describe('Navigation', () => {
     links.forEach((link, index) => {
       expect(link.prop('href')).toEqual(navItems[index].link);
 
-      const icon = link.find(FontAwesomeIcon);
+      const icon = link.find(StyledIcon);
       expect(icon.prop('icon')).toEqual(navItems[index].icon);
     });
   });

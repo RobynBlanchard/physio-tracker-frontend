@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState, useRef } from 'react';
 import moment from 'moment';
 import { arrayOf, shape, string, func } from 'prop-types';
-import { ListItem, Anchor, List, Text } from './style';
+import { ListItem, Anchor, List, Text, EditButtonsWrapper } from './style';
 import { SaveButton, EditButton, DeleteButton } from '../CRUDButtons';
 
 const SessionsList = ({ deleteSession, submitEditSession, sessions }) => {
@@ -82,7 +82,7 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions }) => {
             {isSessionUnderEdit(id)
               ? renderEditSession()
               : linkToSession(id, formattedDate)}
-            <div>
+            <EditButtonsWrapper>
               {isSessionUnderEdit(id) ? (
                 <SaveButton
                   ref={saveRef}
@@ -99,7 +99,7 @@ const SessionsList = ({ deleteSession, submitEditSession, sessions }) => {
                 onClick={() => handleDeleteSession(id)}
                 title="Delete this session?"
               />
-            </div>
+            </EditButtonsWrapper>
           </ListItem>
         );
       })}

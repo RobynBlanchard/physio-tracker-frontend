@@ -4,14 +4,16 @@ import { node } from 'prop-types';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
   color: ${({ theme }) => theme.colors.red};
-  background: ${({ theme }) => theme.colors.lightestGrey};
+  background: ${({ theme }) => theme.colors.darkestGrey};
   padding: ${({ theme }) => theme.spacing.XL};
   border-radius: 12px 0 0 12px;
 `;
 
 export const Text = styled.span`
+  display: flex;
+  align-items: center;
   font-size: ${({ theme }) => theme.font.size.L};
-  color: ${({ theme }) => theme.colors.lightestGrey};
+  color: ${({ theme }) => theme.colors.darkestGrey};
   padding: ${({ theme }) => `${theme.spacing.XS} ${theme.spacing.L}`};
 `;
 

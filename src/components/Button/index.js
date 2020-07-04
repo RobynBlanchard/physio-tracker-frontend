@@ -14,13 +14,14 @@ const Button = styled.button`
   position: relative;
   transition: all 0.3s;
   border-radius: 12px;
-  border: 3px solid ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.white};
+  border: 3px solid ${({ theme }) => theme.colors.border};
+  color: ${({ theme }) => theme.colors.text};
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.primaryDark};
+  background: ${({ theme }) => theme.colors.background};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryLight};
+    background: ${({ theme }) => theme.colors.backgroundSecondary};
+    color: ${({ theme }) => theme.colors.white};
   }
 
   &:active {

@@ -8,11 +8,11 @@ import { useAuth } from '../customHooks/useAuth';
 import { media } from '../styles/breakpoints';
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const StyledIconSmall = styled(FontAwesomeIcon)`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
   position: absolute;
   bottom: 0;
 `;

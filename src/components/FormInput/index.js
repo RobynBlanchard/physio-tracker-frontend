@@ -1,6 +1,7 @@
 import { string, oneOf, func, number, bool, oneOfType } from 'prop-types';
-import { StyledInput, StyledLabel } from './style';
+import StyledInput from './style';
 import ErrorText from '../ErrorText';
+import Label from '../Label';
 
 const FormInput = ({
   name,
@@ -9,16 +10,13 @@ const FormInput = ({
   required,
   error,
   label,
-  hasDarkBackground,
   type,
   placeholder,
   className,
   ...props
 }) => (
   <>
-    <StyledLabel hasDarkBackground={hasDarkBackground} htmlFor={name}>
-      {label}
-    </StyledLabel>
+    <Label htmlFor={name}>{label}</Label>
     <StyledInput
       id={name}
       name={name}
@@ -27,7 +25,6 @@ const FormInput = ({
       onChange={onChange}
       value={value}
       className={className}
-      hasDarkBackground={hasDarkBackground} // to remove
       required
       style={error && { border: 'solid 1px red' }}
       // eslint-disable-next-line react/jsx-props-no-spreading
@@ -43,7 +40,6 @@ FormInput.defaultProps = {
   className: undefined,
   required: false,
   error: undefined,
-  hasDarkBackground: false,
 };
 
 FormInput.propTypes = {
@@ -55,7 +51,6 @@ FormInput.propTypes = {
   required: bool,
   error: string,
   label: string.isRequired,
-  hasDarkBackground: bool,
   onChange: func.isRequired,
 };
 

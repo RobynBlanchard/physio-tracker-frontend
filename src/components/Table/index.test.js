@@ -81,7 +81,7 @@ describe('editting table data', () => {
       it('renders an edit column', () => {
         expect(
           component.find(TableHeader).at(mockTableHeadings.length).text()
-        ).toContain('Edit');
+        ).toContain('edit');
       });
 
       it('renders an edit icon next to the row data', () => {

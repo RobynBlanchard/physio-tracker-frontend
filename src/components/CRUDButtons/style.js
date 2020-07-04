@@ -8,7 +8,7 @@ export const IconButton = styled(BaseButton)`
 `;
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: ${({ theme, fill }) => fill || theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
   width: 20px;
   pointer-events: none;
 `;

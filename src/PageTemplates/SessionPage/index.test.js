@@ -19,7 +19,7 @@ import Sessions, {
   UPDATE_SESSION_ERROR_MESSAGE,
   INVALID_DATE_SUBMITTED,
 } from '.';
-import { SessionsList } from '../../components';
+import { SessionsList, FormInput } from '../../components';
 
 jest.mock('moment', () =>
   jest.fn(() => ({
@@ -152,9 +152,9 @@ describe('adding a session', () => {
       await updateWrapper(component);
 
       act(() => {
-        component
-          .find('#input-new-session-date')
-          .simulate('change', { target: { value: '2020-02-99' } });
+        component.find(FormInput).prop('onChange')({
+          target: { value: '2020-02-99' },
+        });
       });
 
       await updateWrapper(component);
@@ -170,7 +170,7 @@ describe('adding a session', () => {
 
     it('clears the error message when the input is clicked again', () => {
       act(() => {
-        component.find('#input-new-session-date').simulate('click');
+        component.find(FormInput).prop('onClick')();
       });
 
       expect(component.text()).not.toContain(INVALID_DATE_SUBMITTED);
@@ -235,9 +235,9 @@ describe('adding a session', () => {
         expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
 
         act(() => {
-          component
-            .find('#input-new-session-date')
-            .simulate('change', { target: { value: newSessionDate } });
+          component.find(FormInput).prop('onChange')({
+            target: { value: newSessionDate },
+          });
         });
 
         await updateWrapper(component);
@@ -248,6 +248,8 @@ describe('adding a session', () => {
 
         expect(component.text()).toContain(ADD_SESSION_LOADING_MESSAGE);
 
+        // ????
+        await updateWrapper(component);
         await updateWrapper(component);
 
         expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);
@@ -302,9 +304,9 @@ describe('adding a session', () => {
         expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
 
         act(() => {
-          component
-            .find('#input-new-session-date')
-            .simulate('change', { target: { value: newSessionDate } });
+          component.find(FormInput).prop('onChange')({
+            target: { value: newSessionDate },
+          });
         });
 
         await updateWrapper(component);
@@ -378,6 +380,8 @@ describe('deleting a session', () => {
 
       expect(component.text()).toContain(DELETE_SESSION_LOADING_MESSAGE);
 
+      // ????
+      await updateWrapper(component);
       await updateWrapper(component);
 
       expect(component.find(SessionsList).prop('sessions')).toHaveLength(0);
@@ -495,6 +499,8 @@ describe('editing a session', () => {
 
       expect(component.text()).toContain(UPDATE_SESSION_LOADING_MESSAGE);
 
+      // ???
+      await updateWrapper(component);
       await updateWrapper(component);
 
       expect(component.find(SessionsList).prop('sessions')).toHaveLength(1);

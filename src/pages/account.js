@@ -5,14 +5,13 @@ import { Layout, Button } from '../components';
 import { useAuth } from '../customHooks/useAuth';
 
 const Text = styled.h2`
-  color: ${({ theme }) => theme.colors.lightestGrey};
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
   text-align: center;
   margin: 20px;
 `;
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text};
   width: auto !important;
   height: 80px;
 `;

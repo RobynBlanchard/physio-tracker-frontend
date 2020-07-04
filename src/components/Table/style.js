@@ -14,7 +14,9 @@ export const IconButton = styled(BaseButton)`
 `;
 
 export const StyledIcon = styled(FontAwesomeIcon)`
-  color: ${({ theme, fill }) => fill || theme.colors.white};
+  /* color: ${({ theme, fill }) => fill || theme.colors.white}; */
+  color: ${({ theme }) => theme.colors.text};
+
   width: 20px;
   pointer-events: none;
 `;
@@ -23,7 +25,7 @@ export const TableStyle = styled.table`
   width: 100%;
   background: rgba(0, 0, 0, 0.12);
   border-collapse: collapse;
-  color: white;
+  color: ${({ theme }) => theme.colors.text};
   border-collapse: collapse;
   border-radius: 8px;
   overflow: hidden;
@@ -35,7 +37,7 @@ export const TableHeader = styled.th`
     padding: ${({ theme }) => theme.spacing.M};
   `}
   box-sizing: border-box;
-  background: ${({ theme }) => theme.colors.primaryLight};
+  background: ${({ theme }) => theme.colors.background};
   width: ${({ columns }) => `calc(100% / ${columns})`};
   font-weight: 500;
   text-transform: capitalize;
@@ -55,5 +57,5 @@ export const EditActions = styled(TableData)`
 `;
 
 export const TableRow = styled.tr`
-  border-bottom: solid 1px lightgrey;
+  border-bottom: solid 1px ${({ theme }) => theme.colors.darkGrey};
 `;

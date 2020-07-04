@@ -10,8 +10,9 @@ import Sets, {
   UPDATE_SET_LOADING_MESSAGE,
 } from '.';
 import { GET_SETS, CREATE_SET, DELETE_SET, UPDATE_SET } from './hooks';
-import { Label, Input, ValidationErrorWrapper } from './style';
+import { ValidationErrorWrapper } from './style';
 import errorMessages from '../../errors';
+import FormInput from '../FormInput';
 
 import Table from '../Table';
 
@@ -112,13 +113,11 @@ describe('fetching sets', () => {
       expect(setsTable.prop('rowData')).toEqual(setsData);
     });
 
-    it('renders inputs with labels for each set metric', () => {
-      const label = component.find(Label);
-      const input = component.find(Input);
-      expect(label).toHaveLength(2);
+    it('renders inputs for each set metric', () => {
+      const input = component.find(FormInput);
       expect(input).toHaveLength(2);
 
-      expect(label.at(0).text()).toEqual('time');
+      expect(input.at(0).prop('label')).toEqual('time');
       expect(input.at(0).prop('name')).toEqual('inputtime');
     });
   });

@@ -1,14 +1,12 @@
-import { ThemeProvider } from 'styled-components';
 import { string, node, bool } from 'prop-types';
 import Header from '../Header';
 import Navigation from '../Navigation';
-import theme from '../../styles/theme';
 import '../Icons';
 import { ContentContainer, LayoutContainer, Loading } from './style';
 
-const Layout = ({ title, isLoading, children }) => (
-  <LayoutContainer>
-    <ThemeProvider theme={theme}>
+const Layout = ({ title, isLoading, children }) => {
+  return (
+    <LayoutContainer>
       {isLoading && (
         <Loading className="spinner" icon="spinner" size="lg" pulse />
       )}
@@ -17,51 +15,33 @@ const Layout = ({ title, isLoading, children }) => (
         {children}
       </ContentContainer>
       <Navigation />
-    </ThemeProvider>
-    <style jsx global>
-      {`
-        * {
-          margin: 0;
-          padding: 0;
-          border: 0;
-          font-family: varela round, sans-serif;
-        }
-
-        html {
-          height: auto;
-        }
-
-        @media screen and (min-width: 768px) {
-          body {
-            background-image: linear-gradient(
-                to bottom,
-                rgb(5, 117, 230, 0.9),
-                rgb(2, 27, 121, 0.9)
-              ),
-              url(images/page-background-desktop.jpg);
+      <style jsx global>
+        {`
+          * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: varela round, sans-serif;
           }
-        }
 
-        @media screen and (max-width: 768px) {
-          body {
-            background-image: linear-gradient(
-                to bottom,
-                rgb(5, 117, 230, 0.9),
-                rgb(2, 27, 121, 0.9)
-              ),
-              url(images/page-background-mobile.jpg);
+          #__next {
+            height: 100%;
           }
-        }
 
-        body {
-          background-attachment: fixed;
-          background-size: cover;
-          background-repeat: no-repeat;
-        }
-      `}
-    </style>
-  </LayoutContainer>
-);
+          html {
+            height: calc(100% - 60px);
+          }
+
+          .toggle-switch-align {
+            position: absolute;
+            // bottom: 8px;
+            right: 8px;
+          }
+        `}
+      </style>
+    </LayoutContainer>
+  );
+};
 
 Layout.defaultProps = {
   title: '',

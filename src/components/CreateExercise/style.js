@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import baseButton from '../../styles/baseButton';
 
 export const Wrapper = styled.div`
-  background: ${({ theme }) => theme.colors.white};
-  min-width: 270px;
-  color: ${({ theme }) => theme.colors.primaryDark};
-  border: 2px solid ${({ theme }) => theme.colors.primaryDark};
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.text};
+  border: 2px solid ${({ theme }) => theme.colors.border};
   border-radius: 12px;
   padding: ${({ theme }) => theme.spacing.XL};
   margin: ${({ theme }) => theme.spacing.XL};
@@ -20,7 +19,8 @@ export const CloseButton = styled(baseButton)`
   height: 40px;
   border-radius: 100%;
   border: none;
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.background};
+  border: 2px solid ${({ theme }) => theme.colors.border};
   cursor: pointer;
 
   /* adds cross */
@@ -37,6 +37,7 @@ export const CloseButton = styled(baseButton)`
     height: 3px; /* width of cross */
     width: 24px;
     transform: rotateZ(45deg);
+    background: ${({ theme }) => theme.colors.border};
   }
   &::after {
     transform: rotateZ(-45deg);
@@ -45,36 +46,32 @@ export const CloseButton = styled(baseButton)`
 
 // TODO secondary button
 export const ButtonOption = styled(baseButton)`
-  padding: 8px;
-  color: ${({ theme }) => theme.colors.white};
-  border: 2px solid ${({ theme }) => theme.colors.white};
+  padding: ${({ theme }) => theme.spacing.XS};
+  color: ${({ theme }) => theme.colors.text};
   border-radius: 12px;
   background: ${({ theme, isSelected }) =>
-    isSelected ? theme.colors.teritary : theme.colors.primary};
-  margin: 8px;
+    isSelected ? theme.colors.grey : 'none'};
+  margin: ${({ theme }) => theme.spacing.XS};
   width: calc(50% - 16px);
-
-  &:active {
-    background: ${({ theme }) => theme.colors.teritary};
-    transform: translate(2px, 2px);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  outline: ${({ theme }) => theme.colors.grey};
+  &:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   }
 
-  &:hover {
-    background: ${({ theme }) => theme.colors.teritary};
+  &:active {
+    background: ${({ theme }) => theme.colors.grey};
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    transform: translate(2px, 2px);
   }
 `;
 
 export const MainHeading = styled.h2`
   margin: ${({ theme }) => theme.spacing.XL} 0;
-  color: ${({ theme }) => theme.colors.primaryDark};
-`;
-
-export const SubHeading = styled.h3`
-  margin: ${({ theme }) => theme.spacing.M} 0;
-  color: ${({ theme }) => theme.colors.primaryDark};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const ButtonAlign = styled.div`
-  margin: 16px 0;
-  padding: 8px;
+  margin: ${({ theme }) => theme.spacing.L} 0;
+  padding: ${({ theme }) => theme.spacingXS};
 `;
