@@ -9,7 +9,6 @@ import Navigation from './Navigation';
 import Table from './Table';
 import ToggleSwitch from './ToggleSwitch';
 import InputBlock from './InputBlock';
-import PageBackground from './PageBackground';
 import InformationText from './InformationText';
 import ErrorText from './ErrorText';
 import CreateExercise from './CreateExercise';
@@ -26,7 +25,6 @@ export {
   ToggleSwitch,
   FormInput,
   InputBlock,
-  PageBackground,
   InformationText,
   ErrorText,
   CreateExercise,
