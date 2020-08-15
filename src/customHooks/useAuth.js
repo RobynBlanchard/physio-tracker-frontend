@@ -48,8 +48,7 @@ function AuthProvider(props) {
     return signIn({ variables: { data: { email, password } } }).then((res) => {
       if (res && res.data && res.data.login && res.data.login.token) {
         const { token } = res.data.login;
-        Cookies.set(AUTH_TOKEN, token);
-        // refetch();
+        Cookies.set(AUTH_TOKEN, token, { expires: 30 });
       } else {
         throw Error('No token returned');
       }
