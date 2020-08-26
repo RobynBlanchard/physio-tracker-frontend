@@ -29,7 +29,7 @@ const Layout = ({ title, isLoading, children }) => {
           }
 
           html {
-            height: calc(100% - 60px);
+            // height: calc(100% - 60px);
           }
 
           .toggle-switch-align {
